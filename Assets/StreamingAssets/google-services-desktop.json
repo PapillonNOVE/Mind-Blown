@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "365932988806",
+    "firebase_url": "https://mind-blown-quiz.firebaseio.com",
+    "project_id": "mind-blown-quiz",
+    "storage_bucket": "mind-blown-quiz.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:365932988806:android:6475fbd2567eae08038407",
+        "android_client_info": {
+          "package_name": "com.OrendaVStudios.MindBlown"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "365932988806-7lqgli0r6h5viueqpose3cnv3k83m7s7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCADj8CpPyA5pbkxy1mpvjmQEsBunCFf4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "365932988806-7lqgli0r6h5viueqpose3cnv3k83m7s7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
