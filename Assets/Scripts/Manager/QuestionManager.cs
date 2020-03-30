@@ -13,6 +13,7 @@ public enum GameOverType
 
 public struct QuestionStruct
 {
+	public string questionCategory;
 	public string question;
 	public string correctAnswer;
 	public List<string> wrongAnswers;
@@ -147,14 +148,16 @@ public class QuestionManager : MonoBehaviour
 
 		List<int> indexes = new List<int>();
 
-		_optionButtons.Add(_buttonOption1);
+		/*_optionButtons.Add(_buttonOption1);
 		_optionButtons.Add(_buttonOption2);
 		_optionButtons.Add(_buttonOption3);
-		_optionButtons.Add(_buttonOption4);
+		_optionButtons.Add(_buttonOption4);*/
 
 		int counter = _optionButtons.Count;
 		int randomOptionButtonIndex;
-		
+
+		Debug.Log(counter);
+
 		for (int i = 0; i < counter; i++)
 		{
 			do
@@ -178,7 +181,14 @@ public class QuestionManager : MonoBehaviour
 			indexes.Add(randomOptionButtonIndex);
 		}
 
-		NewQuestionAnimation();
+		if (_questionNumber > 0)
+		{
+			NewQuestionAnimation();
+		}
+		else
+		{
+			NewQuestionAnimation(true);
+		}
 	
 		foreach (Button button in _optionButtons)
 		{
@@ -186,19 +196,43 @@ public class QuestionManager : MonoBehaviour
 		}
 	}
 
-	private void NewQuestionAnimation()
+	private void PreviousQuestionAnimation()
+	{
+		Sequence newQuestionAnimSeq = DOTween.Sequence();
+
+		newQuestionAnimSeq.Append(_textQuestion.rectTransform.DOAnchorPos(new Vector2(-1000, 0), 0f))
+						  .Join(_gObjButtonParent.GetComponent<RectTransform>().DOAnchorPos(new Vector2(-2000, 0), 0f));
+						  
+	}
+
+	private void NewQuestionAnimation(bool _IsFirstQuestion = false)
 	{
 		Vector3 questionTextStartPos = _textQuestion.rectTransform.anchoredPosition;
 		Vector3 buttonParentObjStartpos = _gObjButtonParent.GetComponent<RectTransform>().anchoredPosition;
 
-		_textQuestion.rectTransform.anchoredPosition = new Vector2(1000, 0);
-		_gObjButtonParent.GetComponent<RectTransform>().anchoredPosition = new Vector2(2000, 0);
-
-
 		Sequence newQuestionAnimSeq = DOTween.Sequence();
 
-		newQuestionAnimSeq.Append(_textQuestion.rectTransform.DOAnchorPos(questionTextStartPos, 1f).SetEase(Ease.InOutBack))
-						  .Join(_gObjButtonParent.GetComponent<RectTransform>().DOAnchorPos(buttonParentObjStartpos, 1f).SetEase(Ease.InOutBack));
+		if (_IsFirstQuestion)
+		{
+			newQuestionAnimSeq.Append(_textQuestion.rectTransform.DOAnchorPos(new Vector2(1000, 0), 0f))
+							  .Join(_gObjButtonParent.GetComponent<RectTransform>().DOAnchorPos(new Vector2(2000, 0), 0f))
+							  .Append(_textQuestion.rectTransform.DOAnchorPos(questionTextStartPos, 1f).SetEase(Ease.InOutBack))
+							  .Join(_gObjButtonParent.GetComponent<RectTransform>().DOAnchorPos(buttonParentObjStartpos, 1f).SetEase(Ease.InOutBack));
+		}
+
+		else
+		{
+			newQuestionAnimSeq.Append(_textQuestion.rectTransform.DOAnchorPos(new Vector2(-1000, 0), 0.7f).SetEase(Ease.InOutBack))
+							  .OnStepComplete(() => _textQuestion.gameObject.SetActive(false))
+							  .Join(_gObjButtonParent.GetComponent<RectTransform>().DOAnchorPos(new Vector2(-1500, 0), 0.7f).SetEase(Ease.InOutBack))
+							  .OnStepComplete(() => _gObjButtonParent.gameObject.SetActive(false))
+							  .Append(_textQuestion.rectTransform.DOAnchorPos(new Vector2(1000, 0), 0f))
+							  .OnStepComplete(() => _textQuestion.gameObject.SetActive(true))
+							  .Join(_gObjButtonParent.GetComponent<RectTransform>().DOAnchorPos(new Vector2(1500, 0), 0f))
+							  .OnStepComplete(() => _gObjButtonParent.gameObject.SetActive(true))
+							  .Append(_textQuestion.rectTransform.DOAnchorPos(questionTextStartPos, 0.7f).SetEase(Ease.InOutBack))
+							  .Join(_gObjButtonParent.GetComponent<RectTransform>().DOAnchorPos(buttonParentObjStartpos, 0.7f).SetEase(Ease.InOutBack));
+		}
 	}
 
 	private void ControlAnswer(bool _Answer, Button _ChoosenOptionButton)
@@ -213,6 +247,7 @@ public class QuestionManager : MonoBehaviour
 		if (_Answer)
 		{
 			CorrectAnswerAnim(4);
+			//PreviousQuestionAnimation();
 			StartCoroutine(AnsweredCorrectly());
 		}
 		else

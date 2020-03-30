@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-public class SendQuestion : MonoBehaviour
+public class SendQuestionManager : MonoBehaviour
 {
 	[Header("Question Input Fields")]
 	[SerializeField] private TMP_InputField _inputFieldQuestion;
@@ -36,11 +36,11 @@ public class SendQuestion : MonoBehaviour
 		{
 			Dictionary<string, object> sendedQuestionPack = new Dictionary<string, object>()
 			{
-				["Soru"] = _inputFieldQuestion.text,
-				["Doğru Şık"] = _inputFieldCorrectAnswer.text,
-				["Yanlış Şık 1"] = _inputFieldWrongAnswer1.text,
-				["Yanlış Şık 2"] = _inputFieldWrongAnswer2.text,
-				["Yanlış Şık 3"] = _inputFieldWrongAnswer3.text
+				["Question"] = _inputFieldQuestion.text,
+				["Correct Option"] = _inputFieldCorrectAnswer.text,
+				["Wrong Option1"] = _inputFieldWrongAnswer1.text,
+				["Wrong Option2"] = _inputFieldWrongAnswer2.text,
+				["Wrong Option3"] = _inputFieldWrongAnswer3.text
 			};
 
 			ActionManager.Instance.SendQuestion(sendedQuestionPack);
