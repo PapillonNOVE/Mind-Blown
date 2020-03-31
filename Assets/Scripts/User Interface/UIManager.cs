@@ -7,21 +7,24 @@ using UnityEngine.UI;
 public class UIManager : Singleton<UIManager>
 {
     [Header("<PANELS>")]
-    public GameObject pnl_Menu;
-    public GameObject pnl_Lobby;
-    public GameObject pnl_CreateRoom;
-    public GameObject pnl_Game;
-    public GameObject pnl_Settings;
-    public GameObject pnl_Store;
-    public GameObject pnl_SignUp;
-    public GameObject pnl_SignIn;
-    public GameObject pnl_ResetPassword;
-    public GameObject pnl_UserProfile;
-    public GameObject pnl_Lose;
-    public GameObject pnl_Win;
+    [SerializeField] private GameObject pnl_Menu;
+    //[SerializeField] private GameObject pnl_Lobby;
+    //[SerializeField] private GameObject pnl_CreateRoom;
+    [SerializeField] private GameObject pnl_Game;
+    [SerializeField] private GameObject pnl_Settings;
+    //[SerializeField] private GameObject pnl_Store;
+    [SerializeField] private GameObject pnl_SignUp;
+    [SerializeField] private GameObject pnl_SignIn;
+    [SerializeField] private GameObject pnl_ResetPassword;
+    [SerializeField] private GameObject pnl_UserProfile;
+    [SerializeField] private GameObject pnl_SendQuestion;
+    [SerializeField] private GameObject pnl_ApprovePendingQuestions;
+    //[SerializeField] private GameObject pnl_Lose;
+    //[SerializeField] private GameObject pnl_Win;
 
-   
-    [Space(5)]
+    [SerializeField] private List<GameObject> panelList;
+
+ /*   [Space(5)]
 
     [Header("Panel / Lobby")]
     [SerializeField] TextMeshProUGUI txt_Lobby_Header;
@@ -74,7 +77,7 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] TextMeshProUGUI txt_Win_RivalScore;
     [SerializeField] Button btn_Win_Home;
     [SerializeField] Button btn_Win_Play;
-
+    */
 
     private void OnEnable()
     {
@@ -138,7 +141,9 @@ public class UIManager : Singleton<UIManager>
         ResetPassword,
         UserProfile,
         Lose,
-        Win
+        Win,
+        SendQuestion,
+        AprrovePendingQuestions
     }
 
 
@@ -154,20 +159,27 @@ public class UIManager : Singleton<UIManager>
     public void ShowUserProfilePanel() { PanelChanger(Panels.UserProfile); }
     public void ShowLosePanel() { PanelChanger(Panels.Lose); }
     public void ShowWinPanel() { PanelChanger(Panels.Win); }
+    public void ShowSendQuestionPanel() { PanelChanger(Panels.SendQuestion); }
+    public void ShowWAprrovePendingQuestionsPanel() { PanelChanger(Panels.AprrovePendingQuestions); }
 
     private void PanelChanger(Panels panels)
     {
-        pnl_Menu.SetActive(panels == Panels.Menu);
-        pnl_Lobby.SetActive(panels == Panels.Lobby);
-        pnl_Game.SetActive(panels == Panels.Game);
-        pnl_Settings.SetActive(panels == Panels.Settings);
-        pnl_Store.SetActive(panels == Panels.Store);
-        pnl_SignUp.SetActive(panels == Panels.SignUp);
-        pnl_SignIn.SetActive(panels == Panels.SignIn);
-        pnl_ResetPassword.SetActive(panels == Panels.ResetPassword);
-        pnl_UserProfile.SetActive(panels == Panels.UserProfile);
-        pnl_Lose.SetActive(panels == Panels.Lose);
-        pnl_Win.SetActive(panels == Panels.Win);
+        //pnl_Menu.SetActive(panels == Panels.Menu);
+        //pnl_Lobby.SetActive(panels == Panels.Lobby);
+        //pnl_Game.SetActive(panels == Panels.Game);
+        //pnl_Settings.SetActive(panels == Panels.Settings);
+        //pnl_Store.SetActive(panels == Panels.Store);
+        //pnl_SignUp.SetActive(panels == Panels.SignUp);
+        //pnl_SignIn.SetActive(panels == Panels.SignIn);
+        //pnl_ResetPassword.SetActive(panels == Panels.ResetPassword);
+        //pnl_UserProfile.SetActive(panels == Panels.UserProfile);
+        //pnl_Lose.SetActive(panels == Panels.Lose);
+        //pnl_Win.SetActive(panels == Panels.Win);
+
+        foreach (GameObject panel in panelList)
+        {
+            
+        }
     }
     
     #endregion

@@ -40,7 +40,8 @@ public class SendQuestionManager : MonoBehaviour
 				["Correct Option"] = _inputFieldCorrectAnswer.text,
 				["Wrong Option1"] = _inputFieldWrongAnswer1.text,
 				["Wrong Option2"] = _inputFieldWrongAnswer2.text,
-				["Wrong Option3"] = _inputFieldWrongAnswer3.text
+				["Wrong Option3"] = _inputFieldWrongAnswer3.text,
+				["Sender Player ID"] = FirebaseManager.auth.CurrentUser.UserId
 			};
 
 			ActionManager.Instance.SendQuestion(sendedQuestionPack);

@@ -37,7 +37,11 @@ public class ActionManager : Singleton<ActionManager>
     public UnityAction ShowUserProfilePanel;
 
 
-    //public Func<, >
+    public delegate IEnumerator GetPendingQuestionsDelegate();
+    public GetPendingQuestionsDelegate GetPendingQuestions;
+
+    public UnityAction<List<string>> CreatePendingQuestionList;
+
     public delegate IEnumerator GetQuestionDelegate();
 	public GetQuestionDelegate GetQuestion;
 

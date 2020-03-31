@@ -37,40 +37,50 @@ namespace ConstantKeeper
 		public static readonly string Users = "Users";
 		public static readonly string UserID = "UserID";
 
+		public static class PrimaryPaths
+		{
+			// Primary Paths
+			public static readonly string General = "General";
+			public static readonly string Progression = "Progression";
+			public static readonly string Consumable = "Consumable";
+		}
 
-		// Secondary Paths
-		public static readonly string General = "General";
-		public static readonly string Progression = "Progression";
-		public static readonly string Consumable = "Consumable";
+		public static class GeneralPaths
+		{
+			// String General Paths
+			public static readonly string Username = "Username";
+			public static readonly string Country = "Country";
+			public static readonly string Language = "Language";
+			public static readonly string SignUpDate = "SignUpDate";
+			public static readonly string LastSeen = "LastSeen";
 
+			// Bool General Paths
+			public static readonly string SignInStatus = "SignInStatus";
+			public static readonly string Intermateable = "Intermateable";
+		}
 
-		// String General Paths
-		public static readonly string Username = "Username";
-		public static readonly string Country = "Country";
-		public static readonly string Language = "Language";
-		public static readonly string SignUpDate = "SignUpDate";
-		public static readonly string LastSeen = "LastSeen";
+		public static class ProgressionPaths
+		{
+			// Int Progression Paths
+			public static readonly string Level = "Level";
+			public static readonly string Cup = "Cup";
+			public static readonly string Rank = "Rank";
+			public static readonly string TotalPlayTime = "TotalPlayTime";
+			public static readonly string TotalMatches = "TotalMatches";
+			public static readonly string CompletedMatches = "CompletedMatches";
+			public static readonly string AbandonedMatches = "AbandonedMatches";
+			public static readonly string Wins = "Wins";
+			public static readonly string Losses = "Losses";
+			public static readonly string WinningStreak = "WinningStreak";
+		}
 
-		// Bool General Paths
-		public static readonly string SignInStatus = "SignInStatus";
-		public static readonly string Intermateable = "Intermateable";
-
-		// Int Progression Paths
-		public static readonly string Level = "Level";
-		public static readonly string Cup = "Cup";
-		public static readonly string Rank = "Rank";
-		public static readonly string TotalPlayTime = "TotalPlayTime";
-		public static readonly string TotalMatches = "TotalMatches";
-		public static readonly string CompletedMatches = "CompletedMatches";
-		public static readonly string AbandonedMatches = "AbandonedMatches";
-		public static readonly string Wins = "Wins";
-		public static readonly string Losses = "Losses";
-		public static readonly string WinningStreak = "WinningStreak";
-
-		// Int Consumable Paths
-		public static readonly string Gem = "Gem";
-		public static readonly string Papcoin = "Papcoin";
-		public static readonly string Energy = "Energy";
+		public static class ConsumablePaths
+		{
+			// Int Consumable Paths
+			public static readonly string Gem = "Gem";
+			public static readonly string Papcoin = "Papcoin";
+			public static readonly string Energy = "Energy";
+		}
 	}
 
 	public static class GameSettingsPaths
@@ -82,7 +92,7 @@ namespace ConstantKeeper
 		public static readonly string Localization = "Localization";
 		public static readonly string SoundSettings = "SoundSettings";
 
-		// Localization
+		/*// Localization
 		public static readonly string AbandonedMatches = "AbandonedMatches";
 		public static readonly string Cancel = "Cancel";
 		public static readonly string CompletedMatches = "CompletedMatches";
@@ -122,7 +132,7 @@ namespace ConstantKeeper
 		public static readonly string WinningStreak = "WinningStreak";
 		public static readonly string Wins = "Wins";
 		public static readonly string You = "You";
-
+		*/
 
 
 		
@@ -162,7 +172,7 @@ namespace ConstantKeeper
 		public static class PrimaryPaths
 		{
 			public static readonly string PublishedQuestions = "PublishedQuestions";
-			public static readonly string UnpublishedQuestions = "UnpublishedQuestions";
+			public static readonly string PendingQuestions = "PendingQuestions";
 		}
 
 
