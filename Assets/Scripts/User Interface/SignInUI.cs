@@ -3,19 +3,28 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-public class SignInUI : Singleton<SignInUI>
+using DG.Tweening;
+using EasyMobile;
+using ConstantKeeper;
+
+public class SignInUI : MonoBehaviour
 {
-    [Header("SignIn")]
-    [SerializeField] private TextMeshProUGUI txt_SignIn_Header;
-    /*[SerializeField] private TextMeshProUGUI txt_SignIn_Username;
-    [SerializeField] private TextMeshProUGUI txt_SignIn_Email;
-    [SerializeField] private TextMeshProUGUI txt_SignIn_Password;*/
-    [SerializeField] private TMP_InputField inpFld_Email;
-    [SerializeField] private TMP_InputField inpFld_Password;
-    [SerializeField] private Button btn_Home;
+    [Header("Color")]
+    [SerializeField] private Color color_Green;
+    [SerializeField] private Color color_Red;
+
+    [Header("InputField")]
+    [SerializeField] private TMP_InputField inputField_Email;
+    [SerializeField] private TMP_InputField inputField_Password;
+    
+    [Header("Button")]
+    [SerializeField] private Button btn_GoToMainMenu;
     [SerializeField] private Button btn_SignIn;
     [SerializeField] private Button btn_ResetPassword;
-    [SerializeField] private Button btn_SignUp;
+    [SerializeField] private Button btn_GoToSignUp;
+
+    [Header("RectTransform")]
+    [SerializeField] private RectTransform panel_Parent;
 
     private void OnEnable()
     {
@@ -29,17 +38,52 @@ public class SignInUI : Singleton<SignInUI>
 
     private void OnClickAddListener()
     {
-        btn_Home.onClick.AddListener(UIManager.Instance.ShowMenuPanel);
-        btn_ResetPassword.onClick.AddListener(UIManager.Instance.ShowResetPasswordPanel);
-        btn_SignUp.onClick.AddListener(UIManager.Instance.ShowSignUpPanel);
+        btn_GoToMainMenu.onClick.AddListener(UIManager.Instance.ShowMenuPanel);
+        btn_ResetPassword.onClick.AddListener(GoToResetPassword);
         btn_SignIn.onClick.AddListener(SignIn);
+        btn_GoToSignUp.onClick.AddListener(GoToSignUp);
     }
 
     private void SignIn()
     {
-        string email = inpFld_Email.textComponent.text.Replace("\u200B", "");
-        string password = inpFld_Password.textComponent.text.Replace("\u200B", "");
+        string email = inputField_Email.textComponent.text.Replace("\u200B", "");
+        string password = inputField_Password.textComponent.text.Replace("\u200B", "");
 
-        ActionManager.Instance.SignInWithEmailPassword(email, password);
+        StartCoroutine(ActionManager.Instance.SignInWithEmailPassword(email, password, SignInEmailPasswordSuccessful, SignInWithEmailPasswordFailed));
+    }
+
+    private void SignInEmailPasswordSuccessful()
+    {
+        // NativeUI.AlertPopup alertPopup = NativeUI.Alert(AuthenticationsDebugs.SignInPaths.SignInSuccessful, AuthenticationsDebugs.SignInPaths.SignInSuccessfulDetails);
+        NativeUI.ShowToast($"{AuthenticationsDebugs.SignInPaths.SignInSuccessful} {AuthenticationsDebugs.SignInPaths.SignInSuccessfulDetails}");
+    }
+
+    private void SignInWithEmailPasswordFailed()
+    {
+        NativeUI.AlertPopup alertPopup = NativeUI.Alert(AuthenticationsDebugs.SignInPaths.SignInFailed, AuthenticationsDebugs.SignInPaths.SignInFailedDetails);
+    }
+
+    private void GoToSignUp()
+    {
+        UIManager.Instance.ShowSignUpPanel();
+
+        //UIManager.Instance.PanelOpener();
+
+        /* Sequence panelSeq = DOTween.Sequence();
+         panelSeq.Append(panel_Parent.DOAnchorPosX(1080, 0.3f))
+                 .Append(panel_Parent.DOAnchorPosY(0, 0.3f))
+                 .OnComplete(()=> UIManager.Instance.ShowSignUpPanel());*/
+    }
+
+    private void GoToResetPassword()
+    {
+        UIManager.Instance.ShowResetPasswordPanel();
+
+        //UIManager.Instance.PanelOpener();
+
+       /* Sequence panelSeq = DOTween.Sequence();
+        panelSeq.Append(panel_Parent.DOAnchorPosX(0, 0.3f))
+                .Append(panel_Parent.DOAnchorPosY(-1920, 0.3f))
+                .OnComplete(() => UIManager.Instance.ShowResetPasswordPanel());*/
     }
 }

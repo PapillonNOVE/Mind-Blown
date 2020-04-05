@@ -1,11 +1,13 @@
 ﻿
 namespace ConstantKeeper
 {
-	public static class Debugs
+	public static class DebugPaths
 	{
 		public static readonly string IsCanceled = " iptal edildi!";
 		public static readonly string IsFaulted = " başarısız oldu!";
 		public static readonly string IsCompleted = " başarıyla tamamlandı!";
+
+		
 	}
 
 	public static class AuthenticationsDebugs
@@ -16,6 +18,42 @@ namespace ConstantKeeper
 		public static readonly string ResetPassword = "Şifre sıfırlama bağlantısı gönderme";
 		public static readonly string DeleteUser = "Kullanıcı silme işlemi";
 
+		public static class SignUpPaths
+		{
+			public static readonly string SignUpFailed = "Kayıt işlemi başarısız";
+			public static readonly string SignUpFailedDetail = "";
+	
+			public static readonly string SignUpSuccessful = "Kayıt işlemi başarılı!";
+			public static readonly string SignUpSuccessfulDetail = "Ana menüye yönlendiriliyorsunuz...";
+		}
+
+
+		public static class SignInPaths
+		{
+			public static readonly string SignInSuccessful = "Giriş işlemi başarılı!";
+			public static readonly string SignInSuccessfulDetails = "Ana menüye yönlendiriliyorsunuz...";
+
+			public static readonly string SignInFailed = "Giriş işlemi başarısız!";
+			public static readonly string SignInFailedDetails = "Sabit bir internet bağlantınız olduğundan emin olun. E-posta ve şifrenizin doğru olduğundan emin olun veya sıfırlayın. Eğer bir hesabınız yoksa, Kayıt olabilirsiniz...";
+		}
+
+		public static class SignOutPaths 
+		{
+			public static readonly string SignOutSuccessful = "Çıkış işlemi başarılı!";
+			public static readonly string SignOutSuccessfulDetails = "Bilinmeyen hata!";
+			
+			public static readonly string SignOutFailed = "Çıkış işlemi başarısız!";
+			public static readonly string SignOutFailedDetails = "Bilinmeyen hata!";
+		}
+
+		public static class ResetPasswordPaths 
+		{
+			public static readonly string ResetPasswordSuccessful = "Şifre sıfırlama işlemi başarılı!";
+			public static readonly string ResetPasswordSuccessfulDetails = "Şifre sıfırlama bağlantısı gönderildi. Lütfen e-posta hesabınızı kontrol ediniz, şifre sıfırlama bağlantısı \"Spam\" klasöründe olabilir...";
+			
+			public static readonly string ResetPasswordFailed = "Şifre sıfırlama işlemi başarısız!";
+			public static readonly string ResetPasswordFailedDetails = "E-postanızı doğru girdiğinizden emin olun. Eğer bir hesabınız yoksa kayıt olabilirsiniz...";
+		}
 	}
 
 	public static class GetDataTaskDebugs

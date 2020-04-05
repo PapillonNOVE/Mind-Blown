@@ -10,9 +10,15 @@ public class ActionManager : Singleton<ActionManager>
     public UnityAction QuickGame;
 
     // Authentication
-    public UnityAction<SignUpStruct> SignUpWithEmailPassword;
-    public UnityAction<string, string> SignInWithEmailPassword;
-    public UnityAction<string> ResetPasswordWithMail;
+    public delegate IEnumerator SignUpWithEmailPasswordDelegate(SignUpStruct _Email, Action _SuccesCallback, Action _FailCallback);
+    public SignUpWithEmailPasswordDelegate SignUpWithEmailPassword;
+
+    public delegate IEnumerator SignInWithEmailPasswordDelegate(string _Email, string _Password, Action _SuccesCallback, Action _FailCallback);
+    public SignInWithEmailPasswordDelegate SignInWithEmailPassword;
+
+    public delegate IEnumerator ResetPasswordWithEmailDelegate(string _Email, Action _SuccesCallback, Action _FailCallback);
+    public ResetPasswordWithEmailDelegate ResetPasswordWithEmail;
+    
     public UnityAction DeleteUser;
     public UnityAction SignOut;
 
@@ -21,6 +27,9 @@ public class ActionManager : Singleton<ActionManager>
     public UnityAction<string, string, object> UpdateUserData;
     public UnityAction CallGetCurrentUserProfile;
     public UnityAction DeleteUserProfile;
+
+    public delegate IEnumerator ControlIsUsernameExistDelegate(string _Username, Action _SuccesCallback, Action _FailCallback);
+    public ControlIsUsernameExistDelegate ControlIsUsernameExist;
 
     // Game
     public UnityAction<string> ShowWhoseTurn;
@@ -36,6 +45,10 @@ public class ActionManager : Singleton<ActionManager>
     public UnityAction ShowSignInPanel;
     public UnityAction ShowUserProfilePanel;
 
+
+    public UnityAction UsernameAvaliable;
+    public UnityAction UsernameNotAvaliable;
+   
 
     public delegate IEnumerator GetPendingQuestionsDelegate();
     public GetPendingQuestionsDelegate GetPendingQuestions;
