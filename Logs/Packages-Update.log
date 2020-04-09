@@ -51,3 +51,11 @@ Update Mode: updateDependencies
 
 The following packages were updated:
   com.unity.2d.spriteshape from version 3.0.8 to 3.0.9
+
+=== Tue Apr  7 15:26:56 2020
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were updated:
+  com.unity.test-framework from version 1.1.11 to 1.1.13

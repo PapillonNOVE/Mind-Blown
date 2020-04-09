@@ -42,12 +42,12 @@ public class ResetPasswordUI : Singleton<ResetPasswordUI>
 
     private void ResetPasswordWithEmailSuccessful()
     {
-        NativeUI.AlertPopup alertPopup = NativeUI.Alert(AuthenticationsDebugs.ResetPasswordPaths.ResetPasswordSuccessful, AuthenticationsDebugs.ResetPasswordPaths.ResetPasswordSuccessfulDetails);
+      //  NativeUI.AlertPopup alertPopup = NativeUI.Alert(AuthenticationsDebugs.ResetPasswordPaths.ResetPasswordSuccessful, AuthenticationsDebugs.ResetPasswordPaths.ResetPasswordSuccessfulDetails);
     }
 
     private void ResetPasswordWithEmailFailed()
     {
-        NativeUI.AlertPopup alertPopup = NativeUI.Alert(AuthenticationsDebugs.ResetPasswordPaths.ResetPasswordFailed, AuthenticationsDebugs.ResetPasswordPaths.ResetPasswordFailedDetails);
+        //NativeUI.AlertPopup alertPopup = NativeUI.Alert(AuthenticationsDebugs.ResetPasswordPaths.ResetPasswordFailed, AuthenticationsDebugs.ResetPasswordPaths.ResetPasswordFailedDetails);
     }
 
     private void GoToSignIn() 

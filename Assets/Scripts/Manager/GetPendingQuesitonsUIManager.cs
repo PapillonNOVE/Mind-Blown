@@ -38,7 +38,7 @@ public class GetPendingQuesitonsUIManager : MonoBehaviour
 
 	private void AddListenersToButtons()
 	{
-		button_Home.onClick.AddListener(UIManager.Instance.ShowMenuPanel);
+		button_Home.onClick.AddListener(UIManager.Instance.ShowMainMenuPanel);
 		button_RefreshList.onClick.AddListener(() => StartCoroutine(ActionManager.Instance.GetPendingQuestions()));
 	}
 

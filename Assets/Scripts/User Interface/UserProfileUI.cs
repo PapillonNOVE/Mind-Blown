@@ -5,22 +5,26 @@ using UnityEngine;
 using UnityEngine.UI;
 public class UserProfileUI : MonoBehaviour
 {
-    [Header("User Profile")]
-    [SerializeField] private TextMeshProUGUI txt_User_Level;
-    [SerializeField] private TextMeshProUGUI txt_User_Cup;
-    [SerializeField] private TextMeshProUGUI txt_User_Rank;
-    [SerializeField] private TextMeshProUGUI txt_User_Username;
-    [SerializeField] private TextMeshProUGUI txt_User_SignUpDate;
-    [SerializeField] private TextMeshProUGUI txt_User_LastSeen;
-    [SerializeField] private TextMeshProUGUI txt_User_TotalPlayTime;
-    [SerializeField] private TextMeshProUGUI txt_User_TotalMatches;
-    [SerializeField] private TextMeshProUGUI txt_User_CompletedMathces;
-    [SerializeField] private TextMeshProUGUI txt_User_AbandonedMathces;
-    [SerializeField] private TextMeshProUGUI txt_User_Wins;
-    [SerializeField] private TextMeshProUGUI txt_User_Losses;
-    [SerializeField] private TextMeshProUGUI txt_User_WinningStreak;
-    [SerializeField] private Button btn_User_Home;
-    [SerializeField] private Button btn_User_SignOut;
+    [Header("Text")]
+    //[SerializeField] private TextMeshProUGUI text_Cup;
+    [SerializeField] private TextMeshProUGUI text_Username;
+    [SerializeField] private TextMeshProUGUI text_Rank;
+    [SerializeField] private TextMeshProUGUI text_Level;
+    //[SerializeField] private TextMeshProUGUI text_HighScore;
+    //[SerializeField] private TextMeshProUGUI txt_User_SignUpDate;
+    //[SerializeField] private TextMeshProUGUI txt_User_LastSeen;
+    [SerializeField] private TextMeshProUGUI text_TotalPlayTime;
+    //[SerializeField] private TextMeshProUGUI txt_User_TotalMatches;
+    //[SerializeField] private TextMeshProUGUI txt_User_CompletedMathces;
+    //[SerializeField] private TextMeshProUGUI txt_User_AbandonedMathces;
+    [SerializeField] private TextMeshProUGUI text_CorrectAnswers;
+    [SerializeField] private TextMeshProUGUI text_WrongAnswers;
+    //[SerializeField] private TextMeshProUGUI text_Wins;
+    //[SerializeField] private TextMeshProUGUI text_Losses;
+    //[SerializeField] private TextMeshProUGUI txt_User_WinningStreak;
+    [Header("Button")]
+    [SerializeField] private Button button_GoToMainMenu;
+    [SerializeField] private Button button_SignOut;
 
 
     private void Start()
@@ -28,6 +32,11 @@ public class UserProfileUI : MonoBehaviour
         OnClickAddListener();
        // ActionManager.Instance.GetCurrentUserProfile += GetCurrentUserProfile;
 
+        
+    }
+
+    private void OnEnable()
+    {
         GetCurrentUserProfile();
     }
 
@@ -38,34 +47,36 @@ public class UserProfileUI : MonoBehaviour
 
     private void OnClickAddListener()
     {
-        btn_User_Home.onClick.AddListener(UIManager.Instance.ShowMenuPanel);
-        btn_User_SignOut.onClick.AddListener(SignOut);
+        button_GoToMainMenu.onClick.AddListener(UIManager.Instance.ShowMainMenuPanel);
+        button_SignOut.onClick.AddListener(SignOut);
     }
 
     private void GetCurrentUserProfile()
     {
-        txt_User_Username.SetText(CurrentUserProfileKeeper.Username);
-        txt_User_SignUpDate.SetText(CurrentUserProfileKeeper.SignUpDate.ToString());
+        Debug.LogError("Username " + CurrentUserProfileKeeper.Username);
 
-        if (bool.Parse(CurrentUserProfileKeeper.SignInStatus.ToString()))
-        {
-            txt_User_LastSeen.SetText("ONLINE");//LocalizationKeeper.Online);
-        }
-        else
-        {
-            txt_User_LastSeen.SetText(CurrentUserProfileKeeper.LastSeen.ToString());
-        }
+        text_Username.SetText(CurrentUserProfileKeeper.Username);
+     //   txt_User_SignUpDate.SetText(CurrentUserProfileKeeper.SignUpDate.ToString());
+
+        //if (bool.Parse(CurrentUserProfileKeeper.SignInStatus.ToString()))
+        //{
+            //txt_User_LastSeen.SetText("ONLINE");//LocalizationKeeper.Online);
+        //}
+        //else
+        //{
+            //txt_User_LastSeen.SetText(CurrentUserProfileKeeper.LastSeen.ToString());
+        //}
         Debug.Log(CurrentUserProfileKeeper.Cup);
-        txt_User_Level.SetText(CurrentUserProfileKeeper.Level.ToString());
-        txt_User_Cup.SetText(CurrentUserProfileKeeper.Cup.ToString());
-        txt_User_Rank.SetText(CurrentUserProfileKeeper.Rank.ToString());
-        txt_User_TotalPlayTime.SetText(CurrentUserProfileKeeper.TotalPlayTime.ToString());
-        txt_User_TotalMatches.SetText(CurrentUserProfileKeeper.TotalMatches.ToString());
-        txt_User_CompletedMathces.SetText(CurrentUserProfileKeeper.CompletedMatches.ToString());
-        txt_User_AbandonedMathces.SetText(CurrentUserProfileKeeper.AbandonedMatches.ToString());
-        txt_User_Wins.SetText(CurrentUserProfileKeeper.Wins.ToString());
-        txt_User_Losses.SetText(CurrentUserProfileKeeper.Losses.ToString());
-        txt_User_WinningStreak.SetText(CurrentUserProfileKeeper.WinningStreak.ToString());
+        text_Level.SetText(CurrentUserProfileKeeper.Level.ToString());
+        //text_Cup.SetText(CurrentUserProfileKeeper.Cup.ToString());
+        text_Rank.SetText(CurrentUserProfileKeeper.Rank);
+        text_TotalPlayTime.SetText(CurrentUserProfileKeeper.TotalPlayTime.ToString());
+        //txt_User_TotalMatches.SetText(CurrentUserProfileKeeper.TotalMatches.ToString());
+        //txt_User_CompletedMathces.SetText(CurrentUserProfileKeeper.CompletedMatches.ToString());
+        //txt_User_AbandonedMathces.SetText(CurrentUserProfileKeeper.AbandonedMatches.ToString());
+        text_CorrectAnswers.SetText(CurrentUserProfileKeeper.CorrectAnswers.ToString());
+        text_WrongAnswers.SetText(CurrentUserProfileKeeper.WrongAnswers.ToString());
+        //txt_User_WinningStreak.SetText(CurrentUserProfileKeeper.WinningStreak.ToString());
     }
 
     private void SignOut() 

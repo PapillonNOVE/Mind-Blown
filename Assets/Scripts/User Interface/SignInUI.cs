@@ -38,7 +38,7 @@ public class SignInUI : MonoBehaviour
 
     private void OnClickAddListener()
     {
-        btn_GoToMainMenu.onClick.AddListener(UIManager.Instance.ShowMenuPanel);
+        btn_GoToMainMenu.onClick.AddListener(UIManager.Instance.ShowMainMenuPanel);
         btn_ResetPassword.onClick.AddListener(GoToResetPassword);
         btn_SignIn.onClick.AddListener(SignIn);
         btn_GoToSignUp.onClick.AddListener(GoToSignUp);
@@ -55,12 +55,12 @@ public class SignInUI : MonoBehaviour
     private void SignInEmailPasswordSuccessful()
     {
         // NativeUI.AlertPopup alertPopup = NativeUI.Alert(AuthenticationsDebugs.SignInPaths.SignInSuccessful, AuthenticationsDebugs.SignInPaths.SignInSuccessfulDetails);
-        NativeUI.ShowToast($"{AuthenticationsDebugs.SignInPaths.SignInSuccessful} {AuthenticationsDebugs.SignInPaths.SignInSuccessfulDetails}");
+     //   NativeUI.ShowToast($"{AuthenticationsDebugs.SignInPaths.SignInSuccessful} {AuthenticationsDebugs.SignInPaths.SignInSuccessfulDetails}");
     }
 
     private void SignInWithEmailPasswordFailed()
     {
-        NativeUI.AlertPopup alertPopup = NativeUI.Alert(AuthenticationsDebugs.SignInPaths.SignInFailed, AuthenticationsDebugs.SignInPaths.SignInFailedDetails);
+      //  NativeUI.AlertPopup alertPopup = NativeUI.Alert(AuthenticationsDebugs.SignInPaths.SignInFailed, AuthenticationsDebugs.SignInPaths.SignInFailedDetails);
     }
 
     private void GoToSignUp()

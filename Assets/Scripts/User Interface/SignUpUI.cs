@@ -79,7 +79,7 @@ public class SignUpUI : MonoBehaviour
 
     private void OnClickAddListener()
     {
-        btn_GoToMainMenu.onClick.AddListener(UIManager.Instance.ShowMenuPanel);
+        btn_GoToMainMenu.onClick.AddListener(UIManager.Instance.ShowMainMenuPanel);
         btn_SignUp.onClick.AddListener(SignUp);
         btn_GoToSignIn.onClick.AddListener(GoToSignIn);
     }
@@ -256,12 +256,12 @@ public class SignUpUI : MonoBehaviour
     private void SignUpWithEmailPasswordSuccesful() 
     {
         // NativeUI.AlertPopup alertPopup = NativeUI.Alert(AuthenticationsDebugs.SignUpPaths.SignUpSuccessful, AuthenticationsDebugs.SignUpPaths.SignUpSuccessfulDetail);
-        NativeUI.ShowToast($"{AuthenticationsDebugs.SignUpPaths.SignUpSuccessful} {AuthenticationsDebugs.SignUpPaths.SignUpSuccessfulDetail}");
+       // NativeUI.ShowToast($"{AuthenticationsDebugs.SignUpPaths.SignUpSuccessful} {AuthenticationsDebugs.SignUpPaths.SignUpSuccessfulDetail}");
     }
 
     private void SignUpWithEmailPasswordFailed() 
     {
-        NativeUI.AlertPopup alertPopup = NativeUI.Alert(AuthenticationsDebugs.SignUpPaths.SignUpFailed, AuthenticationsDebugs.SignUpPaths.SignUpFailedDetail);
+        //NativeUI.AlertPopup alertPopup = NativeUI.Alert(AuthenticationsDebugs.SignUpPaths.SignUpFailed, AuthenticationsDebugs.SignUpPaths.SignUpFailedDetail);
     }
 
     private void GoToSignIn() 

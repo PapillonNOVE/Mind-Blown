@@ -15,11 +15,13 @@ public static class CurrentUserProfileKeeper
     // Progression Int Variables
     public static int Level;
     public static int Cup;
-    public static int Rank;
+    public static /*int*/ string Rank;
     public static int TotalPlayTime;
     public static int TotalMatches;
     public static int CompletedMatches;
     public static int AbandonedMatches;
+    public static int CorrectAnswers;
+    public static int WrongAnswers;
     public static int Wins;
     public static int Losses;
     public static int WinningStreak;

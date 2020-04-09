@@ -6,17 +6,24 @@ using UnityEngine.UI;
 
 public class ActionManager : Singleton<ActionManager>
 {
+    //Firebase Initialization
+    public delegate void StartFirebaseDelegate(Action _OnSuccessCallback);
+    public StartFirebaseDelegate StartFirebase;
+
+    //Loading Screen
+    public UnityAction<float> LoadingPanelSelfDestruction;
+
     // Prepare Game
     public UnityAction QuickGame;
 
     // Authentication
-    public delegate IEnumerator SignUpWithEmailPasswordDelegate(SignUpStruct _Email, Action _SuccesCallback, Action _FailCallback);
+    public delegate IEnumerator SignUpWithEmailPasswordDelegate(SignUpStruct _Email, Action _OnSuccesCallback, Action _OnFailCallback);
     public SignUpWithEmailPasswordDelegate SignUpWithEmailPassword;
 
-    public delegate IEnumerator SignInWithEmailPasswordDelegate(string _Email, string _Password, Action _SuccesCallback, Action _FailCallback);
+    public delegate IEnumerator SignInWithEmailPasswordDelegate(string _Email, string _Password, Action _OnSuccesCallback, Action _OnFailCallback);
     public SignInWithEmailPasswordDelegate SignInWithEmailPassword;
 
-    public delegate IEnumerator ResetPasswordWithEmailDelegate(string _Email, Action _SuccesCallback, Action _FailCallback);
+    public delegate IEnumerator ResetPasswordWithEmailDelegate(string _Email, Action _OnSuccesCallback, Action _OnFailCallback);
     public ResetPasswordWithEmailDelegate ResetPasswordWithEmail;
     
     public UnityAction DeleteUser;
@@ -25,10 +32,11 @@ public class ActionManager : Singleton<ActionManager>
     // User
     public UnityAction<string, string> CreatUserProfile;
     public UnityAction<string, string, object> UpdateUserData;
-    public UnityAction CallGetCurrentUserProfile;
+    public delegate IEnumerator GetCurrentUserProfileDelegate();
+    public GetCurrentUserProfileDelegate GetCurrentUserProfile;
     public UnityAction DeleteUserProfile;
 
-    public delegate IEnumerator ControlIsUsernameExistDelegate(string _Username, Action _SuccesCallback, Action _FailCallback);
+    public delegate IEnumerator ControlIsUsernameExistDelegate(string _Username, Action _OnSuccesCallback, Action _OnFailCallback);
     public ControlIsUsernameExistDelegate ControlIsUsernameExist;
 
     // Game
