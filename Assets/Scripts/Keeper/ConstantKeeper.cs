@@ -103,9 +103,12 @@ namespace ConstantKeeper
 			public static readonly string Level = "Level";
 			public static readonly string Cup = "Cup";
 			public static readonly string Rank = "Rank";
+			public static readonly string HighScore = "HighScore";
 			public static readonly string TotalPlayTime = "TotalPlayTime";
 			public static readonly string TotalMatches = "TotalMatches";
 			public static readonly string CompletedMatches = "CompletedMatches";
+			public static readonly string CorrectAnswers = "CorrectAnswers";
+			public static readonly string WrongAnswers = "WrongAnswers";
 			public static readonly string AbandonedMatches = "AbandonedMatches";
 			public static readonly string Wins = "Wins";
 			public static readonly string Losses = "Losses";

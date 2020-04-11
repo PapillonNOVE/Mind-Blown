@@ -30,9 +30,9 @@ public class UserProfileUI : MonoBehaviour
     private void Start()
     {
         OnClickAddListener();
-       // ActionManager.Instance.GetCurrentUserProfile += GetCurrentUserProfile;
+        // ActionManager.Instance.GetCurrentUserProfile += GetCurrentUserProfile;
 
-        
+       
     }
 
     private void OnEnable()

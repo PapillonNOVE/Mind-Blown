@@ -88,7 +88,7 @@ public class SignUpUI : MonoBehaviour
     {
         inputField_Username.onValueChanged.AddListener(ControlUsername);
         inputField_Email.onEndEdit.AddListener(ControlEmail);
-        inputField_Email.onValueChanged.AddListener(ControlConfirmEmail);
+        inputField_ConfirmEmail.onValueChanged.AddListener(ControlConfirmEmail);
         inputField_Password.onValueChanged.AddListener(ControlPassword);
         inputField_ConfirmPassword.onValueChanged.AddListener(ControlConfirmPassword);
     }
@@ -250,7 +250,7 @@ public class SignUpUI : MonoBehaviour
 
         Debug.Log(signUpStruct.Language);
 
-        ActionManager.Instance.SignUpWithEmailPassword(signUpStruct, SignUpWithEmailPasswordSuccesful, SignUpWithEmailPasswordFailed);
+        StartCoroutine(ActionManager.Instance.SignUpWithEmailPassword(signUpStruct, SignUpWithEmailPasswordSuccesful, SignUpWithEmailPasswordFailed));
     }
 
     private void SignUpWithEmailPasswordSuccesful() 

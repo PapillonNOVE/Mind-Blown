@@ -1,5 +1,12 @@
 ﻿#region General
 
+public struct UserGeneralMold 
+{
+    public string Username;
+    public string SignUpDate;
+    public string Language;
+}
+
 public class UserGeneral
 {
     // String variables
@@ -18,31 +25,42 @@ public class UserGeneral
          // String
          string _username,
          string _signUpDate,
-         string _lastSeen,
+         //string _lastSeen,
          string _country,
          string _language,
          
          // Bool
-         bool _signInStatus,
-         bool _intermateable
+         bool _signInStatus
+         //bool _intermateable
         )
     {
         // String
         Username = _username;
         SignUpDate = _signUpDate;
-        LastSeen = _lastSeen;
+        //LastSeen = _lastSeen;
         Country = _country;
         Language = _language;
         
         // Bool
         SignInStatus = _signInStatus;
-        Intermateable = _intermateable;
+        //Intermateable = _intermateable;
     }
 }
 
 #endregion
 
 #region Progression
+
+public struct UserProgressionMold 
+{
+    public string Rank;
+    public int Level;
+    public int CorrectAnswers;
+    public int WrongAnswers;
+    public int HighScore;
+    public float TotalPlayTime;
+}
+
 
 public class UserProgression
 {
@@ -96,6 +114,14 @@ public class UserProgression
 #endregion
 
 #region Consumable
+
+public struct UserConsumableMold
+{
+    //public int Energy;
+    //public int Papcoin;
+    //public int Gem;
+    //public int Joker;
+}
 
 public class UserConsumable
 {
