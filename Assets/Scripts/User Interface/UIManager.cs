@@ -12,6 +12,7 @@ public class UIManager : Singleton<UIManager>
 	
 	[Header("Panel")]
 	[SerializeField] private GameObject panel_MainMenu;
+	[SerializeField] private GameObject panel_Categories;
 	//[SerializeField] private GameObject pnl_Lobby;
 	//[SerializeField] private GameObject pnl_CreateRoom;
 	[SerializeField] private GameObject panel_Game;
@@ -29,6 +30,7 @@ public class UIManager : Singleton<UIManager>
 
 	[Header("RectTransform")]
 	private RectTransform rectTransform_MainMenu;
+	private RectTransform rectTransform_Categories;
 	private RectTransform rectTransform_Game;
 	private RectTransform rectTransform_Settings;
 	private RectTransform rectTransform_SignIn;
@@ -103,19 +105,19 @@ public class UIManager : Singleton<UIManager>
 		ActionManager.Instance.ShowUserProfilePanel += ShowUserProfilePanel;
 	}
 
-	private void OnDisable()
-	{
-		ActionManager.Instance.ShowSignInPanel -= ShowSignInPanel;
-		ActionManager.Instance.ShowSignUpPanel -= ShowSignUpPanel;
-		ActionManager.Instance.ShowUserProfilePanel -= ShowUserProfilePanel;
-	}
+	//private void OnDisable()
+	//{
+	//	ActionManager.Instance.ShowSignInPanel -= ShowSignInPanel;
+	//	ActionManager.Instance.ShowSignUpPanel -= ShowSignUpPanel;
+	//	ActionManager.Instance.ShowUserProfilePanel -= ShowUserProfilePanel;
+	//}
 
-	private void OnApplicationQuit()
-	{
-		ActionManager.Instance.ShowSignInPanel -= ShowSignInPanel;
-		ActionManager.Instance.ShowSignUpPanel -= ShowSignUpPanel;
-		ActionManager.Instance.ShowUserProfilePanel -= ShowUserProfilePanel;
-	}
+	//private void OnApplicationQuit()
+	//{
+	//	ActionManager.Instance.ShowSignInPanel -= ShowSignInPanel;
+	//	ActionManager.Instance.ShowSignUpPanel -= ShowSignUpPanel;
+	//	ActionManager.Instance.ShowUserProfilePanel -= ShowUserProfilePanel;
+	//}
 
 	private void Start()
 	{
@@ -146,6 +148,7 @@ public class UIManager : Singleton<UIManager>
 	private void RectTransformSetter()
 	{
 		rectTransform_MainMenu = panel_MainMenu.GetComponent<RectTransform>();
+		rectTransform_Categories = panel_Categories.GetComponent<RectTransform>();
 		rectTransform_Game = panel_Game.GetComponent<RectTransform>();
 		rectTransform_Settings = panel_Settings.GetComponent<RectTransform>();
 		rectTransform_SignIn = panel_SignIn.GetComponent<RectTransform>();
@@ -160,6 +163,7 @@ public class UIManager : Singleton<UIManager>
 	public enum Panels
 	{
 		MainMenu,
+		Categories,
 		Lobby,
 		CreateRoom,
 		Game,
@@ -177,6 +181,7 @@ public class UIManager : Singleton<UIManager>
 
 
 	public void ShowMainMenuPanel() { StartCoroutine(PanelChanger(Panels.MainMenu)); }
+	public void ShowCategoriesPanel() { StartCoroutine(PanelChanger(Panels.Categories)); }
 	public void ShowLobbyPanel() { StartCoroutine(PanelChanger(Panels.Lobby)); }
 	public void ShowCreateRoomPanel() { StartCoroutine(PanelChanger(Panels.CreateRoom)); }
 	public void ShowGamePanel() { StartCoroutine(PanelChanger(Panels.Game)); }
@@ -201,6 +206,9 @@ public class UIManager : Singleton<UIManager>
 		{
 			case Panels.MainMenu:
 				tempRectTransform = rectTransform_MainMenu;
+				break;
+			case Panels.Categories:
+				tempRectTransform = rectTransform_Categories;
 				break;
 			case Panels.Lobby:
 				break;
@@ -244,12 +252,13 @@ public class UIManager : Singleton<UIManager>
 		Sequence panelSequence = DOTween.Sequence();
 
 		panelSequence.Append(rectTransform_Parent.DOAnchorPosX(-tempRectTransform.anchoredPosition.x, 0.3f))
-					 .Join(rectTransform_Parent.DOAnchorPosY(-tempRectTransform.anchoredPosition.y, 0.3f));
+					 .Append(rectTransform_Parent.DOAnchorPosY(-tempRectTransform.anchoredPosition.y, 0.3f));
 
 
 		yield return panelSequence.WaitForCompletion();
 
 		panel_MainMenu.SetActive(panels == Panels.MainMenu);
+		panel_Categories.SetActive(panels == Panels.Categories);
 		panel_Game.SetActive(panels == Panels.Game);
 		panel_Settings.SetActive(panels == Panels.Settings);
 		panel_SignUp.SetActive(panels == Panels.SignUp);

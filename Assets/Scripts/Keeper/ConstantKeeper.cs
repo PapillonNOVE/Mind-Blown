@@ -225,6 +225,7 @@ namespace ConstantKeeper
 			public static readonly string WrongOption1 = "WrongOption1";
 			public static readonly string WrongOption2 = "WrongOption2";
 			public static readonly string WrongOption3 = "WrongOption3";
+			public static readonly string Category = "Category";
 
 			public static class PrimaryCategories
 			{
@@ -245,7 +246,8 @@ namespace ConstantKeeper
 
 			public static class ScienceCategories
 			{
-				public static readonly string Math = "Maths";
+				public static readonly string Math = "Math";
+				public static readonly string Language = "Language";
 				public static readonly string Technology = "Technology";
 				public static readonly string History = "History";
 			}

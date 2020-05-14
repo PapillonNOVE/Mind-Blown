@@ -101,9 +101,9 @@ public class SignUpUI : MonoBehaviour
 
 	private void ControlUsername(string arg0)
     {
-        Debug.Log("1: " + arg0.Length);
-       // arg0.Replace("\u200B", "");
-        Debug.Log("2: " + arg0.Length);
+       // Debug.Log("1: " + arg0.Length);
+       //// arg0.Replace("\u200B", "");
+       // Debug.Log("2: " + arg0.Length);
 
         StartCoroutine(ActionManager.Instance.ControlIsUsernameExist(arg0, UsernameAvaliable, UsernameNotAvaliable));
     }

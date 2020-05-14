@@ -29,7 +29,7 @@ public class MainMenuUI : MonoBehaviour
 
     private void OnClickAddListener() 
     {
-        //button_Play.onClick.AddListener(QuickGame);
+        button_Play.onClick.AddListener(UIManager.Instance.ShowCategoriesPanel);
         button_Settings.onClick.AddListener(UIManager.Instance.ShowSettingsPanel);
         //btn_Menu_Store.onClick.AddListener(UIManager.Instance.ShowStorePanel);
         button_UserProfile.onClick.AddListener(UserProfile);
@@ -44,11 +44,11 @@ public class MainMenuUI : MonoBehaviour
         //txt_Gem.SetText(CurrentUserProfileKeeper.Gem.ToString());
     //}
 
-    private void QuickGame() 
+  /*  private void QuickGame() 
     {
         Debug.Log("hiraishin");
         ActionManager.Instance.QuickGame();
-    }
+    }*/
 
     private void RateUs() { }
 

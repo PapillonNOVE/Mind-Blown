@@ -53,7 +53,7 @@ public class UserProfileUI : MonoBehaviour
 
     private void GetCurrentUserProfile()
     {
-        Debug.LogError("Username " + CurrentUserProfileKeeper.Username);
+        Debug.Log("Username " + CurrentUserProfileKeeper.Username);
 
         text_Username.SetText(CurrentUserProfileKeeper.Username);
      //   txt_User_SignUpDate.SetText(CurrentUserProfileKeeper.SignUpDate.ToString());
@@ -66,7 +66,7 @@ public class UserProfileUI : MonoBehaviour
         //{
             //txt_User_LastSeen.SetText(CurrentUserProfileKeeper.LastSeen.ToString());
         //}
-        Debug.Log(CurrentUserProfileKeeper.Cup);
+        
         text_Level.SetText(CurrentUserProfileKeeper.Level.ToString());
         //text_Cup.SetText(CurrentUserProfileKeeper.Cup.ToString());
         text_Rank.SetText(CurrentUserProfileKeeper.Rank);
