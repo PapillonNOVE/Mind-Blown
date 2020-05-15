@@ -8,9 +8,6 @@ using DG.Tweening;
 public class UIManager : Singleton<UIManager>
 {
 	[Header("Panel")]
-	[SerializeField] private GameObject mainCanvas;
-	
-	[Header("Panel")]
 	[SerializeField] private GameObject panel_MainMenu;
 	[SerializeField] private GameObject panel_Categories;
 	//[SerializeField] private GameObject pnl_Lobby;
