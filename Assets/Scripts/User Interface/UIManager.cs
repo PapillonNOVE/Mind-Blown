@@ -8,6 +8,7 @@ using DG.Tweening;
 public class UIManager : Singleton<UIManager>
 {
 	[Header("Panel")]
+	[SerializeField] private GameObject panel_PanelParent;
 	[SerializeField] private GameObject panel_MainMenu;
 	[SerializeField] private GameObject panel_Categories;
 	//[SerializeField] private GameObject pnl_Lobby;
@@ -21,11 +22,11 @@ public class UIManager : Singleton<UIManager>
 	[SerializeField] private GameObject panel_UserProfile;
 	[SerializeField] private GameObject panel_SendQuestion;
 	[SerializeField] private GameObject panel_ApprovePendingQuestions;
-	[SerializeField] private GameObject panel_PanelParent;
 	//[SerializeField] private GameObject pnl_Lose;
 	//[SerializeField] private GameObject pnl_Win;
 
 	[Header("RectTransform")]
+	private RectTransform rectTransform_Parent;
 	private RectTransform rectTransform_MainMenu;
 	private RectTransform rectTransform_Categories;
 	private RectTransform rectTransform_Game;
@@ -36,7 +37,6 @@ public class UIManager : Singleton<UIManager>
 	private RectTransform rectTransform_UserProfile;
 	private RectTransform rectTransform_SendQuestion;
 	private RectTransform rectTransform_ApprovePendingQuestions;
-	private RectTransform rectTransform_Parent;
 
 	[SerializeField] private List<GameObject> panelList;
 
@@ -144,6 +144,7 @@ public class UIManager : Singleton<UIManager>
 
 	private void RectTransformSetter()
 	{
+		rectTransform_Parent = panel_PanelParent.GetComponent<RectTransform>();
 		rectTransform_MainMenu = panel_MainMenu.GetComponent<RectTransform>();
 		rectTransform_Categories = panel_Categories.GetComponent<RectTransform>();
 		rectTransform_Game = panel_Game.GetComponent<RectTransform>();
@@ -154,7 +155,6 @@ public class UIManager : Singleton<UIManager>
 		rectTransform_UserProfile = panel_UserProfile.GetComponent<RectTransform>();
 		rectTransform_SendQuestion = panel_SendQuestion.GetComponent<RectTransform>();
 		rectTransform_ApprovePendingQuestions = panel_ApprovePendingQuestions.GetComponent<RectTransform>();
-		rectTransform_Parent = panel_PanelParent.GetComponent<RectTransform>();
 	}
 
 	public enum Panels
@@ -246,13 +246,15 @@ public class UIManager : Singleton<UIManager>
 				break;
 		}
 
-		Sequence panelSequence = DOTween.Sequence();
+		yield return new WaitForSeconds(0f);
+
+		/*Sequence panelSequence = DOTween.Sequence();
 
 		panelSequence.Append(rectTransform_Parent.DOAnchorPosX(-tempRectTransform.anchoredPosition.x, 0.3f))
 					 .Append(rectTransform_Parent.DOAnchorPosY(-tempRectTransform.anchoredPosition.y, 0.3f));
 
-
-		yield return panelSequence.WaitForCompletion();
+	
+		yield return panelSequence.WaitForCompletion();*/
 
 		panel_MainMenu.SetActive(panels == Panels.MainMenu);
 		panel_Categories.SetActive(panels == Panels.Categories);

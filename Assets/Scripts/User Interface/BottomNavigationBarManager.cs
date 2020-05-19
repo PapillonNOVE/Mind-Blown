@@ -12,29 +12,42 @@ public enum Panels
 	Settings
 }
 
-public class BottomNavigationBarManager : MonoBehaviour
+public class BottomNavigationBarManager : Singleton<BottomNavigationBarManager>
 {
+	[Header("Navigation Parent")]
+    [SerializeField] private GameObject _navigationParent;
+
 	[Header("Navigation")]
     [SerializeField] private GameObject _userNavigation;
     [SerializeField] private GameObject _mainNavigation;
     [SerializeField] private GameObject _sendQuestionNavigation;
     [SerializeField] private GameObject _settingsNavigation;
 
-	[Header("RectTransform")]
-	private RectTransform _rectTransform_Parent;
-	private RectTransform _rectTransform_Main;
-	private RectTransform _rectTransform_Settings;
-	private RectTransform _rectTransform_User;
-	private RectTransform _rectTransform_SendQuestion;
+	[Header("List")]
+	[SerializeField] private List<GameObject> _navigations;
+	[SerializeField] private List<TabButton> _tabButtons;
 
-	[SerializeField] private List<GameObject> _navigationList;
+	[Header("Tab Button")]
+	[SerializeField] private Button _userTabButton;
+	[SerializeField] private Button _mainTabButton;
+	[SerializeField] private Button _sendQuestionTabButton;
+	[SerializeField] private Button _settingsTabButton;
 
-	[Header("Navigation Button")]
-	[SerializeField] private Button _userNavigationButton;
-	[SerializeField] private Button _mainNavigationButton;
-	[SerializeField] private Button _sendQuestionNavigationButton;
-	[SerializeField] private Button _settingsNavigationButton;
+	[Header("Tab Button Background")]
+	[SerializeField] private RawImage _tabButtonBackground;
 
+	// RectTransform 
+	private RectTransform _rectTransform_NavigationParent;
+	private RectTransform _rectTransform_MainNavigation;
+	private RectTransform _rectTransform_SettingsNavigation;
+	private RectTransform _rectTransform_UserNavigation;
+	private RectTransform _rectTransform_SendQuestionNavigation;
+
+
+	// Selected Tab Button
+	private TabButton _selectedTabButton;
+	
+	
 	//private void OnEnable()
 	//{
 	//	ActionManager.Instance.ShowSignInPanel += ShowSignInPanel;
@@ -60,61 +73,112 @@ public class BottomNavigationBarManager : MonoBehaviour
 	{
 		OnClickAddListener();
 		RectTransformSetter();
+		FirstLoad();
+	}
+
+	private void FirstLoad() 
+	{
+		if (FirebaseManager.auth.CurrentUser != null)
+		{
+			ShowMainNavigation();
+		}
+		else
+		{
+			ShowUserNavigation();
+		}
 	}
 
 	private void OnClickAddListener() 
 	{
-		_userNavigationButton.onClick.AddListener(ShowUserNavigation);
-		_mainNavigationButton.onClick.AddListener(ShowMainNavigation);
-		_sendQuestionNavigationButton.onClick.AddListener(ShowSendQuestionNavigation);
-		_settingsNavigationButton.onClick.AddListener(ShowSettingsNavigation);
+		_userTabButton.onClick.AddListener(ShowUserNavigation);
+		_mainTabButton.onClick.AddListener(ShowMainNavigation);
+		_sendQuestionTabButton.onClick.AddListener(ShowSendQuestionNavigation);
+		_settingsTabButton.onClick.AddListener(ShowSettingsNavigation);
 	}
 
 	private void RectTransformSetter()
 	{
-		_rectTransform_User = _userNavigation.GetComponent<RectTransform>();
-		_rectTransform_Main = _mainNavigation.GetComponent<RectTransform>();
-		_rectTransform_SendQuestion = _sendQuestionNavigation.GetComponent<RectTransform>();
-		_rectTransform_Settings = _settingsNavigation.GetComponent<RectTransform>();
+		_rectTransform_NavigationParent = _navigationParent.GetComponent<RectTransform>();
+		_rectTransform_UserNavigation = _userNavigation.GetComponent<RectTransform>();
+		_rectTransform_MainNavigation = _mainNavigation.GetComponent<RectTransform>();
+		_rectTransform_SendQuestionNavigation = _sendQuestionNavigation.GetComponent<RectTransform>();
+		_rectTransform_SettingsNavigation = _settingsNavigation.GetComponent<RectTransform>();
 	}
 
-	private void ShowUserNavigation() { StartCoroutine(PanelChanger(Panels.User)); }
-	private void ShowMainNavigation() { StartCoroutine(PanelChanger(Panels.Main)); }
-	private void ShowSendQuestionNavigation() { StartCoroutine(PanelChanger(Panels.SendQuestion)); }
-	private void ShowSettingsNavigation() { StartCoroutine(PanelChanger(Panels.Settings)); }
+	public void OnTabSelected(TabButton tabButton) 
+	{
+		_selectedTabButton = tabButton;
+
+		_tabButtonBackground.rectTransform.DOMoveX(tabButton.parentRectTransform.localPosition.x, 0.5f);
+
+		tabButton.SetActiveIcon();
+		ResetTabGroup();
+	}
+
+	private void ShowUserNavigation() 
+	{
+		if (FirebaseManager.auth.CurrentUser != null)
+		{
+			UIManager.Instance.ShowUserProfilePanel();
+		}
+		else
+		{
+			UIManager.Instance.ShowSignInPanel();
+		}
+
+		StartCoroutine(PanelChanger(Panels.User)); 
+	}
+
+	private void ShowMainNavigation()
+	{
+		UIManager.Instance.ShowMainMenuPanel();
+		StartCoroutine(PanelChanger(Panels.Main));
+	}
+
+	private void ShowSendQuestionNavigation()
+	{
+		UIManager.Instance.ShowSendQuestionPanel();
+		StartCoroutine(PanelChanger(Panels.SendQuestion));
+	}
+
+	private void ShowSettingsNavigation()
+	{
+		UIManager.Instance.ShowSettingsPanel();
+		StartCoroutine(PanelChanger(Panels.Settings));
+	}
 
 	private IEnumerator PanelChanger(Panels panel)
 	{
-		PanelOpener();
+		PanelActivator();
 
-		RectTransform tempRectTransform;
+		RectTransform tempRectTransform = new RectTransform();
 
 		switch (panel)
 		{
 			case Panels.Main:
-				tempRectTransform = _rectTransform_Main;
+				tempRectTransform = _rectTransform_MainNavigation;
 				break;
 			case Panels.Settings:
-				tempRectTransform = _rectTransform_Settings;
+				tempRectTransform = _rectTransform_SettingsNavigation;
 				break;
 			case Panels.User:
-				tempRectTransform = _rectTransform_User;
+				tempRectTransform = _rectTransform_UserNavigation;
 				break;
 			case Panels.SendQuestion:
-				tempRectTransform = _rectTransform_SendQuestion;
+				tempRectTransform = _rectTransform_SendQuestionNavigation;
 				break;
 			default:
 				tempRectTransform = new RectTransform();
 				break;
 		}
 
-		Sequence panelSequence = DOTween.Sequence();
+		Sequence navigationSequence = DOTween.Sequence();
 
-		panelSequence.Append(_rectTransform_Parent.DOAnchorPosX(-tempRectTransform.anchoredPosition.x, 0.3f))
-					 .Append(_rectTransform_Parent.DOAnchorPosY(-tempRectTransform.anchoredPosition.y, 0.3f));
+		navigationSequence.Append(_rectTransform_NavigationParent.DOAnchorPosX(-tempRectTransform.anchoredPosition.x, 0.3f))
+					 .Append(_rectTransform_NavigationParent.DOAnchorPosY(-tempRectTransform.anchoredPosition.y, 0.3f));
 
 
-		yield return panelSequence.WaitForCompletion();
+		yield return navigationSequence.WaitForCompletion();
 
 		_userNavigation.SetActive(panel == Panels.User);
 		_mainNavigation.SetActive(panel == Panels.Main);
@@ -122,11 +186,23 @@ public class BottomNavigationBarManager : MonoBehaviour
 		_settingsNavigation.SetActive(panel == Panels.Settings);
 	}
 
-	private void PanelOpener()
+	private void PanelActivator()
 	{
-		foreach (GameObject panel in _navigationList)
+		foreach (GameObject panel in _navigations)
 		{
 			panel.SetActive(true);
+		}
+	}
+
+	private void ResetTabGroup()
+	{
+		foreach (TabButton button in _tabButtons)
+		{
+			if (_selectedTabButton != null && button == _selectedTabButton)
+			{
+				continue;
+			}
+			button.SetPassiveIcon();
 		}
 	}
 }

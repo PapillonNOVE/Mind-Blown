@@ -24,37 +24,52 @@ public struct QuestionStruct
 public class QuestionManager : MonoBehaviour
 {
 	[Header("Interface Text")]
-	[SerializeField] private TextMeshProUGUI text_Score;
-	[SerializeField] private TextMeshProUGUI text_QuestionNumber;
-	[SerializeField] private TextMeshProUGUI text_Timer;
+	[SerializeField] private TextMeshProUGUI _scoreText;
+	[SerializeField] private TextMeshProUGUI _questionNumberText;
+	[SerializeField] private TextMeshProUGUI _timerText;
 
-	[Header("Interface Image")]
-	[SerializeField] private Image image_TimerAnim;
+	[Header("Time Slider")]
+	[SerializeField] private Slider _timerBar;
 
 	[Header("Question")]
-	[SerializeField] private TextMeshProUGUI text_Question;
+	[SerializeField] private TextMeshProUGUI _questionText;
 
 	[Header("Option Text")]
-	[SerializeField] private TextMeshProUGUI text_Option1;
-	[SerializeField] private TextMeshProUGUI text_Option2;
-	[SerializeField] private TextMeshProUGUI text_Option3;
-	[SerializeField] private TextMeshProUGUI text_Option4;
+	[SerializeField] private TextMeshProUGUI _optionText1;
+	[SerializeField] private TextMeshProUGUI _optionText2;
+	[SerializeField] private TextMeshProUGUI _optionText3;
+	[SerializeField] private TextMeshProUGUI _optionText4;
+
+	//[Header("Button")]
+	//[SerializeField] private Button _optionButton1;
+	//[SerializeField] private Button _optionButton2;
+	//[SerializeField] private Button _optionButton3;
+	//[SerializeField] private Button _optionButton4;
 
 	[Header("Option Button")]
-	[SerializeField] private Button button_Option1;
-	[SerializeField] private Button button_Option2;
-	[SerializeField] private Button button_Option3;
-	[SerializeField] private Button button_Option4;
+	[SerializeField] private Button _optionButton1;
+	[SerializeField] private Button _optionButton2;
+	[SerializeField] private Button _optionButton3;
+	[SerializeField] private Button _optionButton4;
 
 	[Header("Button List")]
-	[SerializeField] private List<Button> _optionButtons;
+	[SerializeField] private List<OptionButton> _optionButtons;
 
 	[Header("Button Parent")]
-	[SerializeField] private GameObject buttonParent;
+	[SerializeField] private GameObject _buttonParent;
 
 	[Header("Colors")]
-	[SerializeField] private Color color_Green;
-	[SerializeField] private Color color_Red;
+	[SerializeField] private Color _greenColor;
+	[SerializeField] private Color _redColor;
+
+	[Header("Choose Icon")]
+	[SerializeField] private Texture2D _choosenOptionIcon;
+	[SerializeField] private Texture2D _correctOptionIcon;
+
+	[Header("Option Bacground")]
+	[SerializeField] private Texture2D _wrongOptionBackground;
+	[SerializeField] private Texture2D _correctOptionBackground;
+	[SerializeField] private Texture2D _defaultOptionBackground;
 
 	[Header("Timer")]
 	[SerializeField] private float _timeLimit;
@@ -66,23 +81,16 @@ public class QuestionManager : MonoBehaviour
 	[SerializeField] private float _wrongAnswerAmount;
 	[SerializeField] private float _questionNumber;
 
-	private Button _correctOptionButton; 
+	private OptionButton _correctOptionButton; 
 
 	public static bool correctAnswer = true;
 	public static bool wrongAnswer = false;
 
 	private bool _isQuestionAsked;
-	public bool IsQuestionAsked
-	{
-		get { return _isQuestionAsked; }
-
-		set { _isQuestionAsked = value; }
-	}
 
 	private void OnEnable()
 	{
 		PrepareGameUI();
-		RegisterDelegateAndActions();
 	}
 
 	private void OnDisable()
@@ -90,13 +98,18 @@ public class QuestionManager : MonoBehaviour
 		//UnregisterDelegateAndActions();
 	}
 
-	private void RegisterDelegateAndActions()
+	private void Start()
+	{
+		Subscribe();
+	}
+
+	private void Subscribe()
 	{
 		ActionManager.Instance.AskQuestion += AskQuestion;
 		ActionManager.Instance.ControlAnswer += ControlAnswer;
 	}
 
-	private void UnregisterDelegateAndActions()
+	private void Unsubscribe()
 	{
 		ActionManager.Instance.AskQuestion -= AskQuestion;
 		ActionManager.Instance.ControlAnswer -= ControlAnswer;
@@ -105,17 +118,18 @@ public class QuestionManager : MonoBehaviour
 	private void PrepareGameUI()
 	{
 		_score = 0;
-		text_Score.SetText(_score.ToString());
+		_scoreText.SetText(_score.ToString());
 
 		_questionNumber = 0;
-		text_QuestionNumber.SetText(_questionNumber.ToString());
+		_questionNumberText.SetText(_questionNumber.ToString());
 
 		_timer = _timeLimit;
+		_timerBar.maxValue = _timeLimit;
 	}
 
-	public void AskQuestion(QuestionStruct _QuestionStruct)
+	private void AskQuestion(QuestionStruct questionStruct)
 	{
-		text_Question.SetText(_QuestionStruct.question);
+		_questionText.SetText(questionStruct.question);
 
 		_isQuestionAsked = true;
 
@@ -135,15 +149,14 @@ public class QuestionManager : MonoBehaviour
 
 			if (i == 0)
 			{
-				ActionManager.Instance.UpdateOptionButton(_QuestionStruct.correctAnswer, (ButtonCode)randomOptionButtonIndex, true);
+				ActionManager.Instance.UpdateOptionButton(questionStruct.correctAnswer, (ButtonCode)randomOptionButtonIndex, true);
 				_correctOptionButton = _optionButtons[randomOptionButtonIndex];
-				//	_correctOptionButton.GetComponent<Image>().color = Color.white;
 			}
 			else
 			{
-				ActionManager.Instance.UpdateOptionButton(_QuestionStruct.wrongAnswers[0], (ButtonCode)randomOptionButtonIndex);
-				Debug.Log("Dizi büyüklüğü " + _QuestionStruct.wrongAnswers.Count);
-				_QuestionStruct.wrongAnswers.RemoveAt(0);
+				ActionManager.Instance.UpdateOptionButton(questionStruct.wrongAnswers[0], (ButtonCode)randomOptionButtonIndex);
+				Debug.Log("Dizi büyüklüğü " + questionStruct.wrongAnswers.Count);
+				questionStruct.wrongAnswers.RemoveAt(0);
 			}
 
 			// Debug.Log("Wrong Number : " + randomOptionButtonIndex);
@@ -159,9 +172,9 @@ public class QuestionManager : MonoBehaviour
 			NewQuestionAnimation(true);
 		}
 
-		foreach (Button button in _optionButtons)
+		foreach (OptionButton optionButton in _optionButtons)
 		{
-			button.interactable = true;
+			optionButton._optionButton.interactable = true;
 		}
 	}
 
@@ -183,32 +196,34 @@ public class QuestionManager : MonoBehaviour
 
 	private void CountDownTimer()
 	{
-		text_Timer.SetText(_timer.ToString("#"));
+		_timerText.SetText(_timer.ToString("#"));
 
-		float x = _timer / _timeLimit;
-		image_TimerAnim.fillAmount = x;
+		_timerBar.value = _timer;
 
-		image_TimerAnim.color = Color.Lerp(color_Red, color_Green, x);
+		//_timerBar = Color.Lerp(_redColor, _greenColor, x);
 	}
 
-	private void ControlAnswer(bool _Answer, Button _ChoosenOptionButton)
+	private void ControlAnswer(bool answer, OptionButton choosenOptionButton)
 	{
 		_isQuestionAsked = false;
 
-		foreach (Button button in _optionButtons)
+		foreach (OptionButton optionButton in _optionButtons)
 		{
-			button.interactable = false;
+			optionButton._optionButton.interactable = false;
 		}
 
-		if (_Answer)
+		if (answer)
 		{
-			CorrectAnswerAnim(4);
+			//CorrectAnswerAnim(4);
 			//PreviousQuestionAnimation();
+			choosenOptionButton.CorrectOption();
 			StartCoroutine(AnsweredCorrectly());
 		}
 		else
 		{
-			WrongAnswerAnim(_ChoosenOptionButton);
+			//WrongAnswerAnim(choosenOptionButton);
+			choosenOptionButton.WrongOption();
+			_correctOptionButton.ShowCorrectOption();
 			StartCoroutine(GameOver(GameOverType.WrongAnswer));
 		}
 	}
@@ -220,10 +235,10 @@ public class QuestionManager : MonoBehaviour
 		_correctAnswerAmount++;
 
 		_score += 10;
-		text_Score.SetText(_score.ToString());
+		_scoreText.SetText(_score.ToString());
 
 		_questionNumber++;
-		text_QuestionNumber.SetText(_questionNumber.ToString());
+		_questionNumberText.SetText(_questionNumber.ToString());
 
 		yield return new WaitForSeconds(1f);
 
@@ -232,15 +247,15 @@ public class QuestionManager : MonoBehaviour
 		StartCoroutine(ActionManager.Instance.GetQuestion());
 	}
 
-	private IEnumerator GameOver(GameOverType _GameOverType)
+	private IEnumerator GameOver(GameOverType gameOverType)
 	{
 		_wrongAnswerAmount++;
 
-		if (_GameOverType == GameOverType.TimesUp)
+		if (gameOverType == GameOverType.TimesUp)
 		{
-			text_Timer.SetText("Bitti!");
+			_timerText.SetText("Bitti!");
 		}
-		else if (_GameOverType == GameOverType.WrongAnswer)
+		else if (gameOverType == GameOverType.WrongAnswer)
 		{
 			
 		}
@@ -257,61 +272,64 @@ public class QuestionManager : MonoBehaviour
 	{
 		Sequence newQuestionAnimSeq = DOTween.Sequence();
 
-		newQuestionAnimSeq.Append(text_Question.rectTransform.DOAnchorPos(new Vector2(-1000, 0), 0f))
-						  .Join(buttonParent.GetComponent<RectTransform>().DOAnchorPos(new Vector2(-2000, 0), 0f));
+		newQuestionAnimSeq.Append(_questionText.rectTransform.DOAnchorPos(new Vector2(-1000, 0), 0f))
+						  .Join(_buttonParent.GetComponent<RectTransform>().DOAnchorPos(new Vector2(-2000, 0), 0f));
 
 	}
 
 	private void NewQuestionAnimation(bool _IsFirstQuestion = false)
 	{
-		Vector3 questionTextStartPos = text_Question.rectTransform.anchoredPosition;
-		Vector3 buttonParentObjStartpos = buttonParent.GetComponent<RectTransform>().anchoredPosition;
+		Vector3 questionTextStartPos = _questionText.rectTransform.anchoredPosition;
+		Vector3 buttonParentObjStartpos = _buttonParent.GetComponent<RectTransform>().anchoredPosition;
 
 		Sequence newQuestionAnimSeq = DOTween.Sequence();
 
 		if (_IsFirstQuestion)
 		{
-			newQuestionAnimSeq.Append(text_Question.rectTransform.DOAnchorPos(new Vector2(1000, 0), 0f))
-							  .Join(buttonParent.GetComponent<RectTransform>().DOAnchorPos(new Vector2(2000, 0), 0f))
-							  .Append(text_Question.rectTransform.DOAnchorPos(questionTextStartPos, 1f).SetEase(Ease.InOutBack))
-							  .Join(buttonParent.GetComponent<RectTransform>().DOAnchorPos(buttonParentObjStartpos, 1f).SetEase(Ease.InOutBack));
+			newQuestionAnimSeq.Append(_questionText.rectTransform.DOAnchorPos(new Vector2(1000, 0), 0f))
+							  .Join(_buttonParent.GetComponent<RectTransform>().DOAnchorPos(new Vector2(2000, 0), 0f))
+							  .Append(_questionText.rectTransform.DOAnchorPos(questionTextStartPos, 1f).SetEase(Ease.InOutBack))
+							  .Join(_buttonParent.GetComponent<RectTransform>().DOAnchorPos(buttonParentObjStartpos, 1f).SetEase(Ease.InOutBack));
 		}
 
 		else
 		{
-			newQuestionAnimSeq.Append(text_Question.rectTransform.DOAnchorPos(new Vector2(-1000, 0), 0.7f).SetEase(Ease.InOutBack))
-							  .OnStepComplete(() => text_Question.gameObject.SetActive(false))
-							  .Join(buttonParent.GetComponent<RectTransform>().DOAnchorPos(new Vector2(-1500, 0), 0.7f).SetEase(Ease.InOutBack))
-							  .OnStepComplete(() => buttonParent.gameObject.SetActive(false))
-							  .Append(text_Question.rectTransform.DOAnchorPos(new Vector2(1000, 0), 0f))
-							  .OnStepComplete(() => text_Question.gameObject.SetActive(true))
-							  .Join(buttonParent.GetComponent<RectTransform>().DOAnchorPos(new Vector2(1500, 0), 0f))
-							  .OnStepComplete(() => buttonParent.gameObject.SetActive(true))
-							  .Append(text_Question.rectTransform.DOAnchorPos(questionTextStartPos, 0.7f).SetEase(Ease.InOutBack))
-							  .Join(buttonParent.GetComponent<RectTransform>().DOAnchorPos(buttonParentObjStartpos, 0.7f).SetEase(Ease.InOutBack));
+			newQuestionAnimSeq.Append(_questionText.rectTransform.DOAnchorPos(new Vector2(-1000, 0), 0.7f).SetEase(Ease.InOutBack))
+							  .OnStepComplete(() => _questionText.gameObject.SetActive(false))
+							  .Join(_buttonParent.GetComponent<RectTransform>().DOAnchorPos(new Vector2(-1500, 0), 0.7f).SetEase(Ease.InOutBack))
+							  .OnStepComplete(() => _buttonParent.gameObject.SetActive(false))
+							  .Append(_questionText.rectTransform.DOAnchorPos(new Vector2(1000, 0), 0f))
+							  .OnStepComplete(() => _questionText.gameObject.SetActive(true))
+							  .Join(_buttonParent.GetComponent<RectTransform>().DOAnchorPos(new Vector2(1500, 0), 0f))
+							  .OnStepComplete(() => _buttonParent.gameObject.SetActive(true))
+							  .Append(_questionText.rectTransform.DOAnchorPos(questionTextStartPos, 0.7f).SetEase(Ease.InOutBack))
+							  .Join(_buttonParent.GetComponent<RectTransform>().DOAnchorPos(buttonParentObjStartpos, 0.7f).SetEase(Ease.InOutBack));
 		}
 	}
 
-	private void WrongAnswerAnim(Button _ChoosenOptionButton)
-	{
-		_ChoosenOptionButton.GetComponent<RawImage>().color = color_Red;
+	//private void WrongAnswerAnim(OptionButton _choosenOptionButton)
+	//{
+	//	//_ChoosenOptionButton.GetComponent<RawImage>().color = _redColor;
 
-		CorrectAnswerAnim(2);
-	}
+	//	_choosenOptionButton._optionBackgroundImage.texture = _wrongOptionBackground;
+	//	_choosenOptionButton.
 
-	private void CorrectAnswerAnim(int _AnimCount)
-	{
-		Sequence colorSeq = DOTween.Sequence();
+	//	CorrectAnswerAnim(2);
+	//}
 
-		for (int i = 0; i < _AnimCount; i++)
-		{
-			colorSeq.Append(_correctOptionButton.GetComponent<RawImage>().DOColor(color_Green, 0.1f))
-					.Append(_correctOptionButton.GetComponent<RawImage>().DOColor(Color.white, 0.1f))
-					.Append(_correctOptionButton.GetComponent<RawImage>().DOColor(color_Green, 0.1f));
-		}
+	//private void CorrectAnswerAnim(int _AnimCount)
+	//{
+	//	Sequence colorSeq = DOTween.Sequence();
 
-		_correctOptionButton.GetComponent<RawImage>().color = Color.white;
-	}
+	//	for (int i = 0; i < _AnimCount; i++)
+	//	{
+	//		colorSeq.Append(_correctOptionButton.GetComponent<RawImage>().DOColor(_greenColor, 0.1f))
+	//				.Append(_correctOptionButton.GetComponent<RawImage>().DOColor(Color.white, 0.1f))
+	//				.Append(_correctOptionButton.GetComponent<RawImage>().DOColor(_greenColor, 0.1f));
+	//	}
+
+	//	_correctOptionButton.GetComponent<RawImage>().color = Color.white;
+	//}
 
 	#endregion
 }

@@ -43,7 +43,7 @@ public class ActionManager : Singleton<ActionManager>
     public UnityAction<string> ShowWhoseTurn;
     public UnityAction<string> ShowLastEstimation;
     public UnityAction<int> SendEstimation;
-    public UnityAction<bool, Button> ControlAnswer;
+    public UnityAction<bool, OptionButton> ControlAnswer;
 
     public UnityAction CreateSecretNumber;
 
