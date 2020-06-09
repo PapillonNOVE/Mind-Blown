@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using ConstantKeeper;
+using EasyMobile;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -81,8 +83,18 @@ public class UserProfileUI : MonoBehaviour
 
     private void SignOut() 
     {
-       // ActionManager.Instance.DeleteUser();
-        ActionManager.Instance.SignOut();
-        //ActionManager.Instance.DeleteUserProfile();
+        ActionManager.Instance.SignOut(SignOutSuccessful, SignOutFailed);
+    }
+
+    private void SignOutSuccessful()
+    {
+        //NativeUI.AlertPopup alertPopup = NativeUI.Alert(AuthenticationsDebugs.SignInPaths.SignInSuccessful, AuthenticationsDebugs.SignInPaths.SignInSuccessfulDetails);
+        NativeUI.ShowToast($"{AuthenticationsDebugs.SignOutPaths.SignOutSuccessful} \n {AuthenticationsDebugs.SignOutPaths.SignOutSuccessfulDetails}");
+    }
+
+    private void SignOutFailed()
+    {
+        //NativeUI.AlertPopup alertPopup = NativeUI.Alert(AuthenticationsDebugs.SignInPaths.SignInFailed, AuthenticationsDebugs.SignInPaths.SignInFailedDetails);
+        NativeUI.ShowToast($"{AuthenticationsDebugs.SignOutPaths.SignOutFailed} \n {AuthenticationsDebugs.SignOutPaths.SignOutFailedDetails}");
     }
 }

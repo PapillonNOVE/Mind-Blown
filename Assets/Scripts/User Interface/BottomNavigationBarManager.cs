@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum Panels
+public enum Tabs
 {
 	User,
 	Main,
@@ -78,7 +78,7 @@ public class BottomNavigationBarManager : Singleton<BottomNavigationBarManager>
 
 	private void FirstLoad() 
 	{
-		if (FirebaseManager.auth.CurrentUser != null)
+		if (FirebaseManager.user != null)
 		{
 			ShowMainNavigation();
 		}
@@ -115,7 +115,7 @@ public class BottomNavigationBarManager : Singleton<BottomNavigationBarManager>
 		ResetTabGroup();
 	}
 
-	private void ShowUserNavigation() 
+	public void ShowUserNavigation() 
 	{
 		if (FirebaseManager.auth.CurrentUser != null)
 		{
@@ -126,45 +126,45 @@ public class BottomNavigationBarManager : Singleton<BottomNavigationBarManager>
 			UIManager.Instance.ShowSignInPanel();
 		}
 
-		StartCoroutine(PanelChanger(Panels.User)); 
+		StartCoroutine(PanelChanger(Tabs.User)); 
 	}
 
-	private void ShowMainNavigation()
+	public void ShowMainNavigation()
 	{
 		UIManager.Instance.ShowMainMenuPanel();
-		StartCoroutine(PanelChanger(Panels.Main));
+		StartCoroutine(PanelChanger(Tabs.Main));
 	}
 
-	private void ShowSendQuestionNavigation()
+	public void ShowSendQuestionNavigation()
 	{
 		UIManager.Instance.ShowSendQuestionPanel();
-		StartCoroutine(PanelChanger(Panels.SendQuestion));
+		StartCoroutine(PanelChanger(Tabs.SendQuestion));
 	}
 
-	private void ShowSettingsNavigation()
+	public void ShowSettingsNavigation()
 	{
 		UIManager.Instance.ShowSettingsPanel();
-		StartCoroutine(PanelChanger(Panels.Settings));
+		StartCoroutine(PanelChanger(Tabs.Settings));
 	}
 
-	private IEnumerator PanelChanger(Panels panel)
+	private IEnumerator PanelChanger(Tabs tabs)
 	{
 		PanelActivator();
 
 		RectTransform tempRectTransform = new RectTransform();
 
-		switch (panel)
+		switch (tabs)
 		{
-			case Panels.Main:
+			case Tabs.Main:
 				tempRectTransform = _rectTransform_MainNavigation;
 				break;
-			case Panels.Settings:
+			case Tabs.Settings:
 				tempRectTransform = _rectTransform_SettingsNavigation;
 				break;
-			case Panels.User:
+			case Tabs.User:
 				tempRectTransform = _rectTransform_UserNavigation;
 				break;
-			case Panels.SendQuestion:
+			case Tabs.SendQuestion:
 				tempRectTransform = _rectTransform_SendQuestionNavigation;
 				break;
 			default:
@@ -180,10 +180,10 @@ public class BottomNavigationBarManager : Singleton<BottomNavigationBarManager>
 
 		yield return navigationSequence.WaitForCompletion();
 
-		_userNavigation.SetActive(panel == Panels.User);
-		_mainNavigation.SetActive(panel == Panels.Main);
-		_sendQuestionNavigation.SetActive(panel == Panels.SendQuestion);
-		_settingsNavigation.SetActive(panel == Panels.Settings);
+		_userNavigation.SetActive(tabs == Tabs.User);
+		_mainNavigation.SetActive(tabs == Tabs.Main);
+		_sendQuestionNavigation.SetActive(tabs == Tabs.SendQuestion);
+		_settingsNavigation.SetActive(tabs == Tabs.Settings);
 	}
 
 	private void PanelActivator()

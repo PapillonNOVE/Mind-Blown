@@ -26,14 +26,9 @@ public class SignInUI : MonoBehaviour
     [Header("RectTransform")]
     [SerializeField] private RectTransform panel_Parent;
 
-    private void OnEnable()
+    private void Start()
     {
         OnClickAddListener();
-    }
-
-    private void OnDisable()
-    {
-        
     }
 
     private void OnClickAddListener()
@@ -54,13 +49,14 @@ public class SignInUI : MonoBehaviour
 
     private void SignInEmailPasswordSuccessful()
     {
-        // NativeUI.AlertPopup alertPopup = NativeUI.Alert(AuthenticationsDebugs.SignInPaths.SignInSuccessful, AuthenticationsDebugs.SignInPaths.SignInSuccessfulDetails);
-     //   NativeUI.ShowToast($"{AuthenticationsDebugs.SignInPaths.SignInSuccessful} {AuthenticationsDebugs.SignInPaths.SignInSuccessfulDetails}");
-    }
+		//NativeUI.AlertPopup alertPopup = NativeUI.Alert(AuthenticationsDebugs.SignInPaths.SignInSuccessful, AuthenticationsDebugs.SignInPaths.SignInSuccessfulDetails);
+		NativeUI.ShowToast($"{AuthenticationsDebugs.SignInPaths.SignInSuccessful} \n {AuthenticationsDebugs.SignInPaths.SignInSuccessfulDetails}");
+	}
 
     private void SignInWithEmailPasswordFailed()
     {
-      //  NativeUI.AlertPopup alertPopup = NativeUI.Alert(AuthenticationsDebugs.SignInPaths.SignInFailed, AuthenticationsDebugs.SignInPaths.SignInFailedDetails);
+        //NativeUI.AlertPopup alertPopup = NativeUI.Alert(AuthenticationsDebugs.SignInPaths.SignInFailed, AuthenticationsDebugs.SignInPaths.SignInFailedDetails);
+        NativeUI.ShowToast($"{AuthenticationsDebugs.SignInPaths.SignInSuccessful} \n {AuthenticationsDebugs.SignInPaths.SignInSuccessfulDetails}");
     }
 
     private void GoToSignUp()

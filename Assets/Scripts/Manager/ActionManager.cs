@@ -17,17 +17,18 @@ public class ActionManager : Singleton<ActionManager>
     public UnityAction QuickGame;
 
     // Authentication
-    public delegate IEnumerator SignUpWithEmailPasswordDelegate(SignUpStruct _Email, Action _OnSuccesCallback, Action _OnFailCallback);
+    public delegate IEnumerator SignUpWithEmailPasswordDelegate(SignUpStruct _Email, Action onSuccessCallback, Action onFailCallback);
     public SignUpWithEmailPasswordDelegate SignUpWithEmailPassword;
 
-    public delegate IEnumerator SignInWithEmailPasswordDelegate(string _Email, string _Password, Action _OnSuccesCallback, Action _OnFailCallback);
+    public delegate IEnumerator SignInWithEmailPasswordDelegate(string _Email, string _Password, Action onSuccessCallback, Action onFailCallback);
     public SignInWithEmailPasswordDelegate SignInWithEmailPassword;
 
-    public delegate IEnumerator ResetPasswordWithEmailDelegate(string _Email, Action _OnSuccesCallback, Action _OnFailCallback);
+    public delegate IEnumerator ResetPasswordWithEmailDelegate(string _Email, Action onSuccessCallback, Action onFailCallback);
     public ResetPasswordWithEmailDelegate ResetPasswordWithEmail;
     
     public UnityAction DeleteUser;
-    public UnityAction SignOut;
+    public delegate void SignOutDelegaate(Action onSuccessCallback, Action onFailCallback);
+    public SignOutDelegaate SignOut;
 
     // User
     public UnityAction<string, string> CreatUserProfile;

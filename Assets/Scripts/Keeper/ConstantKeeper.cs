@@ -6,8 +6,6 @@ namespace ConstantKeeper
 		public static readonly string IsCanceled = " iptal edildi!";
 		public static readonly string IsFaulted = " başarısız oldu!";
 		public static readonly string IsCompleted = " başarıyla tamamlandı!";
-
-		
 	}
 
 	public static class AuthenticationsDebugs
@@ -34,16 +32,16 @@ namespace ConstantKeeper
 			public static readonly string SignInSuccessfulDetails = "Ana menüye yönlendiriliyorsunuz...";
 
 			public static readonly string SignInFailed = "Giriş işlemi başarısız!";
-			public static readonly string SignInFailedDetails = "Sabit bir internet bağlantınız olduğundan emin olun. E-posta ve şifrenizin doğru olduğundan emin olun veya sıfırlayın. Eğer bir hesabınız yoksa, Kayıt olabilirsiniz...";
+			public static readonly string SignInFailedDetails = "Sabit bir internet bağlantınız olduğundan emin olun. E-posta ve şifrenizin doğru olduğundan emin olun veya sıfırlayın. Eğer bir hesabınız yoksa, KAYIT olabilirsiniz...";
 		}
 
 		public static class SignOutPaths 
 		{
 			public static readonly string SignOutSuccessful = "Çıkış işlemi başarılı!";
-			public static readonly string SignOutSuccessfulDetails = "Bilinmeyen hata!";
+			public static readonly string SignOutSuccessfulDetails = "Oturum kapatıldı giriş ekranına yönlendiriyorsunuz...";
 			
 			public static readonly string SignOutFailed = "Çıkış işlemi başarısız!";
-			public static readonly string SignOutFailedDetails = "Bilinmeyen hata!";
+			public static readonly string SignOutFailedDetails = "Bilinmeyen hata! Lütfen daha sonra tekrar deneyiniz...";
 		}
 
 		public static class ResetPasswordPaths 
@@ -59,7 +57,6 @@ namespace ConstantKeeper
 	public static class GetDataTaskDebugs
 	{
 		public static readonly string GetData = "Veri çekme işlemi";
-	
 	}
 
 	public static class UserTaskDebugs
