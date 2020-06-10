@@ -91,6 +91,7 @@ public class QuestionManager : MonoBehaviour
 	private void OnEnable()
 	{
 		PrepareGameUI();
+		StartCoroutine(ActionManager.Instance.GetQuestion());
 	}
 
 	private void OnDisable()

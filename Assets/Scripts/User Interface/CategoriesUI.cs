@@ -95,6 +95,6 @@ public class CategoriesUI : MonoBehaviour
 		}
 		UIManager.Instance.ShowGamePanel();
 		//StartCoroutine(ActionManager.Instance.GetQuestion());
-		StartCoroutine(FirebaseQuestionManager.Instance.GetQuestion());
+		//StartCoroutine(FirebaseQuestionManager.Instance.GetQuestion());
 	}
 }

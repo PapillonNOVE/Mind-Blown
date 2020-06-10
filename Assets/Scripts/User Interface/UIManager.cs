@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Remoting.Messaging;
 using UnityEngine;
 
 public enum Panels
@@ -41,7 +42,11 @@ public class UIManager : Singleton<UIManager>
 	//[SerializeField] private GameObject pnl_Lose;
 	//[SerializeField] private GameObject pnl_Win;
 
+	[Header("NavBar")]
 	[SerializeField] private GameObject _bottomNavigationBar;
+
+	[Header("LoadingPanel")]
+	[SerializeField] private GameObject _loadingPanel;
 
 	//[Header("RectTransform")]
 	//private RectTransform rectTransform_Parent;
@@ -245,7 +250,7 @@ public class UIManager : Singleton<UIManager>
 		panel_ApprovePendingQuestions.SetActive(panel == Panels.AprrovePendingQuestions);
 
 
-		if (panel == Panels.Categories || panel == Panels.Game || panel == Panels.SendQuestion)
+		if (panel == Panels.Categories || panel == Panels.Game || panel == Panels.SendQuestion || panel == Panels.SignIn || panel == Panels.SignUp || panel == Panels.ResetPassword)
 		{
 			_bottomNavigationBar.SetActive(false);
 		}

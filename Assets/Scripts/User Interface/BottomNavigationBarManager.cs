@@ -78,12 +78,9 @@ public class BottomNavigationBarManager : Singleton<BottomNavigationBarManager>
 
 	private void FirstLoad() 
 	{
-		if (FirebaseManager.user != null)
+		if (FirebaseManager.auth.CurrentUser == null)
 		{
-			ShowMainNavigation();
-		}
-		else
-		{
+			Debug.Log("Kullanıcı yok!");
 			ShowUserNavigation();
 		}
 	}

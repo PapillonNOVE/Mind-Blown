@@ -57,6 +57,7 @@ public class MainMenuUI : MonoBehaviour
     private void UserProfile() 
     {
         //AdManager.Instance.ShowRewardedAds();
-        StartCoroutine(ActionManager.Instance.GetCurrentUserProfile());
+        //StartCoroutine(ActionManager.Instance.GetCurrentUserProfile());
+        BottomNavigationBarManager.Instance.ShowUserNavigation();
     }
 }

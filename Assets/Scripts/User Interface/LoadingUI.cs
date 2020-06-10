@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LoadingUI : Singleton<LoadingUI>
+public class LoadingUI : MonoBehaviour
 {
 	[SerializeField] private GameObject mainCanvas;
 
@@ -19,6 +19,9 @@ public class LoadingUI : Singleton<LoadingUI>
 	[SerializeField] private float _timer;
 	//[SerializeField] private List<RectTransform> points;
 	//[SerializeField] private List<float> pointPosX;
+
+	[SerializeField] private int progressionTarget;
+	public int progression;
 
 	Vector2 maxParentSize;
 	Vector2 minParentSize;
@@ -35,19 +38,22 @@ public class LoadingUI : Singleton<LoadingUI>
 		StartCoroutine(PointMover());
 	}
 
-	private void OnEnable()
-	{
-		ActionManager.Instance.LoadingPanelSelfDestruction += SelfDestructtion;
-	}
+	//private void OnEnable()
+	//{
+	//	ActionManager.Instance.LoadingPanelSelfDestruction += SelfDestructtion;
+	//}
 
-	private void OnDestroy()
-	{
-		ActionManager.Instance.LoadingPanelSelfDestruction -= SelfDestructtion;
-	}
+	//private void OnDestroy()
+	//{
+	//	ActionManager.Instance.LoadingPanelSelfDestruction -= SelfDestructtion;
+	//}
 
 	private void Update()
 	{
-		//Debug.LogError(rectTransform_PointParent.rotation.eulerAngles.z);
+		if (progression == progressionTarget)
+		{
+			SelfDestructtion();
+		}
 	}
 
 	private IEnumerator PointMover()
@@ -71,7 +77,7 @@ public class LoadingUI : Singleton<LoadingUI>
 		StartCoroutine(PointMover());
 	}
 
-	private void SelfDestructtion(float _Timer)
+	private void SelfDestructtion(float timer = 0)
 	{
 		mainCanvas.SetActive(true);
 		Destroy(rootParent, _timer);

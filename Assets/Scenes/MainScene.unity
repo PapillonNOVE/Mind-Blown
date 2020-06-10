@@ -13295,6 +13295,8 @@ MonoBehaviour:
   pointParent: {fileID: 1890838730}
   rootParent: {fileID: 1203747753}
   _timer: 5
+  progressionTarget: 6
+  progression: 0
 --- !u!1 &611043856
 GameObject:
   m_ObjectHideFlags: 0
@@ -22548,6 +22550,7 @@ MonoBehaviour:
   panel_SendQuestion: {fileID: 1491511785}
   panel_ApprovePendingQuestions: {fileID: 581630734}
   _bottomNavigationBar: {fileID: 995769009}
+  _loadingPanel: {fileID: 0}
   panelList:
   - {fileID: 738199451}
   - {fileID: 1461448815}
@@ -24342,6 +24345,7 @@ GameObject:
   - component: {fileID: 1203747756}
   - component: {fileID: 1203747755}
   - component: {fileID: 1203747754}
+  - component: {fileID: 1203747758}
   m_Layer: 5
   m_Name: Loading Canvas
   m_TagString: Untagged
@@ -24407,7 +24411,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!224 &1203747757
 RectTransform:
@@ -24429,6 +24433,14 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!222 &1203747758
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1203747753}
+  m_CullTransparentMesh: 0
 --- !u!1 &1207379466
 GameObject:
   m_ObjectHideFlags: 0
@@ -36760,7 +36772,7 @@ RectTransform:
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 1, y: 0.5}
+  m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1805348384
 MonoBehaviour:
   m_ObjectHideFlags: 0
