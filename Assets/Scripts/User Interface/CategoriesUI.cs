@@ -93,7 +93,8 @@ public class CategoriesUI : MonoBehaviour
 				FirebaseQuestionManager.categories.Add(categoryName);
 			}
 		}
-		UIManager.Instance.ShowGamePanel();
+
+		TransitionManager.Instance.TransitionAnimTrigger(UIManager.Instance.ShowGamePanel);
 		//StartCoroutine(ActionManager.Instance.GetQuestion());
 		//StartCoroutine(FirebaseQuestionManager.Instance.GetQuestion());
 	}

@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using DG.Tweening;
 using ConstantKeeper;
+using System.Threading;
 
 public enum GameOverType
 {
@@ -21,7 +22,7 @@ public struct QuestionStruct
 	public string questionCategory;
 }
 
-public class QuestionManager : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
 	[Header("Interface Text")]
 	[SerializeField] private TextMeshProUGUI _scoreText;
@@ -74,6 +75,15 @@ public class QuestionManager : MonoBehaviour
 	[Header("Timer")]
 	[SerializeField] private float _timeLimit;
 	[SerializeField] private float _timer;
+	public float Timer
+	{
+		get => _timer;
+		set
+		{
+			_timer = value;
+			CountDownTimer();
+		}
+	}
 
 	[Header("Progression")]
 	[SerializeField] private float _score;
@@ -88,6 +98,11 @@ public class QuestionManager : MonoBehaviour
 
 	private bool _isQuestionAsked;
 
+	private void Start()
+	{
+		Subscribe();
+	}
+
 	private void OnEnable()
 	{
 		PrepareGameUI();
@@ -97,11 +112,6 @@ public class QuestionManager : MonoBehaviour
 	private void OnDisable()
 	{
 		//UnregisterDelegateAndActions();
-	}
-
-	private void Start()
-	{
-		Subscribe();
 	}
 
 	private void Subscribe()
@@ -124,7 +134,7 @@ public class QuestionManager : MonoBehaviour
 		_questionNumber = 0;
 		_questionNumberText.SetText(_questionNumber.ToString());
 
-		_timer = _timeLimit;
+		Timer = _timeLimit;
 		_timerBar.maxValue = _timeLimit;
 	}
 
@@ -183,9 +193,9 @@ public class QuestionManager : MonoBehaviour
 	{
 		if (_isQuestionAsked)
 		{
-			if (_timer >= 0)
+			if (Timer >= 0)
 			{
-				_timer -= Time.deltaTime;
+				Timer -= Time.deltaTime;
 				CountDownTimer();
 			}
 			else
@@ -197,9 +207,9 @@ public class QuestionManager : MonoBehaviour
 
 	private void CountDownTimer()
 	{
-		_timerText.SetText(_timer.ToString("#"));
+		//_timerText.SetText(_timer.ToString("#"));
 
-		_timerBar.value = _timer;
+		_timerBar.value = Timer;
 
 		//_timerBar = Color.Lerp(_redColor, _greenColor, x);
 	}
@@ -243,7 +253,7 @@ public class QuestionManager : MonoBehaviour
 
 		yield return new WaitForSeconds(1f);
 
-		_timer = _timeLimit;
+		Timer = _timeLimit;
 
 		StartCoroutine(ActionManager.Instance.GetQuestion());
 	}
@@ -254,7 +264,7 @@ public class QuestionManager : MonoBehaviour
 
 		if (gameOverType == GameOverType.TimesUp)
 		{
-			_timerText.SetText("Bitti!");
+			//_timerText.SetText("Bitti!");
 		}
 		else if (gameOverType == GameOverType.WrongAnswer)
 		{
@@ -278,14 +288,14 @@ public class QuestionManager : MonoBehaviour
 
 	}
 
-	private void NewQuestionAnimation(bool _IsFirstQuestion = false)
+	private void NewQuestionAnimation(bool isFirstQuestion = false)
 	{
 		Vector3 questionTextStartPos = _questionText.rectTransform.anchoredPosition;
 		Vector3 buttonParentObjStartpos = _buttonParent.GetComponent<RectTransform>().anchoredPosition;
 
 		Sequence newQuestionAnimSeq = DOTween.Sequence();
 
-		if (_IsFirstQuestion)
+		if (isFirstQuestion)
 		{
 			newQuestionAnimSeq.Append(_questionText.rectTransform.DOAnchorPos(new Vector2(1000, 0), 0f))
 							  .Join(_buttonParent.GetComponent<RectTransform>().DOAnchorPos(new Vector2(2000, 0), 0f))

@@ -73,16 +73,19 @@ public class BottomNavigationBarManager : Singleton<BottomNavigationBarManager>
 	{
 		OnClickAddListener();
 		RectTransformSetter();
-		FirstLoad();
 	}
 
-	private void FirstLoad() 
+	public void FirstLoad() 
 	{
-		if (FirebaseManager.auth.CurrentUser == null)
-		{
-			Debug.Log("Kullanıcı yok!");
-			ShowUserNavigation();
-		}
+		//if (LoadingUI.isAuthControlled)
+		//{
+			if (FirebaseManager.auth.CurrentUser == null)
+			{
+				Debug.Log("Kullanıcı yok!");
+				ShowUserNavigation();
+				LoadingUI.isCorrectPanelSelected = true;
+			}
+		//}
 	}
 
 	private void OnClickAddListener() 

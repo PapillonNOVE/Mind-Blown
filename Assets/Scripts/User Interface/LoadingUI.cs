@@ -8,32 +8,41 @@ public class LoadingUI : MonoBehaviour
 {
 	[SerializeField] private GameObject mainCanvas;
 
-	[SerializeField] private RectTransform rectTransform_Point;
+	[SerializeField] private RectTransform _rectTransform_Point;
 	//[SerializeField] private RectTransform rectTransform_Point2;
 	//[SerializeField] private RectTransform rectTransform_Point3;
 	//[SerializeField] private RectTransform rectTransform_Point4;
-	[SerializeField] private RectTransform rectTransform_PointParent;
-	[SerializeField] private GameObject pointParent;
-	[SerializeField] private GameObject rootParent;
+	[SerializeField] private RectTransform _rectTransform_PointParent;
+	[SerializeField] private GameObject _pointParent;
+	[SerializeField] private GameObject _rootParent;
 
 	[SerializeField] private float _timer;
 	//[SerializeField] private List<RectTransform> points;
 	//[SerializeField] private List<float> pointPosX;
+	
+	private Vector2 _maxParentSize;
+	private Vector2 _minParentSize;
 
-	[SerializeField] private int progressionTarget;
-	public int progression;
+	[SerializeField] private int _progressionTarget;
+	public static int progression;
 
-	Vector2 maxParentSize;
-	Vector2 minParentSize;
+	public static bool isFirebaseInitialized;
+	public static bool isAuthControlled;
+	public static bool isDatabaseReferencesCreated;
+	public static bool isUserProfileReady;
+	public static bool isCorrectPanelSelected;
+
+
+	private bool isFirstTime = true;
 
 	private void Start()
 	{
-		float square = Mathf.Pow(rectTransform_Point.sizeDelta.x, 2f) + Mathf.Pow(rectTransform_Point.sizeDelta.y, 2f);
+		float square = Mathf.Pow(_rectTransform_Point.sizeDelta.x, 2f) + Mathf.Pow(_rectTransform_Point.sizeDelta.y, 2f);
 
-		minParentSize.x = Mathf.Sqrt(square);
-		minParentSize.y = Mathf.Sqrt(square);
+		_minParentSize.x = Mathf.Sqrt(square);
+		_minParentSize.y = Mathf.Sqrt(square);
 
-		maxParentSize = rectTransform_PointParent.sizeDelta;
+		_maxParentSize = _rectTransform_PointParent.sizeDelta;
 
 		StartCoroutine(PointMover());
 	}
@@ -50,9 +59,14 @@ public class LoadingUI : MonoBehaviour
 
 	private void Update()
 	{
-		if (progression == progressionTarget)
+		if (isFirstTime)
 		{
-			SelfDestructtion();
+			if (isFirebaseInitialized && isDatabaseReferencesCreated && isUserProfileReady && isCorrectPanelSelected || isAuthControlled)
+			{
+				TransitionManager.Instance.TransitionAnimTrigger(SelfDestruction);
+				Debug.LogError("Çalışıyor!!!");
+				isFirstTime = false;
+			}
 		}
 	}
 
@@ -60,16 +74,16 @@ public class LoadingUI : MonoBehaviour
 	{
 		Sequence sequence = DOTween.Sequence();
 
-		float lastRotZ = rectTransform_PointParent.rotation.eulerAngles.z;
+		float lastRotZ = _rectTransform_PointParent.rotation.eulerAngles.z;
 		//Debug.Log(lastRotZ);
 		//lastRotZ += 90;
 
 		//	rectTransform_PointParent.Rotate(new Vector3(0, 0, lastRotZ + 90));
 
-		sequence.Append(rectTransform_PointParent.DORotate(new Vector3(0, 0, lastRotZ - 450f), 1f, RotateMode.FastBeyond360))//.OnStepComplete(() => Debug.Log(lastRotZ))
-				.Join(rectTransform_PointParent.DOSizeDelta(minParentSize, 1f))
-				.Append(rectTransform_PointParent.DOSizeDelta(maxParentSize, 1f))
-				.Join(rectTransform_PointParent.DORotate(new Vector3(0, 0, lastRotZ - 450f), 1f, RotateMode.FastBeyond360));//.OnComplete(() => Debug.Log(lastRotZ));
+		sequence.Append(_rectTransform_PointParent.DORotate(new Vector3(0, 0, lastRotZ - 450f), 1f, RotateMode.FastBeyond360))//.OnStepComplete(() => Debug.Log(lastRotZ))
+				.Join(_rectTransform_PointParent.DOSizeDelta(_minParentSize, 1f))
+				.Append(_rectTransform_PointParent.DOSizeDelta(_maxParentSize, 1f))
+				.Join(_rectTransform_PointParent.DORotate(new Vector3(0, 0, lastRotZ - 450f), 1f, RotateMode.FastBeyond360));//.OnComplete(() => Debug.Log(lastRotZ));
 
 
 
@@ -77,9 +91,8 @@ public class LoadingUI : MonoBehaviour
 		StartCoroutine(PointMover());
 	}
 
-	private void SelfDestructtion(float timer = 0)
+	private void SelfDestruction()
 	{
-		mainCanvas.SetActive(true);
-		Destroy(rootParent, _timer);
+		Destroy(gameObject);
 	}
 }

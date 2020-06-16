@@ -28,7 +28,7 @@ public class OptionButton : MonoBehaviour//, IPointerClickHandler
     [SerializeField] private Texture2D _optionWrongBackground;
     [SerializeField] private Texture2D _optionCorrectBackground;
 
-    [Header("Chose Icon")]
+    [Header("Choose Icon")]
     [SerializeField] private Texture2D _defaultOptionIcon;
     [SerializeField] private Texture2D _choosenOptionIcon;
     [SerializeField] private Texture2D _correctOptionIcon;
@@ -62,7 +62,8 @@ public class OptionButton : MonoBehaviour//, IPointerClickHandler
 
     private void PrepareButton()
     {
-        _optionButton.onClick.AddListener(() => ActionManager.Instance.ControlAnswer(isTrueOption, this));    }
+        _optionButton.onClick.AddListener(() => ActionManager.Instance.ControlAnswer(isTrueOption, this));
+    }
 
     private void UpdateButton(string optionText, ButtonCode buttonCode, bool isCorrectOption = false)
     {
