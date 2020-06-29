@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using EasyMobile;
+﻿using EasyMobile;
 
 public class AdManager : Singleton<AdManager>
 {

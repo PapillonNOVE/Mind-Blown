@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using ConstantKeeper;
+using DG.Tweening.Plugins.Core.PathCore;
+
 public class SendQuestionUIManager : MonoBehaviour
 {
 	[Header("Question Input Fields")]
@@ -23,10 +26,10 @@ public class SendQuestionUIManager : MonoBehaviour
 
 	private void Start()
 	{
-		AddListenersToButtons();	
+		OnClickAddListeners();	
 	}
 
-	private void AddListenersToButtons() 
+	private void OnClickAddListeners() 
 	{
 		_sendQuestionButton.onClick.AddListener(Send);
 		_goMainMenuButton.onClick.AddListener(BottomNavigationBarManager.Instance.ShowMainNavigation);
@@ -38,16 +41,26 @@ public class SendQuestionUIManager : MonoBehaviour
 		{
 			Dictionary<string, object> sendedQuestionPack = new Dictionary<string, object>()
 			{
-				["Question"] = _questionInputField.text,
-				["CorrectOption"] = _correctOptionInputField.text,
-				["WrongOption1"] = _wrongOptionInputField1.text,
-				["WrongOption2"] = _wrongOptionInputField2.text,
-				["WrongOption3"] = _wrongOptionInputField3.text,
-			//	["Sender Player ID"] = FirebaseManager.auth.CurrentUser.UserId
+				[QuestionPaths.QuesitonPath.Question] = _questionInputField.text,
+				[QuestionPaths.QuesitonPath.CorrectOption] = _correctOptionInputField.text,
+				[QuestionPaths.QuesitonPath.WrongOption1] = _wrongOptionInputField1.text,
+				[QuestionPaths.QuesitonPath.WrongOption2] = _wrongOptionInputField2.text,
+				[QuestionPaths.QuesitonPath.WrongOption3] = _wrongOptionInputField3.text,
+				[QuestionPaths.QuesitonPath.SenderPlayerID] = FirebaseManager.auth.CurrentUser.UserId
 			};
 
 			ActionManager.Instance.SendQuestion(sendedQuestionPack);
+			ResetFields();
 		}
+	}
+
+	private void ResetFields() 
+	{
+		_questionInputField.text = "";
+		_correctOptionInputField.text = "";
+		_wrongOptionInputField1.text = "";
+		_wrongOptionInputField2.text = "";
+		_wrongOptionInputField3.text = "";
 	}
 
 }

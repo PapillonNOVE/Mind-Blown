@@ -63,7 +63,7 @@ public class SignUpUI : MonoBehaviour
     private void OnEnable()
     {
         OnClickAddListener();
-        OnEditAddListener();
+        OnValueChangedAddListener();
     }
 
     private void OnDisable()
@@ -84,7 +84,7 @@ public class SignUpUI : MonoBehaviour
         btn_GoToSignIn.onClick.AddListener(GoToSignIn);
     }
 
-    private void OnEditAddListener() 
+    private void OnValueChangedAddListener() 
     {
         inputField_Username.onValueChanged.AddListener(ControlUsername);
         inputField_Email.onEndEdit.AddListener(ControlEmail);

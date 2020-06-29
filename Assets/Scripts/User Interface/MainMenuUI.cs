@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using ConstantKeeper;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -12,16 +13,16 @@ public class MainMenuUI : MonoBehaviour
     //[SerializeField] TextMeshProUGUI txt_Gem;
     
     [Header("Button")]
-    [SerializeField] Button button_Play;
-    [SerializeField] Button button_Settings;
+    [SerializeField] Button _playButton;
+    [SerializeField] Button _goToCategoriesButton;
+    [SerializeField] Button _goToSettingsButton;
     //[SerializeField] Button btn_Store;
     //[SerializeField] Button btn_RateUs;
-    [SerializeField] Button button_UserProfile;
-    [SerializeField] Button button_SendQuestion;
-    [SerializeField] Button button_ApprovePendingQuestion;
+    [SerializeField] Button _goToUserProfileButton;
+    [SerializeField] Button _goToSendQuestionButton;
 
 
-    private void OnEnable()
+    private void Start()
     {
         OnClickAddListener();
       //  LoadData();
@@ -29,13 +30,13 @@ public class MainMenuUI : MonoBehaviour
 
     private void OnClickAddListener() 
     {
-        button_Play.onClick.AddListener(UIManager.Instance.ShowCategoriesPanel);
-        button_Settings.onClick.AddListener(UIManager.Instance.ShowSettingsPanel);
+        _playButton.onClick.AddListener(Play);
+        _goToCategoriesButton.onClick.AddListener(UIManager.Instance.ShowCategoriesPanel);
+        _goToSettingsButton.onClick.AddListener(UIManager.Instance.ShowSettingsPanel);
         //btn_Menu_Store.onClick.AddListener(UIManager.Instance.ShowStorePanel);
-        button_UserProfile.onClick.AddListener(UserProfile);
+        _goToUserProfileButton.onClick.AddListener(UserProfile);
         //btn_Menu_RateUs.onClick.AddListener(RateUs);
-        button_SendQuestion.onClick.AddListener(UIManager.Instance.ShowSendQuestionPanel);
-        button_ApprovePendingQuestion.onClick.AddListener(UIManager.Instance.ShowAprrovePendingQuestionsPanel);
+        _goToSendQuestionButton.onClick.AddListener(UIManager.Instance.ShowSendQuestionPanel);
     }
 
     //private void LoadData() 
@@ -44,11 +45,17 @@ public class MainMenuUI : MonoBehaviour
         //txt_Gem.SetText(CurrentUserProfileKeeper.Gem.ToString());
     //}
 
-  /*  private void QuickGame() 
+    private void Play() 
     {
-        Debug.Log("hiraishin");
-        ActionManager.Instance.QuickGame();
-    }*/
+        if (PlayerPrefs.HasKey(PlayerPrefsKeys.CATEGORY_SELECTED))
+        {
+           UIManager.Instance.ShowGamePanel();
+        }
+        else
+        {
+           UIManager.Instance.ShowCategoriesPanel();
+        }
+    }
 
     private void RateUs() { }
 
@@ -56,8 +63,6 @@ public class MainMenuUI : MonoBehaviour
 
     private void UserProfile() 
     {
-        //AdManager.Instance.ShowRewardedAds();
-        //StartCoroutine(ActionManager.Instance.GetCurrentUserProfile());
         BottomNavigationBarManager.Instance.ShowUserNavigation();
     }
 }

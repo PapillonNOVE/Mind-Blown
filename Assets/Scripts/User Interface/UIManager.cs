@@ -38,7 +38,6 @@ public class UIManager : Singleton<UIManager>
 	[SerializeField] private GameObject panel_ResetPassword;
 	[SerializeField] private GameObject panel_UserProfile;
 	[SerializeField] private GameObject panel_SendQuestion;
-	[SerializeField] private GameObject panel_ApprovePendingQuestions;
 	//[SerializeField] private GameObject pnl_Lose;
 	//[SerializeField] private GameObject pnl_Win;
 
@@ -118,12 +117,12 @@ public class UIManager : Singleton<UIManager>
 	   [SerializeField] Button btn_Win_Play;
 	   */
 
-	private void OnEnable()
-	{
-		ActionManager.Instance.ShowSignInPanel += ShowSignInPanel;
-		ActionManager.Instance.ShowSignUpPanel += ShowSignUpPanel;
-		ActionManager.Instance.ShowUserProfilePanel += ShowUserProfilePanel;
-	}
+	//private void OnEnable()
+	//{
+	//	ActionManager.Instance.ShowSignInPanel += ShowSignInPanel;
+	//	ActionManager.Instance.ShowSignUpPanel += ShowSignUpPanel;
+	//	ActionManager.Instance.ShowUserProfilePanel += ShowUserProfilePanel;
+	//}
 
 	//private void OnDisable()
 	//{
@@ -173,7 +172,6 @@ public class UIManager : Singleton<UIManager>
 	public void ShowLosePanel() { StartCoroutine(PanelChanger(Panels.Lose)); }
 	public void ShowWinPanel() { StartCoroutine(PanelChanger(Panels.Win)); }
 	public void ShowSendQuestionPanel() { StartCoroutine(PanelChanger(Panels.SendQuestion)); }
-	public void ShowAprrovePendingQuestionsPanel() { StartCoroutine(PanelChanger(Panels.AprrovePendingQuestions)); }
 
 	private IEnumerator PanelChanger(Panels panel)
 	{
@@ -247,8 +245,6 @@ public class UIManager : Singleton<UIManager>
 		panel_ResetPassword.SetActive(panel == Panels.ResetPassword);
 		panel_UserProfile.SetActive(panel == Panels.UserProfile);
 		panel_SendQuestion.SetActive(panel == Panels.SendQuestion);
-		panel_ApprovePendingQuestions.SetActive(panel == Panels.AprrovePendingQuestions);
-
 
 		if (panel == Panels.Categories || panel == Panels.Game || panel == Panels.SendQuestion || panel == Panels.SignIn || panel == Panels.SignUp || panel == Panels.ResetPassword)
 		{

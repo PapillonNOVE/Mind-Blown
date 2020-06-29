@@ -55,7 +55,7 @@ public class UserProfileUI : MonoBehaviour
 
     private void GetCurrentUserProfile()
     {
-        Debug.Log("Username " + CurrentUserProfileKeeper.Username);
+        //Debug.Log("Username " + CurrentUserProfileKeeper.Username);
 
         text_Username.SetText(CurrentUserProfileKeeper.Username);
      //   txt_User_SignUpDate.SetText(CurrentUserProfileKeeper.SignUpDate.ToString());

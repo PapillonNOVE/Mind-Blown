@@ -1,4 +1,6 @@
 ﻿
+using UnityEngine;
+
 namespace ConstantKeeper
 {
 	public static class DebugPaths
@@ -222,7 +224,11 @@ namespace ConstantKeeper
 			public static readonly string WrongOption1 = "WrongOption1";
 			public static readonly string WrongOption2 = "WrongOption2";
 			public static readonly string WrongOption3 = "WrongOption3";
-			public static readonly string Category = "Category";
+			public static readonly string QuestionCategory = "QuestionCategory";
+			public static readonly string QuestionLanguage = "QuestionLanguage";
+			public static readonly string QuestionLevel = "QuestionLevel";
+			public static readonly string SenderPlayerID = "SenderPlayerID";
+
 
 			public static class PrimaryCategories
 			{
@@ -250,4 +256,16 @@ namespace ConstantKeeper
 			}
 		}
 	}
+
+	public static class LocalPaths
+	{
+		public static readonly string CATEGORY_SAVE_PATH = $"{Application.persistentDataPath}/CategorySaves";
+	}
+
+	public static class PlayerPrefsKeys
+	{
+		public static readonly string CATEGORY_SELECTED = "CategorySelected";
+		public static readonly string FIRST_ENTRY = "FirstEntry";
+	}
+
 }

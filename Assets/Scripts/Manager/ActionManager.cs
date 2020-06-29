@@ -25,7 +25,7 @@ public class ActionManager : Singleton<ActionManager>
 
     public delegate IEnumerator ResetPasswordWithEmailDelegate(string _Email, Action onSuccessCallback, Action onFailCallback);
     public ResetPasswordWithEmailDelegate ResetPasswordWithEmail;
-    
+
     public UnityAction DeleteUser;
     public delegate void SignOutDelegaate(Action onSuccessCallback, Action onFailCallback);
     public SignOutDelegaate SignOut;
@@ -57,23 +57,26 @@ public class ActionManager : Singleton<ActionManager>
 
     public UnityAction UsernameAvaliable;
     public UnityAction UsernameNotAvaliable;
-   
 
-    public delegate IEnumerator GetPendingQuestionsDelegate();
-    public GetPendingQuestionsDelegate GetPendingQuestions;
 
-    public UnityAction<List<string>> CreatePendingQuestionList;
+    public delegate IEnumerator GetQuestionIDsDelegate(List<string> categories);
+    public GetQuestionIDsDelegate GetQuestionIDs;
 
     public delegate IEnumerator GetQuestionDelegate();
-	public GetQuestionDelegate GetQuestion;
+    public GetQuestionDelegate GetQuestion;
+
 
     public UnityAction<QuestionStruct> AskQuestion;
-	//public UnityAction<IEnumerator<>> GetQuestion;
+    //public UnityAction<IEnumerator<>> GetQuestion;
 
-	public UnityAction<Dictionary<string, object>> SendQuestion;
+    public UnityAction<Dictionary<string, object>> SendQuestion;
 
-	public delegate void UpdateButtonDelegate(string _OptionText, ButtonCode buttonCode, bool isCorrectAnswer = false);
-	public UpdateButtonDelegate UpdateOptionButton;
-	// public UnityAction<string,ButtonCode, bool> PrepareOptionButton;
+    public delegate void UpdateButtonDelegate(string _OptionText, ButtonCode buttonCode, bool isCorrectAnswer = false);
+    public UpdateButtonDelegate UpdateOptionButton;
+    // public UnityAction<string,ButtonCode, bool> PrepareOptionButton;
 
+
+    // Game UI
+    public UnityAction<float> CountdownTimeDemonstrator;
+    public UnityAction<int, int, float> UpdateGameUI;
 }

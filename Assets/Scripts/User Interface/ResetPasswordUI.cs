@@ -19,14 +19,9 @@ public class ResetPasswordUI : Singleton<ResetPasswordUI>
     [Header("RectTransform")]
     [SerializeField] private RectTransform panel_Parent;
 
-    private void OnEnable()
+    private void Start()
     {
         OnClickAddListener();
-    }
-
-    private void OnDisable()
-    {
-        
     }
 
     void OnClickAddListener()

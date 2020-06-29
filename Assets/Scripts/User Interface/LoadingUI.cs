@@ -64,7 +64,7 @@ public class LoadingUI : MonoBehaviour
 			if (isFirebaseInitialized && isDatabaseReferencesCreated && isUserProfileReady && isCorrectPanelSelected || isAuthControlled)
 			{
 				TransitionManager.Instance.TransitionAnimTrigger(SelfDestruction);
-				Debug.LogError("Çalışıyor!!!");
+				//Debug.LogError("Çalışıyor!!!");
 				isFirstTime = false;
 			}
 		}

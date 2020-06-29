@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-public static class CurrentUserProfileKeeper
+﻿public static class CurrentUserProfileKeeper
 {
     // General String Variables
     public static string Username;

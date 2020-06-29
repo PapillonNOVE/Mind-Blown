@@ -1,5 +1,6 @@
-﻿using System.Collections;
+﻿using ConstantKeeper;
 using System.Collections.Generic;
+using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -68,7 +69,6 @@ public class CategoriesUI : MonoBehaviour
 		{
 			if (!toggle.isOn)
 			{
-				Debug.Log("1");
 				return;
 			}
 		}
@@ -84,18 +84,30 @@ public class CategoriesUI : MonoBehaviour
 
 	private void Play()
 	{
+		Category category = new Category();
+		category.categories = new List<string>();
+
 		foreach (Toggle spesificalCategoryToggle in specificalCategoryToggles)
 		{
 			if (spesificalCategoryToggle.isOn)
 			{
-				string categoryName = spesificalCategoryToggle.transform.GetChild(0).transform.GetChild(1).GetComponent<TextMeshProUGUI>().text;
-				Debug.Log(categoryName);
-				FirebaseQuestionManager.categories.Add(categoryName);
+				string categoryName = spesificalCategoryToggle.transform.GetComponent<CategoryInfo>().category.ToString();
+
+				category.categories.Add(categoryName);
 			}
 		}
 
-		TransitionManager.Instance.TransitionAnimTrigger(UIManager.Instance.ShowGamePanel);
-		//StartCoroutine(ActionManager.Instance.GetQuestion());
-		//StartCoroutine(FirebaseQuestionManager.Instance.GetQuestion());
+		string json = JsonUtility.ToJson(category);
+
+		Debug.Log(Application.persistentDataPath);
+
+		File.WriteAllText($"{Application.persistentDataPath}/CategorySaves",json);
+
+		if (category.categories.Count > 0)
+		{
+			PlayerPrefs.SetString(PlayerPrefsKeys.CATEGORY_SELECTED, PlayerPrefsKeys.CATEGORY_SELECTED);
+		}
+
+		//TransitionManager.Instance.TransitionAnimTrigger(UIManager.Instance.ShowGamePanel);
 	}
 }

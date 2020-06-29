@@ -15,14 +15,9 @@ public class SettingsUI : Singleton<SettingsUI>
     [SerializeField] Slider sld_Settings_SFX_Volume;
 
 
-    private void OnEnable()
+    private void Start()
     {
         OnClickAddListener();
-    }
-
-    private void OnDisable()
-    {
-
     }
 
     void OnClickAddListener()
