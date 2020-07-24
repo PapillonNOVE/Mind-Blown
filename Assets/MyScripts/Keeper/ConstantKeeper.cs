@@ -90,6 +90,8 @@ namespace ConstantKeeper
 			public static readonly string Language = "Language";
 			public static readonly string SignUpDate = "SignUpDate";
 			public static readonly string LastSeen = "LastSeen";
+			public static readonly string Online = "Online";
+			public static readonly string Offline = "Offline";
 
 			// Bool General Paths
 			public static readonly string SignInStatus = "SignInStatus";
@@ -105,6 +107,8 @@ namespace ConstantKeeper
 			public static readonly string HighScore = "HighScore";
 			public static readonly string TotalPlayTime = "TotalPlayTime";
 			public static readonly string TotalMatches = "TotalMatches";
+			public static readonly string SeenQuestions = "SeenQuestions";
+			public static readonly string Experience = "Experience";
 			public static readonly string CompletedMatches = "CompletedMatches";
 			public static readonly string CorrectAnswers = "CorrectAnswers";
 			public static readonly string WrongAnswers = "WrongAnswers";

@@ -105,7 +105,7 @@ public class SignUpUI : MonoBehaviour
        //// arg0.Replace("\u200B", "");
        // Debug.Log("2: " + arg0.Length);
 
-        StartCoroutine(ActionManager.Instance.ControlIsUsernameExist(arg0, UsernameAvaliable, UsernameNotAvaliable));
+        StartCoroutine(EventManager.Instance.ControlIsUsernameExist(arg0, UsernameAvaliable, UsernameNotAvaliable));
     }
 
     private void UsernameAvaliable() 
@@ -250,7 +250,7 @@ public class SignUpUI : MonoBehaviour
 
         Debug.Log(signUpStruct.Language);
 
-        StartCoroutine(ActionManager.Instance.SignUpWithEmailPassword(signUpStruct, SignUpWithEmailPasswordSuccesful, SignUpWithEmailPasswordFailed));
+        StartCoroutine(EventManager.Instance.SignUpWithEmailPassword(signUpStruct, SignUpWithEmailPasswordSuccesful, SignUpWithEmailPasswordFailed));
     }
 
     private void SignUpWithEmailPasswordSuccesful() 

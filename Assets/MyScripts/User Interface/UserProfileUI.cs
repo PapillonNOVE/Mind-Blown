@@ -1,32 +1,37 @@
 ﻿using ConstantKeeper;
 using EasyMobile;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+
 public class UserProfileUI : MonoBehaviour
 {
     [Header("Text")]
     //[SerializeField] private TextMeshProUGUI text_Cup;
-    [SerializeField] private TextMeshProUGUI text_Username;
-    [SerializeField] private TextMeshProUGUI text_Rank;
-    [SerializeField] private TextMeshProUGUI text_Level;
+    [SerializeField] private TextMeshProUGUI _usernameText;
+    [SerializeField] private TextMeshProUGUI _rankText;
+    [SerializeField] private TextMeshProUGUI _levelText;
+    [SerializeField] private TextMeshProUGUI _experienceText;
+    [SerializeField] private TextMeshProUGUI _requiredExperienceText;
     //[SerializeField] private TextMeshProUGUI text_HighScore;
     //[SerializeField] private TextMeshProUGUI txt_User_SignUpDate;
     //[SerializeField] private TextMeshProUGUI txt_User_LastSeen;
-    [SerializeField] private TextMeshProUGUI text_TotalPlayTime;
+    [SerializeField] private TextMeshProUGUI _totalPlayTimeText;
     //[SerializeField] private TextMeshProUGUI txt_User_TotalMatches;
     //[SerializeField] private TextMeshProUGUI txt_User_CompletedMathces;
     //[SerializeField] private TextMeshProUGUI txt_User_AbandonedMathces;
-    [SerializeField] private TextMeshProUGUI text_CorrectAnswers;
-    [SerializeField] private TextMeshProUGUI text_WrongAnswers;
+    [SerializeField] private TextMeshProUGUI _correctAnswersText;
+    [SerializeField] private TextMeshProUGUI _wrongAnswersText;
     //[SerializeField] private TextMeshProUGUI text_Wins;
     //[SerializeField] private TextMeshProUGUI text_Losses;
     //[SerializeField] private TextMeshProUGUI txt_User_WinningStreak;
+
+    [Header("Slider")]
+    [SerializeField] private Slider _experienceBar;
+
     [Header("Button")]
-    [SerializeField] private Button button_GoToMainMenu;
-    [SerializeField] private Button button_SignOut;
+    [SerializeField] private Button _goToMainMenuButton;
+    [SerializeField] private Button _signOutButton;
 
 
     private void Start()
@@ -39,7 +44,7 @@ public class UserProfileUI : MonoBehaviour
 
     private void OnEnable()
     {
-        GetCurrentUserProfile();
+        SetCurrentUserProfileUI();
     }
 
     private void OnDisable()
@@ -49,41 +54,45 @@ public class UserProfileUI : MonoBehaviour
 
     private void OnClickAddListener()
     {
-        button_GoToMainMenu.onClick.AddListener(UIManager.Instance.ShowMainMenuPanel);
-        button_SignOut.onClick.AddListener(SignOut);
+        _goToMainMenuButton.onClick.AddListener(UIManager.Instance.ShowMainMenuPanel);
+        _signOutButton.onClick.AddListener(SignOut);
     }
 
-    private void GetCurrentUserProfile()
+    private void SetCurrentUserProfileUI()
     {
         //Debug.Log("Username " + CurrentUserProfileKeeper.Username);
 
-        text_Username.SetText(CurrentUserProfileKeeper.Username);
-     //   txt_User_SignUpDate.SetText(CurrentUserProfileKeeper.SignUpDate.ToString());
+        _usernameText.SetText(CurrentUserProfileKeeper.Username);
+        //   txt_User_SignUpDate.SetText(CurrentUserProfileKeeper.SignUpDate.ToString());
 
         //if (bool.Parse(CurrentUserProfileKeeper.SignInStatus.ToString()))
         //{
-            //txt_User_LastSeen.SetText("ONLINE");//LocalizationKeeper.Online);
+        //txt_User_LastSeen.SetText("ONLINE");//LocalizationKeeper.Online);
         //}
         //else
         //{
-            //txt_User_LastSeen.SetText(CurrentUserProfileKeeper.LastSeen.ToString());
+        //txt_User_LastSeen.SetText(CurrentUserProfileKeeper.LastSeen.ToString());
         //}
-        
-        text_Level.SetText(CurrentUserProfileKeeper.Level.ToString());
+        _experienceText.SetText(CurrentUserProfileKeeper.Experience.ToString());
+        _requiredExperienceText.SetText(CurrentUserProfileKeeper.RequiredExperience.ToString());
+        _levelText.SetText(CurrentUserProfileKeeper.Level.ToString());
         //text_Cup.SetText(CurrentUserProfileKeeper.Cup.ToString());
-        text_Rank.SetText(CurrentUserProfileKeeper.Rank);
-        text_TotalPlayTime.SetText(CurrentUserProfileKeeper.TotalPlayTime.ToString());
+        _rankText.SetText(CurrentUserProfileKeeper.Rank);
+        _totalPlayTimeText.SetText(CurrentUserProfileKeeper.TotalPlayTime.ToString());
         //txt_User_TotalMatches.SetText(CurrentUserProfileKeeper.TotalMatches.ToString());
         //txt_User_CompletedMathces.SetText(CurrentUserProfileKeeper.CompletedMatches.ToString());
         //txt_User_AbandonedMathces.SetText(CurrentUserProfileKeeper.AbandonedMatches.ToString());
-        text_CorrectAnswers.SetText(CurrentUserProfileKeeper.CorrectAnswers.ToString());
-        text_WrongAnswers.SetText(CurrentUserProfileKeeper.WrongAnswers.ToString());
+        _correctAnswersText.SetText(CurrentUserProfileKeeper.CorrectAnswers.ToString());
+        _wrongAnswersText.SetText(CurrentUserProfileKeeper.WrongAnswers.ToString());
         //txt_User_WinningStreak.SetText(CurrentUserProfileKeeper.WinningStreak.ToString());
+
+        _experienceBar.maxValue = CurrentUserProfileKeeper.RequiredExperience;
+        _experienceBar.value = CurrentUserProfileKeeper.Experience;
     }
 
     private void SignOut() 
     {
-        ActionManager.Instance.SignOut(SignOutSuccessful, SignOutFailed);
+        EventManager.Instance.SignOut(SignOutSuccessful, SignOutFailed);
     }
 
     private void SignOutSuccessful()

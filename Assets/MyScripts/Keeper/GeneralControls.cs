@@ -7,12 +7,32 @@ using UnityEngine;
 
 public class GeneralControls : MonoBehaviour
 {
-    public static bool isQuitting;
+	public static bool isQuitting;
 
 	private void Start()
 	{
 		EnteringControl();
 		StartCoroutine(LoadCategories());
+
+
+		//	int totalExp = 0;
+		//	int requiredExperience = 0;
+
+		//	for (int i = 1; i <= 100; i++)
+		//	{
+		//		//requiredExperience = ((int)Mathf.Pow(i + 1, 2f) - (int)Mathf.Pow(i, 2f)) * 5 + 85;
+		//		requiredExperience = i * 10 + 90;
+
+		//		totalExp += requiredExperience;
+
+		//		//if (i == 1 || i == 2 || i == 3 || i == 4 || i == 5 || i == 10 || i == 20 || i == 50 || i == 99)
+		//		{
+		//			Debug.LogError(requiredExperience + " : " + i);
+		//		}
+		//	}
+
+		//	Debug.LogWarning(totalExp + " Toplam gereken exp ");
+		//	Debug.LogWarning(totalExp / 10 + " Toplam gereken soru ");
 	}
 
 	private void OnApplicationQuit()
@@ -48,7 +68,7 @@ public class GeneralControls : MonoBehaviour
 			yield return null;
 		}
 
-		StartCoroutine(ActionManager.Instance.GetQuestionIDs(category.categories));
+		StartCoroutine(EventManager.Instance.GetQuestionIDs(category.categories));
 	}
 
 	public static void ControlQuit(in Action targetFunc)

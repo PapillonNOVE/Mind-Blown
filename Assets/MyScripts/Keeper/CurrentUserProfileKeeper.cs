@@ -11,14 +11,17 @@
     public static bool SignInStatus;
     public static bool Intermateable;
 
-    // Progression Int Variables
+    // Progression Variables
     public static int Level;
     public static int Cup;
-    public static /*int*/ string Rank;
+    public static string Rank;
     public static int TotalPlayTime;
     public static int TotalMatches;
     public static int CompletedMatches;
     public static int AbandonedMatches;
+    public static int SeenQuestions;
+    public static int Experience;
+    public static int RequiredExperience;
     public static int CorrectAnswers;
     public static int WrongAnswers;
     public static int Wins;

@@ -26,14 +26,14 @@ public class GameUI : MonoBehaviour
 
 	private void Subscribe()
 	{
-		ActionManager.Instance.CountdownTimeDemonstrator += CountdownTimeDemonstrator;
-		ActionManager.Instance.UpdateGameUI += UpdateGameUI;
+		EventManager.Instance.CountdownTimeDemonstrator += CountdownTimeDemonstrator;
+		EventManager.Instance.UpdateGameUI += UpdateGameUI;
 	}
 
 	private void Unsubscribe()
 	{
-		ActionManager.Instance.CountdownTimeDemonstrator -= CountdownTimeDemonstrator;
-		ActionManager.Instance.UpdateGameUI -= UpdateGameUI;
+		EventManager.Instance.CountdownTimeDemonstrator -= CountdownTimeDemonstrator;
+		EventManager.Instance.UpdateGameUI -= UpdateGameUI;
 	}
 
 	private void UpdateGameUI(int score, int questionNumber, float responseTimeLimit)

@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour
 		set
 		{
 			_responseTimer = value;
-			ActionManager.Instance.CountdownTimeDemonstrator?.Invoke(value);
+			EventManager.Instance.CountdownTimeDemonstrator?.Invoke(value);
 		}
 	}
 
@@ -98,7 +98,11 @@ public class GameManager : MonoBehaviour
 	{
 		Subscribe();
 		StartCoroutine(ResetValues());
-		StartCoroutine(ActionManager.Instance.GetQuestion());
+
+		if (FirebaseQuestionManager.questionIDs.Count > 0)
+		{
+			StartCoroutine(EventManager.Instance.GetQuestion());
+		}
 	}
 
 	private void OnDisable()
@@ -108,14 +112,14 @@ public class GameManager : MonoBehaviour
 
 	private void Subscribe()
 	{
-		ActionManager.Instance.AskQuestion += AskQuestion;
-		ActionManager.Instance.ControlAnswer += ControlAnswer;
+		EventManager.Instance.AskQuestion += AskQuestion;
+		EventManager.Instance.ControlAnswer += ControlAnswer;
 	}
 
 	private void Unsubscribe()
 	{
-		ActionManager.Instance.AskQuestion -= AskQuestion;
-		ActionManager.Instance.ControlAnswer -= ControlAnswer;
+		EventManager.Instance.AskQuestion -= AskQuestion;
+		EventManager.Instance.ControlAnswer -= ControlAnswer;
 	}
 
 	private IEnumerator ResetValues()
@@ -125,9 +129,9 @@ public class GameManager : MonoBehaviour
 		_score = 0;
 		_correctAnswerAmount = 0;
 		_wrongAnswerAmount = 0;
-		_questionNumber = 0;
+		_questionNumber = 1;
 		ResponseTimer = _responseTimeLimit;
-		ActionManager.Instance.UpdateGameUI?.Invoke(_score,_questionNumber,_responseTimeLimit);
+		EventManager.Instance.UpdateGameUI?.Invoke(_score,_questionNumber,_responseTimeLimit);
 	}
 
 	private void Update()
@@ -267,16 +271,16 @@ public class GameManager : MonoBehaviour
 
 		ResponseTimer = _responseTimeLimit;
 
-		ActionManager.Instance.UpdateGameUI(_score, _questionNumber, _responseTimeLimit);
-
-		if (_questionNumber > 0)
-		{
-			StartCoroutine(NewQuestionAnimation());
-		}
-		else
-		{
-			StartCoroutine(NewQuestionAnimation(true));
-		}
+		EventManager.Instance.UpdateGameUI(_score, _questionNumber, _responseTimeLimit);
+		StartCoroutine(EventManager.Instance.GetQuestion());
+		//if (_questionNumber > 0)
+		//{
+		//	NewQuestionAnimation();
+		//}
+		//else
+		//{
+		//	NewQuestionAnimation(true);
+		//}
 	}
 
 	private IEnumerator GameOver(GameOverType gameOverType)
@@ -292,8 +296,10 @@ public class GameManager : MonoBehaviour
 			Debug.Log("Yanlış Cevap!");
 		}
 
-		ActionManager.Instance.UpdateUserData(UserPaths.PrimaryPaths.Progression, UserPaths.ProgressionPaths.CorrectAnswers, _correctAnswerAmount);
-		ActionManager.Instance.UpdateUserData(UserPaths.PrimaryPaths.Progression, UserPaths.ProgressionPaths.WrongAnswers, _wrongAnswerAmount);
+		EventManager.Instance.GainExperience(_correctAnswerAmount, _wrongAnswerAmount);
+
+		EventManager.Instance.UpdateUserData(UserPaths.PrimaryPaths.Progression, UserPaths.ProgressionPaths.CorrectAnswers, CurrentUserProfileKeeper.CorrectAnswers + _correctAnswerAmount);
+		EventManager.Instance.UpdateUserData(UserPaths.PrimaryPaths.Progression, UserPaths.ProgressionPaths.WrongAnswers, CurrentUserProfileKeeper.WrongAnswers + _wrongAnswerAmount);
 
 		yield return new WaitForSeconds(1f);
 	}
@@ -308,10 +314,7 @@ public class GameManager : MonoBehaviour
 						  .Join(_buttonParent.GetComponent<RectTransform>().DOAnchorPos(new Vector2(-2000, 0), 0f));
 
 	}
-	private void call() 
-	{
-		StartCoroutine(ActionManager.Instance.GetQuestion());
-	}
+
 	private IEnumerator NewQuestionAnimation(bool isFirstQuestion = false)
 	{
 		Vector3 questionTextStartPos = _questionText.rectTransform.anchoredPosition;
@@ -323,9 +326,9 @@ public class GameManager : MonoBehaviour
 		if (isFirstQuestion)
 		{
 			newQuestionOutAnimSeq.Append(_questionText.rectTransform.DOAnchorPos(new Vector2(1000, 0), 0f))
-							  .Join(_buttonParent.GetComponent<RectTransform>().DOAnchorPos(new Vector2(2000, 0), 0f))
-							  .Append(_questionText.rectTransform.DOAnchorPos(questionTextStartPos, 1f).SetEase(Ease.InOutBack))
-							  .Join(_buttonParent.GetComponent<RectTransform>().DOAnchorPos(buttonParentObjStartpos, 1f).SetEase(Ease.InOutBack));
+								 .Join(_buttonParent.GetComponent<RectTransform>().DOAnchorPos(new Vector2(2000, 0), 0f))
+								 .Append(_questionText.rectTransform.DOAnchorPos(questionTextStartPos, 1f).SetEase(Ease.InOutBack))
+								 .Join(_buttonParent.GetComponent<RectTransform>().DOAnchorPos(buttonParentObjStartpos, 1f).SetEase(Ease.InOutBack));
 		}
 
 		else
@@ -333,18 +336,14 @@ public class GameManager : MonoBehaviour
 			newQuestionOutAnimSeq.Append(_questionText.rectTransform.DOAnchorPos(new Vector2(-1000, 0), 0.7f).SetEase(Ease.InOutBack))
 			.OnStepComplete(() => _questionText.gameObject.SetActive(false))
 			.Join(_buttonParent.GetComponent<RectTransform>().DOAnchorPos(new Vector2(-1500, 0), 0.7f).SetEase(Ease.InOutBack))
-			.OnStepComplete(() => _buttonParent.gameObject.SetActive(false));
-
-			yield return newQuestionOutAnimSeq.WaitForCompletion();
-			call();
-
-			newQuestionOutAnimSeq.Append(_questionText.rectTransform.DOAnchorPos(new Vector2(1000, 0), 0f))
+			.OnStepComplete(() => _buttonParent.gameObject.SetActive(false))
+			.Append(_questionText.rectTransform.DOAnchorPos(new Vector2(1000, 0), 0f))
 			.OnStepComplete(() => _questionText.gameObject.SetActive(true))
 			.Join(_buttonParent.GetComponent<RectTransform>().DOAnchorPos(new Vector2(1500, 0), 0f))
 			.OnStepComplete(() => _buttonParent.gameObject.SetActive(true))
 			.Append(_questionText.rectTransform.DOAnchorPos(questionTextStartPos, 0.7f).SetEase(Ease.InOutBack))
 			.Join(_buttonParent.GetComponent<RectTransform>().DOAnchorPos(buttonParentObjStartpos, 0.7f).SetEase(Ease.InOutBack));
-			Debug.LogWarning("geliyor gibi");
+
 			//newQuestionOutAnimSeq.Append(_questionText.rectTransform.DOAnchorPos(new Vector2(-1000, 0), 0.7f).SetEase(Ease.InOutBack))
 			//				  .OnStepComplete(() => _questionText.gameObject.SetActive(false))
 			//				  .Join(_buttonParent.GetComponent<RectTransform>().DOAnchorPos(new Vector2(-1500, 0), 0.7f).SetEase(Ease.InOutBack))
@@ -357,6 +356,10 @@ public class GameManager : MonoBehaviour
 			//				  .Append(_questionText.rectTransform.DOAnchorPos(questionTextStartPos, 0.7f).SetEase(Ease.InOutBack))
 			//				  .Join(_buttonParent.GetComponent<RectTransform>().DOAnchorPos(buttonParentObjStartpos, 0.7f).SetEase(Ease.InOutBack));
 		}
+
+		yield return newQuestionOutAnimSeq.WaitForCompletion();
+		Debug.LogWarning("geliyor gibi");
+		StartCoroutine(EventManager.Instance.GetQuestion());
 	}
 
 	//private void WrongAnswerAnim(OptionButton _choosenOptionButton)

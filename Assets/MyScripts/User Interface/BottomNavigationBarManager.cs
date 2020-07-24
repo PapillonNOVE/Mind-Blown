@@ -115,6 +115,28 @@ public class BottomNavigationBarManager : Singleton<BottomNavigationBarManager>
 		ResetTabGroup();
 	}
 
+	public void SlidePanel(Tabs tab)
+	{
+		switch (tab)
+		{
+			case Tabs.User:
+				ShowUserNavigation();
+				break;
+			case Tabs.Main:
+				ShowMainNavigation();
+				break;
+			case Tabs.SendQuestion:
+				ShowSendQuestionNavigation();
+				break;
+			case Tabs.Settings:
+				ShowSettingsNavigation();
+				break;
+			default:
+				ShowMainNavigation();
+				break;
+		}
+	}
+
 	public void ShowUserNavigation() 
 	{
 		if (FirebaseManager.auth.CurrentUser != null)

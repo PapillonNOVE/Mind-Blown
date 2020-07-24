@@ -49,7 +49,7 @@ public class SendQuestionUIManager : MonoBehaviour
 				[QuestionPaths.QuesitonPath.SenderPlayerID] = FirebaseManager.auth.CurrentUser.UserId
 			};
 
-			ActionManager.Instance.SendQuestion(sendedQuestionPack);
+			EventManager.Instance.SendQuestion(sendedQuestionPack);
 			ResetFields();
 		}
 	}

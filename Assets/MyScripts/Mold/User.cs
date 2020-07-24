@@ -1,10 +1,14 @@
 ﻿#region General
 
+using Boo.Lang;
+using System.Collections.Generic;
+
 public struct UserGeneralMold 
 {
     public string Username;
     public string SignUpDate;
     public string Language;
+    public string SignInStatus;
 }
 
 public class UserGeneral
@@ -53,11 +57,13 @@ public class UserGeneral
 
 public struct UserProgressionMold 
 {
-    public string Rank;
-    public int Level;
+    public int SeenQuestions;
+    public int Experience;
     public int CorrectAnswers;
     public int WrongAnswers;
     public int HighScore;
+    public int Level;
+    public string Rank;
     public float TotalPlayTime;
 }
 
@@ -117,10 +123,10 @@ public class UserProgression
 
 public struct UserConsumableMold
 {
-    //public int Energy;
-    //public int Papcoin;
-    //public int Gem;
-    //public int Joker;
+    public int Energy;
+    public int Papcoin;
+    public int Gem;
+    public int Joker;
 }
 
 public class UserConsumable

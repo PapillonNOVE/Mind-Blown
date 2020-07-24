@@ -4,7 +4,7 @@ using System;
 using System.Collections;
 using UnityEngine.UI;
 
-public class ActionManager : Singleton<ActionManager>
+public class EventManager : Singleton<EventManager>
 {
     //Firebase Initialization
     public delegate void StartFirebaseDelegate(Action _OnSuccessCallback);
@@ -32,9 +32,14 @@ public class ActionManager : Singleton<ActionManager>
 
     // User
     public UnityAction<string, string> CreatUserProfile;
+
     public UnityAction<string, string, object> UpdateUserData;
+
     public delegate IEnumerator GetCurrentUserProfileDelegate();
     public GetCurrentUserProfileDelegate GetCurrentUserProfile;
+
+    public UnityAction<int, int> GainExperience;
+
     public UnityAction DeleteUserProfile;
 
     public delegate IEnumerator ControlIsUsernameExistDelegate(string _Username, Action _OnSuccesCallback, Action _OnFailCallback);

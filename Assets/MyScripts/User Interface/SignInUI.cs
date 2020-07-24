@@ -44,7 +44,7 @@ public class SignInUI : MonoBehaviour
         string email = inputField_Email.textComponent.text.Replace("\u200B", "");
         string password = inputField_Password.textComponent.text.Replace("\u200B", "");
 
-        StartCoroutine(ActionManager.Instance.SignInWithEmailPassword(email, password, SignInEmailPasswordSuccessful, SignInWithEmailPasswordFailed));
+        StartCoroutine(EventManager.Instance.SignInWithEmailPassword(email, password, SignInEmailPasswordSuccessful, SignInWithEmailPasswordFailed));
     }
 
     private void SignInEmailPasswordSuccessful()
