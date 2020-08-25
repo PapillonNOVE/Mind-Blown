@@ -1,8 +1,5 @@
 ﻿#region General
 
-using Boo.Lang;
-using System.Collections.Generic;
-
 public struct UserGeneralMold 
 {
     public string Username;

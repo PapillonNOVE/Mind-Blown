@@ -224,6 +224,7 @@ public class BottomNavigationBarManager : Singleton<BottomNavigationBarManager>
 			{
 				continue;
 			}
+
 			button.SetPassiveIcon();
 		}
 	}

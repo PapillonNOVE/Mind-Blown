@@ -5,8 +5,6 @@ using TMPro;
 using UnityEngine.UI;
 using DG.Tweening;
 using ConstantKeeper;
-using System;
-using System.Runtime.CompilerServices;
 
 public enum GameOverType
 {
@@ -358,7 +356,7 @@ public class GameManager : MonoBehaviour
 		}
 
 		yield return newQuestionOutAnimSeq.WaitForCompletion();
-		Debug.LogWarning("geliyor gibi");
+		Debug.LogWarning("geliyor");
 		StartCoroutine(EventManager.Instance.GetQuestion());
 	}
 

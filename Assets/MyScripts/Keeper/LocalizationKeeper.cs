@@ -1,5 +1,7 @@
 ﻿public static class LocalizationKeeper
 {
+    // Bu yöntem performans katili olduğu için kullanılmayacak yine de dursun
+
     public static string AbandonedMatches;
     public static string Cancel;
     public static string CompletedMatches;

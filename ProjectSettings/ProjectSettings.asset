@@ -111,8 +111,13 @@ PlayerSettings:
   switchNVNShaderPoolsGranularity: 33554432
   switchNVNDefaultPoolsGranularity: 16777216
   switchNVNOtherPoolsGranularity: 16777216
+  switchNVNMaxPublicTextureIDCount: 0
+  switchNVNMaxPublicSamplerIDCount: 0
+  stadiaPresentMode: 0
+  stadiaTargetFramerate: 0
   vulkanNumSwapchainBuffers: 3
   vulkanEnableSetSRGBWrite: 0
+  vulkanEnableLateAcquireNextImage: 0
   m_SupportedAspectRatios:
     4:3: 1
     5:4: 1
@@ -190,22 +195,6 @@ PlayerSettings:
   uIStatusBarHidden: 1
   uIExitOnSuspend: 0
   uIStatusBarStyle: 0
-  iPhoneSplashScreen: {fileID: 0}
-  iPhoneHighResSplashScreen: {fileID: 0}
-  iPhoneTallHighResSplashScreen: {fileID: 0}
-  iPhone47inSplashScreen: {fileID: 0}
-  iPhone55inPortraitSplashScreen: {fileID: 0}
-  iPhone55inLandscapeSplashScreen: {fileID: 0}
-  iPhone58inPortraitSplashScreen: {fileID: 0}
-  iPhone58inLandscapeSplashScreen: {fileID: 0}
-  iPadPortraitSplashScreen: {fileID: 0}
-  iPadHighResPortraitSplashScreen: {fileID: 0}
-  iPadLandscapeSplashScreen: {fileID: 0}
-  iPadHighResLandscapeSplashScreen: {fileID: 0}
-  iPhone65inPortraitSplashScreen: {fileID: 0}
-  iPhone65inLandscapeSplashScreen: {fileID: 0}
-  iPhone61inPortraitSplashScreen: {fileID: 0}
-  iPhone61inLandscapeSplashScreen: {fileID: 0}
   appleTVSplashScreen: {fileID: 0}
   appleTVSplashScreen2x: {fileID: 0}
   tvOSSmallIconLayers: []
@@ -580,6 +569,7 @@ PlayerSettings:
   ps4ShareFilePath: 
   ps4ShareOverlayImagePath: 
   ps4PrivacyGuardImagePath: 
+  ps4ExtraSceSysFile: 
   ps4NPtitleDatPath: 
   ps4RemotePlayKeyAssignment: -1
   ps4RemotePlayKeyMappingDir: 
@@ -622,6 +612,8 @@ PlayerSettings:
   ps4disableAutoHideSplash: 0
   ps4videoRecordingFeaturesUsed: 0
   ps4contentSearchFeaturesUsed: 0
+  ps4CompatibilityPS5: 0
+  ps4GPU800MHz: 1
   ps4attribEyeToEyeDistanceSettingVR: 0
   ps4IncludedModules: []
   ps4attribVROutputEnabled: 0
@@ -645,17 +637,17 @@ PlayerSettings:
   webGLThreadsSupport: 0
   webGLWasmStreaming: 0
   scriptingDefineSymbols:
-    1: EASY_MOBILE;EASY_MOBILE_PRO;UNITY_MONETIZATION
-    4: EASY_MOBILE;EASY_MOBILE_PRO;UNITY_MONETIZATION
-    7: EASY_MOBILE;EASY_MOBILE_PRO;UNITY_MONETIZATION
-    13: EASY_MOBILE;EASY_MOBILE_PRO;UNITY_MONETIZATION
-    14: EASY_MOBILE;EASY_MOBILE_PRO;UNITY_MONETIZATION
-    19: EASY_MOBILE;EASY_MOBILE_PRO;UNITY_MONETIZATION
-    21: EASY_MOBILE;EASY_MOBILE_PRO;UNITY_MONETIZATION
-    25: EASY_MOBILE;EASY_MOBILE_PRO;UNITY_MONETIZATION
-    27: EASY_MOBILE;EASY_MOBILE_PRO;UNITY_MONETIZATION
-    28: EASY_MOBILE;EASY_MOBILE_PRO;UNITY_MONETIZATION
-    29: EASY_MOBILE;EASY_MOBILE_PRO;UNITY_MONETIZATION
+    1: EASY_MOBILE;EASY_MOBILE_PRO
+    4: EASY_MOBILE;EASY_MOBILE_PRO
+    7: EASY_MOBILE;EASY_MOBILE_PRO
+    13: EASY_MOBILE;EASY_MOBILE_PRO
+    14: EASY_MOBILE;EASY_MOBILE_PRO
+    19: EASY_MOBILE;EASY_MOBILE_PRO
+    21: EASY_MOBILE;EASY_MOBILE_PRO
+    25: EASY_MOBILE;EASY_MOBILE_PRO
+    27: EASY_MOBILE;EASY_MOBILE_PRO
+    28: EASY_MOBILE;EASY_MOBILE_PRO
+    29: EASY_MOBILE;EASY_MOBILE_PRO
   platformArchitecture: {}
   scriptingBackend:
     Android: 1
