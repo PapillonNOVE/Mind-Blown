@@ -1,4 +1,4 @@
-﻿using ConstantKeeper;
+﻿using Constants;
 using EasyMobile;
 using TMPro;
 using UnityEngine;

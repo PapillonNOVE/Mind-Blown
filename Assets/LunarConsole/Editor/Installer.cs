@@ -35,7 +35,7 @@ namespace LunarConsoleEditorInternal
         public static void Install(bool silent = true)
         {
             string prefabPath = EditorConstants.PrefabPath;
-            string messageTitle = Constants.PluginDisplayName;
+            string messageTitle = LunarConsolePluginInternal.Constants.PluginDisplayName;
 
             string objectName = Path.GetFileNameWithoutExtension(prefabPath);
 

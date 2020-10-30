@@ -648,6 +648,7 @@ PlayerSettings:
     27: EASY_MOBILE;EASY_MOBILE_PRO
     28: EASY_MOBILE;EASY_MOBILE_PRO
     29: EASY_MOBILE;EASY_MOBILE_PRO
+    30: EASY_MOBILE;EASY_MOBILE_PRO
   platformArchitecture: {}
   scriptingBackend:
     Android: 1

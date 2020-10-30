@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using EasyMobile;
-using ConstantKeeper;
+using Constants;
 
 public class SignInUI : MonoBehaviour
 {

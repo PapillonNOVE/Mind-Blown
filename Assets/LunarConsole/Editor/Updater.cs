@@ -147,7 +147,7 @@ namespace LunarConsoleEditorInternal
 
         public static void CheckForUpdates(bool silent = true)
         {
-            LunarConsoleHttpClient downloader = new LunarConsoleHttpClient(LunarConsoleConfig.fullVersion ? Constants.UpdateJsonURLFull : Constants.UpdateJsonURLFree);
+			LunarConsoleHttpClient downloader = new LunarConsoleHttpClient(LunarConsoleConfig.fullVersion ? LunarConsolePluginInternal.Constants.UpdateJsonURLFull : LunarConsolePluginInternal.Constants.UpdateJsonURLFree);
             downloader.DownloadString(delegate (string response, Exception error)
             {
                 if (error != null)
@@ -307,14 +307,14 @@ namespace LunarConsoleEditorInternal
 
             private static string ResolvePluginVersion()
             {
-                return Constants.Version;
+                return LunarConsolePluginInternal.Constants.Version;
             }
         }
 
         #region Preferences
 
-        private static readonly string kPrefsKeySkipVersion = Constants.EditorPrefsKeyBase + ".SkipVersion";
-        private static readonly string kPrefsKeyLastUpdateCheckDate = Constants.EditorPrefsKeyBase + ".LastUpdateCheckDate";
+        private static readonly string kPrefsKeySkipVersion = LunarConsolePluginInternal.Constants.EditorPrefsKeyBase + ".SkipVersion";
+        private static readonly string kPrefsKeyLastUpdateCheckDate = LunarConsolePluginInternal.Constants.EditorPrefsKeyBase + ".LastUpdateCheckDate";
 
         private static bool IsShouldSkipVersion(string version)
         {

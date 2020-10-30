@@ -39,7 +39,7 @@ namespace LunarConsoleEditorInternal
             get
             {
                 var pluginRoot = PluginRootDirectory;
-                return pluginRoot != null ? FileUtils.GetAssetPath(pluginRoot, "Scripts", Constants.PluginName + ".prefab") : null;
+                return pluginRoot != null ? FileUtils.GetAssetPath(pluginRoot, "Scripts", LunarConsolePluginInternal.Constants.PluginName + ".prefab") : null;
             }
         }
 
@@ -79,7 +79,7 @@ namespace LunarConsoleEditorInternal
                     pluginRootDirectory = ResolvePluginRootDirectory();
                     if (pluginRootDirectory == null)
                     {
-                        Debug.LogErrorFormat("Unable to resolve plugin root directory. Re-install {0} to fix the issue", Constants.PluginDisplayName);
+						Debug.LogErrorFormat("Unable to resolve plugin root directory. Re-install {0} to fix the issue", LunarConsolePluginInternal.Constants.PluginDisplayName);
                         return null;
                     }
                 }

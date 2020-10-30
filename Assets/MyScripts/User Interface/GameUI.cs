@@ -26,13 +26,13 @@ public class GameUI : MonoBehaviour
 
 	private void Subscribe()
 	{
-		EventManager.Instance.CountdownTimeDemonstrator += CountdownTimeDemonstrator;
+		EventManager.Instance.CountdownTimeIndicator += CountdownTimeDemonstrator;
 		EventManager.Instance.UpdateGameUI += UpdateGameUI;
 	}
 
 	private void Unsubscribe()
 	{
-		EventManager.Instance.CountdownTimeDemonstrator -= CountdownTimeDemonstrator;
+		EventManager.Instance.CountdownTimeIndicator -= CountdownTimeDemonstrator;
 		EventManager.Instance.UpdateGameUI -= UpdateGameUI;
 	}
 

@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,7 +13,7 @@ public enum ButtonCode
 
 public class OptionButton : MonoBehaviour//, IPointerClickHandler
 {
-    public bool isTrueOption;
+    public bool isCorrectOption;
 
     [Header("Component")]
     public Button _optionButton;
@@ -31,64 +32,55 @@ public class OptionButton : MonoBehaviour//, IPointerClickHandler
     [SerializeField] private Texture2D _correctOptionIcon;
 
     public ButtonCode _buttonCode;
+    private Option _currentOption;
+    private Action<bool> _onClick;
+    public static Action _showCorrectOption;
 
-    private void OnEnable()
-    {
-        Subscribe();
-    }
-
-    private void Start()
+    private void Awake()
     {
         OnClickAddListener();
+        
+    }
+    private void OnClickAddListener()
+    {
+        _optionButton.onClick.AddListener(OnClick);
     }
 
-	private void OnDisable()
+    public void Init(in Option option, Action<bool> onClick)
     {
-        GeneralControls.ControlQuit(Unsubscribe);
-    }
-
-    private void Subscribe()
-    {
-        EventManager.Instance.UpdateOptionButton += UpdateButton;
-    }
-
-	private void Unsubscribe()
-	{
-		EventManager.Instance.UpdateOptionButton -= UpdateButton;
-	}
-
-	private void OnClickAddListener()
-    {
-        _optionButton.onClick.AddListener(ClickOption);
-    }
-
-    private void ClickOption() 
-    {
-        EventManager.Instance.ControlAnswer(isTrueOption, this);
-    }
-
-    public void UpdateButton(string optionText, ButtonCode buttonCode = 0, bool isCorrectOption = false)
-    {
-        //if (buttonCode == _buttonCode)
-        //{
-        //    _optionBackgroundImage.texture = _optionDefaultBackground;
-        //    _chooseIconImage.texture = _defaultOptionIcon;
-        //    _optionText.SetText(optionText);
-        //    isTrueOption = isCorrectOption;
-        //}
-
+        _onClick = onClick;
+        _currentOption = option;
         _optionBackgroundImage.texture = _optionDefaultBackground;
-        _optionText.SetText(optionText);
         _chooseIconImage.texture = _defaultOptionIcon;
+
+        _optionText.SetText(option.OptionText);
+
+        isCorrectOption = option.IsCorrectOption;
+
+        if (_showCorrectOption != null)
+        {
+            _showCorrectOption -= ShowCorrectOption;
+        }
+
+        if (!isCorrectOption)
+        {
+            return;
+        }
+     
+        _showCorrectOption = ShowCorrectOption;
+    }
+
+    private void OnClick() 
+    {
+        _onClick?.Invoke(isCorrectOption);
 
 		if (isCorrectOption)
 		{
-            isTrueOption = true;
+            CorrectOption();
+            return;
         }
-		else
-		{
-            isTrueOption = false;
-        }
+
+        WrongOption();
     }
 
     public void WrongOption() 

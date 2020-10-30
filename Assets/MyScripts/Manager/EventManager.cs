@@ -71,10 +71,11 @@ public class EventManager : Singleton<EventManager>
     public GetQuestionDelegate GetQuestion;
 
 
-    public UnityAction<QuestionStruct> AskQuestion;
+    public UnityAction<Question> AskQuestion;
     //public UnityAction<IEnumerator<>> GetQuestion;
 
-    public UnityAction<Dictionary<string, object>> SendQuestion;
+    public UnityAction<Question> SendQuestion;
+    //public UnityAction<Dictionary<string, object>> SendQuestion;
 
     public delegate void UpdateButtonDelegate(string _OptionText, ButtonCode buttonCode, bool isCorrectAnswer = false);
     public UpdateButtonDelegate UpdateOptionButton;
@@ -82,6 +83,6 @@ public class EventManager : Singleton<EventManager>
 
 
     // Game UI
-    public UnityAction<float> CountdownTimeDemonstrator;
+    public UnityAction<float> CountdownTimeIndicator;
     public UnityAction<int, int, float> UpdateGameUI;
 }

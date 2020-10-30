@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using EasyMobile;
-using ConstantKeeper;
+using Constants;
 
 public class SignUpUI : MonoBehaviour
 {
@@ -57,7 +57,7 @@ public class SignUpUI : MonoBehaviour
        + @"([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|"
        + @"([a-zA-Z]+[\w-]+\.)+[a-zA-Z]{2,4})$";
 
-    [SerializeField] private int passwordMinLenght; 
+    [SerializeField] private int passwordMinLenght;
     [SerializeField] private int passwordMaxLenght;
 
     private void OnEnable()
@@ -79,12 +79,12 @@ public class SignUpUI : MonoBehaviour
 
     private void OnClickAddListener()
     {
-        btn_GoToMainMenu.onClick.AddListener(UIManager.Instance.ShowMainMenuPanel);
+        btn_GoToMainMenu.onClick.AddListener(OpenMainMenu);
         btn_SignUp.onClick.AddListener(SignUp);
         btn_GoToSignIn.onClick.AddListener(GoToSignIn);
     }
 
-    private void OnValueChangedAddListener() 
+    private void OnValueChangedAddListener()
     {
         inputField_Username.onValueChanged.AddListener(ControlUsername);
         inputField_Email.onEndEdit.AddListener(ControlEmail);
@@ -95,20 +95,20 @@ public class SignUpUI : MonoBehaviour
 
 
 
-	#region OnEditInputField
+    #region OnEditInputField
 
-	#region Username
+    #region Username
 
-	private void ControlUsername(string arg0)
+    private void ControlUsername(string arg0)
     {
-       // Debug.Log("1: " + arg0.Length);
-       //// arg0.Replace("\u200B", "");
-       // Debug.Log("2: " + arg0.Length);
+        // Debug.Log("1: " + arg0.Length);
+        //// arg0.Replace("\u200B", "");
+        // Debug.Log("2: " + arg0.Length);
 
         StartCoroutine(EventManager.Instance.ControlIsUsernameExist(arg0, UsernameAvaliable, UsernameNotAvaliable));
     }
 
-    private void UsernameAvaliable() 
+    private void UsernameAvaliable()
     {
         isUsernameUnique = true;
         inputField_Username.GetComponent<Outline>().effectColor = color_Green;
@@ -124,23 +124,23 @@ public class SignUpUI : MonoBehaviour
         SetInteractableSignUpButton();
     }
 
-	#endregion
+    #endregion
 
-	#region Email
+    #region Email
 
-	private void ControlEmail(string arg0)
+    private void ControlEmail(string arg0)
     {
-       /* arg0.Replace("\u200B", "");
+        /* arg0.Replace("\u200B", "");
 
-        if (arg0 == MatchEmailPattern)
-        {
-            isEmailFormatCorrect = true;
-        }
-        else
-        {
-            isEmailFormatCorrect = false;
-        }
-        */
+         if (arg0 == MatchEmailPattern)
+         {
+             isEmailFormatCorrect = true;
+         }
+         else
+         {
+             isEmailFormatCorrect = false;
+         }
+         */
         SetInteractableSignUpButton();
     }
 
@@ -167,11 +167,11 @@ public class SignUpUI : MonoBehaviour
         SetInteractableSignUpButton();
     }
 
-	#endregion
+    #endregion
 
-	#region Password
+    #region Password
 
-	private void ControlPassword(string arg0)
+    private void ControlPassword(string arg0)
     {
         arg0.Replace("\u200B", "");
 
@@ -193,9 +193,9 @@ public class SignUpUI : MonoBehaviour
 
     private void ControlConfirmPassword(string arg0)
     {
-        Debug.Log("1: "+arg0.Length);
+        Debug.Log("1: " + arg0.Length);
         arg0.Replace("\u200B", "");
-        Debug.Log("2: "+arg0.Length);
+        Debug.Log("2: " + arg0.Length);
 
         if (arg0 == inputField_Password.text)
         {
@@ -214,23 +214,23 @@ public class SignUpUI : MonoBehaviour
         SetInteractableSignUpButton();
     }
 
-	#endregion
+    #endregion
 
-	#endregion
+    #endregion
 
-	public void SetInteractableSignUpButton()
-	{
-		if (isUsernameUnique && /*isUsernameFormatCorrect &&*/ isEmailFormatCorrect && isPasswordFormatCorrect && isConfirmPasswordSamePassword)
-		{
-			btn_SignUp.interactable = true;
-		}
-		else
-		{
-			btn_SignUp.interactable = false;
-		}
-	}
+    public void SetInteractableSignUpButton()
+    {
+        if (isUsernameUnique && /*isUsernameFormatCorrect &&*/ isEmailFormatCorrect && isPasswordFormatCorrect && isConfirmPasswordSamePassword)
+        {
+            btn_SignUp.interactable = true;
+        }
+        else
+        {
+            btn_SignUp.interactable = false;
+        }
+    }
 
-	private void SignUp()
+    private void SignUp()
     {
         SignUpStruct signUpStruct = new SignUpStruct();
 
@@ -253,26 +253,31 @@ public class SignUpUI : MonoBehaviour
         StartCoroutine(EventManager.Instance.SignUpWithEmailPassword(signUpStruct, SignUpWithEmailPasswordSuccesful, SignUpWithEmailPasswordFailed));
     }
 
-    private void SignUpWithEmailPasswordSuccesful() 
+    private void SignUpWithEmailPasswordSuccesful()
     {
         // NativeUI.AlertPopup alertPopup = NativeUI.Alert(AuthenticationsDebugs.SignUpPaths.SignUpSuccessful, AuthenticationsDebugs.SignUpPaths.SignUpSuccessfulDetail);
-       // NativeUI.ShowToast($"{AuthenticationsDebugs.SignUpPaths.SignUpSuccessful} {AuthenticationsDebugs.SignUpPaths.SignUpSuccessfulDetail}");
+        // NativeUI.ShowToast($"{AuthenticationsDebugs.SignUpPaths.SignUpSuccessful} {AuthenticationsDebugs.SignUpPaths.SignUpSuccessfulDetail}");
     }
 
-    private void SignUpWithEmailPasswordFailed() 
+    private void SignUpWithEmailPasswordFailed()
     {
         //NativeUI.AlertPopup alertPopup = NativeUI.Alert(AuthenticationsDebugs.SignUpPaths.SignUpFailed, AuthenticationsDebugs.SignUpPaths.SignUpFailedDetail);
     }
 
-    private void GoToSignIn() 
+    private void GoToSignIn()
     {
         UIManager.Instance.ShowSignInPanel();
-        
-            //UIManager.Instance.PanelOpener();
 
-       /* Sequence panelSeq = DOTween.Sequence();
-        panelSeq.Append(panel_Parent.DOAnchorPosX(0, 0.3f))
-                .Append(panel_Parent.DOAnchorPosY(0, 0.3f))
-                .OnComplete(() => UIManager.Instance.ShowSignInPanel());*/
+        //UIManager.Instance.PanelOpener();
+
+        /* Sequence panelSeq = DOTween.Sequence();
+         panelSeq.Append(panel_Parent.DOAnchorPosX(0, 0.3f))
+                 .Append(panel_Parent.DOAnchorPosY(0, 0.3f))
+                 .OnComplete(() => UIManager.Instance.ShowSignInPanel());*/
+    }
+
+    private void OpenMainMenu()
+    {
+        UIManager.Instance.ShowMainMenuPanel();
     }
 }

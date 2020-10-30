@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using EasyMobile;
-using ConstantKeeper;
+using Constants;
 using DG.Tweening;
 
 public class ResetPasswordUI : Singleton<ResetPasswordUI>

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Remoting.Messaging;
 using UnityEngine;
@@ -25,6 +26,7 @@ public enum Panels
 public class UIManager : Singleton<UIManager>
 {
 	[Header("Panel")]
+	[SerializeField] private GameObject transitionPanel;
 	[SerializeField] private GameObject panel_PanelParent;
 	[SerializeField] private GameObject panel_MainMenu;
 	[SerializeField] private GameObject panel_Categories;

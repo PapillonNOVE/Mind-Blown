@@ -51,10 +51,10 @@ namespace LunarConsoleEditorInternal
             var androidPathAAR = FileUtils.FixAssetPath(EditorConstants.EditorPathAndroidAAR);
             if (androidPathAAR == null || !FileUtils.AssetPathExists(androidPathAAR))
             {
-                Debug.LogErrorFormat("Can't {0} Android plugin: missing required file '{1}'. Re-install {2} to fix the issue.",
+				Debug.LogErrorFormat("Can't {0} Android plugin: missing required file '{1}'. Re-install {2} to fix the issue.",
                     enabled ? "enable" : "disable",
                     androidPathAAR,
-                    Constants.PluginDisplayName);
+					LunarConsolePluginInternal.Constants.PluginDisplayName);
                 return;
             }
 
@@ -69,11 +69,11 @@ namespace LunarConsoleEditorInternal
                     EditorApplication.delayCall += s_onRetry;
                     return;
                 }
-                
-                Debug.LogErrorFormat("Can't {0} Android plugin: unable to create importer for '{1}'. Re-install {2} to fix the issue.",
+
+				Debug.LogErrorFormat("Can't {0} Android plugin: unable to create importer for '{1}'. Re-install {2} to fix the issue.",
                     enabled ? "enable" : "disable",
                     androidPathAAR,
-                    Constants.PluginDisplayName);
+					LunarConsolePluginInternal.Constants.PluginDisplayName);
                 return;
             }
 

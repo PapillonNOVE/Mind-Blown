@@ -16,7 +16,8 @@ public class LoadingUI : MonoBehaviour
 	[SerializeField] private GameObject _pointParent;
 	[SerializeField] private GameObject _rootParent;
 
-	[SerializeField] private float _timer;
+	[Range(0f,10f)]
+	[SerializeField] private float delayTimer;
 	//[SerializeField] private List<RectTransform> points;
 	//[SerializeField] private List<float> pointPosX;
 	
@@ -47,32 +48,26 @@ public class LoadingUI : MonoBehaviour
 		StartCoroutine(PointMover());
 	}
 
-	//private void OnEnable()
-	//{
-	//	ActionManager.Instance.LoadingPanelSelfDestruction += SelfDestructtion;
-	//}
-
-	//private void OnDestroy()
-	//{
-	//	ActionManager.Instance.LoadingPanelSelfDestruction -= SelfDestructtion;
-	//}
-
 	private void Update()
 	{
 		if (isFirstTime)
 		{
 			if (isFirebaseInitialized && isDatabaseReferencesCreated && isUserProfileReady && isCorrectPanelSelected || isAuthControlled)
 			{
-				TransitionManager.Instance.TransitionAnimTrigger(SelfDestruction);
-				//Debug.LogError("Çalışıyor!!!");
-				isFirstTime = false;
+				delayTimer -= Time.deltaTime;
+
+				if (delayTimer <= 0)
+				{
+					TransitionManager.Instance.TransitionAnimation(SelfDestruction);
+					isFirstTime = false;
+				}
 			}
 		}
 	}
 
 	private IEnumerator PointMover()
 	{
-		Sequence sequence = DOTween.Sequence();
+		Sequence seq = DOTween.Sequence();
 
 		float lastRotZ = _rectTransform_PointParent.rotation.eulerAngles.z;
 		//Debug.Log(lastRotZ);
@@ -80,14 +75,13 @@ public class LoadingUI : MonoBehaviour
 
 		//	rectTransform_PointParent.Rotate(new Vector3(0, 0, lastRotZ + 90));
 
-		sequence.Append(_rectTransform_PointParent.DORotate(new Vector3(0, 0, lastRotZ - 450f), 1f, RotateMode.FastBeyond360))//.OnStepComplete(() => Debug.Log(lastRotZ))
-				.Join(_rectTransform_PointParent.DOSizeDelta(_minParentSize, 1f))
-				.Append(_rectTransform_PointParent.DOSizeDelta(_maxParentSize, 1f))
-				.Join(_rectTransform_PointParent.DORotate(new Vector3(0, 0, lastRotZ - 450f), 1f, RotateMode.FastBeyond360));//.OnComplete(() => Debug.Log(lastRotZ));
+		seq.Append(_rectTransform_PointParent.DORotate(new Vector3(0, 0, lastRotZ - 450f), 1f, RotateMode.FastBeyond360));//.OnStepComplete(() => Debug.Log(lastRotZ))
+		seq.Join(_rectTransform_PointParent.DOSizeDelta(_minParentSize, 1f));
 
+		seq.Append(_rectTransform_PointParent.DOSizeDelta(_maxParentSize, 1f));
+		seq.Join(_rectTransform_PointParent.DORotate(new Vector3(0, 0, lastRotZ - 450f), 1f, RotateMode.FastBeyond360));//.OnComplete(() => Debug.Log(lastRotZ));
 
-
-		yield return sequence.WaitForCompletion();
+		yield return seq.WaitForCompletion();
 		StartCoroutine(PointMover());
 	}
 

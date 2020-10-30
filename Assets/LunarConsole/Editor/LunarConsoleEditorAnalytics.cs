@@ -32,7 +32,7 @@ namespace LunarConsoleEditorInternal
 {
     static class LunarConsoleEditorAnalytics
     {
-        private static readonly string kPrefsLastKnownVersion = Constants.EditorPrefsKeyBase + ".LastKnownVersion";
+        private static readonly string kPrefsLastKnownVersion = LunarConsolePluginInternal.Constants.EditorPrefsKeyBase + ".LastKnownVersion";
 
         /// <summary>
         /// Notifies the server about plugin update.
@@ -43,10 +43,10 @@ namespace LunarConsoleEditorInternal
             if (LunarConsoleConfig.consoleEnabled && LunarConsoleConfig.consoleSupported)
             {
                 var lastKnownVersion = EditorPrefs.GetString(kPrefsLastKnownVersion);
-                if (lastKnownVersion != Constants.Version)
+                if (lastKnownVersion != LunarConsolePluginInternal.Constants.Version)
                 {
-                    EditorPrefs.SetString(kPrefsLastKnownVersion, Constants.Version);
-                    TrackEvent("Version", "updated_version");
+					EditorPrefs.SetString(kPrefsLastKnownVersion, LunarConsolePluginInternal.Constants.Version);
+					TrackEvent("Version", "updated_version");
                 }
             }
 #endif
