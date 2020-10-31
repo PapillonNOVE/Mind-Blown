@@ -16,7 +16,8 @@ public class EventManager : Singleton<EventManager>
     // Prepare Game
     public UnityAction QuickGame;
 
-    // Authentication
+    #region Authentication
+
     public delegate IEnumerator SignUpWithEmailPasswordDelegate(SignUpStruct _Email, Action onSuccessCallback, Action onFailCallback);
     public SignUpWithEmailPasswordDelegate SignUpWithEmailPassword;
 
@@ -30,28 +31,30 @@ public class EventManager : Singleton<EventManager>
     public delegate void SignOutDelegaate(Action onSuccessCallback, Action onFailCallback);
     public SignOutDelegaate SignOut;
 
-    // User
-    public UnityAction<string, string> CreatUserProfile;
+	#endregion
+
+	#region User
+
+	public UnityAction<string, string> CreatUserProfile;
 
     public UnityAction<string, string, object> UpdateUserData;
 
     public delegate IEnumerator GetCurrentUserProfileDelegate();
     public GetCurrentUserProfileDelegate GetCurrentUserProfile;
 
-    public UnityAction<int, int> GainExperience;
-
     public UnityAction DeleteUserProfile;
 
     public delegate IEnumerator ControlIsUsernameExistDelegate(string _Username, Action _OnSuccesCallback, Action _OnFailCallback);
     public ControlIsUsernameExistDelegate ControlIsUsernameExist;
 
-    // Game
-    public UnityAction<string> ShowWhoseTurn;
+	#endregion
+
+	// Game
+	public UnityAction<string> ShowWhoseTurn;
     public UnityAction<string> ShowLastEstimation;
     public UnityAction<int> SendEstimation;
     public UnityAction<bool, OptionButton> ControlAnswer;
-
-    public UnityAction CreateSecretNumber;
+    public UnityAction GameOver;
 
     // Panels
     public UnityAction ShowMenuPanel;
@@ -84,5 +87,5 @@ public class EventManager : Singleton<EventManager>
 
     // Game UI
     public UnityAction<float> CountdownTimeIndicator;
-    public UnityAction<int, int, float> UpdateGameUI;
+    public UnityAction<float> UpdateGameUI;
 }

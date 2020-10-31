@@ -7,7 +7,7 @@ public struct Question
 	public string QuestionText;
 	public List<Option> OptionList;
 	public Options Options;
-	public string QuestionLevel;
+	public int QuestionLevel;
 	public string QuestionLanguage;
 	public string QuestionCategory;
 	public string SenderPlayerID;

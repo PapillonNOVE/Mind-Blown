@@ -113,6 +113,7 @@ namespace Constants
 			public static readonly string TotalMatches = "TotalMatches";
 			public static readonly string SeenQuestions = "SeenQuestions";
 			public static readonly string Experience = "Experience";
+			public static readonly string RequiredExperience = "RequiredExperience";
 			public static readonly string CompletedMatches = "CompletedMatches";
 			public static readonly string CorrectAnswers = "CorrectAnswers";
 			public static readonly string WrongAnswers = "WrongAnswers";

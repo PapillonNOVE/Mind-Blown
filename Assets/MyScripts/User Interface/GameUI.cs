@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class GameUI : MonoBehaviour
 {
+	[SerializeField] private GameObject m_GameResultsPanel;
+
 	[Header("Button")]
 	[SerializeField] private Button _goToMainMenuButton;
 
@@ -22,25 +24,33 @@ public class GameUI : MonoBehaviour
 	private void OnDisable()
 	{
 		GeneralControls.ControlQuit(Unsubscribe);
+
+		CloseResultsPanel();
 	}
+
+	#region Event Subsribe/Unsubscribe
 
 	private void Subscribe()
 	{
+		EventManager.Instance.GameOver += OpenResultsPanel;
 		EventManager.Instance.CountdownTimeIndicator += CountdownTimeDemonstrator;
 		EventManager.Instance.UpdateGameUI += UpdateGameUI;
 	}
 
 	private void Unsubscribe()
 	{
+		EventManager.Instance.GameOver -= OpenResultsPanel;
 		EventManager.Instance.CountdownTimeIndicator -= CountdownTimeDemonstrator;
 		EventManager.Instance.UpdateGameUI -= UpdateGameUI;
 	}
 
-	private void UpdateGameUI(int score, int questionNumber, float responseTimeLimit)
-	{
-		_scoreText.SetText(score.ToString());
+	#endregion
 
-		_questionNumberText.SetText(questionNumber.ToString());
+	private void UpdateGameUI(float responseTimeLimit)
+	{
+		_scoreText.SetText(Datas.S_Score.ToString());
+
+		_questionNumberText.SetText(Datas.S_QuestionNumber.ToString());
 
 		_timerBar.maxValue = responseTimeLimit;
 		_timerBar.value = responseTimeLimit;
@@ -53,4 +63,14 @@ public class GameUI : MonoBehaviour
 
         //_timerBar = Color.Lerp(_redColor, _greenColor, x);
     }
+
+	private void OpenResultsPanel() 
+	{
+		m_GameResultsPanel.SetActive(true);
+	}
+
+	private void CloseResultsPanel()
+	{ 
+		m_GameResultsPanel.SetActive(false);
+	}
 }

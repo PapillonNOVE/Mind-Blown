@@ -5,21 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using DG.Tweening;
 using Constants;
-
-public enum GameOverType
-{
-	TimesUp,
-	WrongAnswer
-}
-
-public struct QuestionStruct
-{
-	public string question;
-	public string correctAnswer;
-	public List<string> wrongAnswers;
-	public int optionCount;
-	public string questionCategory;
-}
+using UnityEngine.SocialPlatforms;
 
 public class QuestionManager : MonoBehaviour
 {
@@ -31,12 +17,6 @@ public class QuestionManager : MonoBehaviour
 	[SerializeField] private TextMeshProUGUI _optionText2;
 	[SerializeField] private TextMeshProUGUI _optionText3;
 	[SerializeField] private TextMeshProUGUI _optionText4;
-
-	//[Header("Button")]
-	//[SerializeField] private Button _optionButton1;
-	//[SerializeField] private Button _optionButton2;
-	//[SerializeField] private Button _optionButton3;
-	//[SerializeField] private Button _optionButton4;
 
 	[Header("Option Button")]
 	[SerializeField] private Button _optionButton1;
@@ -53,49 +33,40 @@ public class QuestionManager : MonoBehaviour
 	[Header("Button Parent")]
 	[SerializeField] private GameObject _buttonParent;
 
-	[Header("Colors")]
-	[SerializeField] private Color _greenColor;
-	[SerializeField] private Color _redColor;
-
 	[Header("Choose Icon")]
 	[SerializeField] private Texture2D _choosenOptionIcon;
 	[SerializeField] private Texture2D _correctOptionIcon;
 
-	[Header("Option Bacground")]
-	[SerializeField] private Texture2D _wrongOptionBackground;
-	[SerializeField] private Texture2D _correctOptionBackground;
-	[SerializeField] private Texture2D _defaultOptionBackground;
-
 	[Header("Timer")]
-	[SerializeField] private float _responseTimeLimit;
-	[SerializeField] private float _responseTimer;
+	[Range(0f,30f)]
+	[SerializeField] private float m_ResponseTimeLimit;
+
+	[SerializeField] private float m_ResponseTimer;
 	public float ResponseTimer
 	{
-		get => _responseTimer;
+		get => m_ResponseTimer;
 		set
 		{
-			_responseTimer = value;
+			if (m_IsGameOver)
+			{
+				return;
+			}
+
+			m_ResponseTimer = value;
 			EventManager.Instance.CountdownTimeIndicator?.Invoke(value);
 		}
 	}
 
-	[Header("Progression")]
-	[SerializeField] private int _score;
-	[SerializeField] private int _correctAnswerAmount;
-	[SerializeField] private int _wrongAnswerAmount;
-	[SerializeField] private int _questionNumber;
-
 	private OptionButton _correctOptionButton; 
 
-	public static bool correctAnswer = true;
-	public static bool wrongAnswer = false;
-
-	private bool _isQuestionAsked;
+	private bool m_IsQuestionAsked;
+	
+	private bool m_IsGameOver;
 
 	private void OnEnable()
 	{
 		Subscribe();
-		StartCoroutine(ResetValues());
+		ResetValues();
 
 		if (FirebaseQuestionManager.questionIDs.Count > 0)
 		{
@@ -108,33 +79,33 @@ public class QuestionManager : MonoBehaviour
 		GeneralControls.ControlQuit(Unsubscribe);
 	}
 
+	#region Event Subscribe/Unsubscribe
+
 	private void Subscribe()
 	{
+		//EventManager.Instance.GameOver += ResetValues;
 		EventManager.Instance.AskQuestion += AskQuestion;
-		//EventManager.Instance.ControlAnswer += ControlAnswer;
 	}
 
 	private void Unsubscribe()
 	{
+		//EventManager.Instance.GameOver -= ResetValues;
 		EventManager.Instance.AskQuestion -= AskQuestion;
-		//EventManager.Instance.ControlAnswer -= ControlAnswer;
 	}
 
-	private IEnumerator ResetValues()
-	{
-		yield return new WaitForSeconds(0.1f);
+	#endregion
 
-		_score = 0;
-		_correctAnswerAmount = 0;
-		_wrongAnswerAmount = 0;
-		_questionNumber = 1;
-		ResponseTimer = _responseTimeLimit;
-		EventManager.Instance.UpdateGameUI?.Invoke(_score,_questionNumber,_responseTimeLimit);
+	private void ResetValues()
+	{
+		m_IsQuestionAsked = false;
+		m_IsGameOver = false;
+		ResponseTimer = m_ResponseTimeLimit;
+		EventManager.Instance.UpdateGameUI?.Invoke(m_ResponseTimeLimit);
 	}
 
 	private void Update()
 	{
-		if (_isQuestionAsked)
+		if (m_IsQuestionAsked && !m_IsGameOver)
 		{
 			if (ResponseTimer >= 0)
 			{
@@ -142,7 +113,7 @@ public class QuestionManager : MonoBehaviour
 			}
 			else
 			{
-				GameOver(GameOverType.TimesUp);
+				StartCoroutine(GameOver(GameOverType.TimesUp));
 			}
 		}
 	}
@@ -151,11 +122,12 @@ public class QuestionManager : MonoBehaviour
 	{
 		_questionText.SetText(question.QuestionText);
 
-		_isQuestionAsked = true;
+		Datas.S_CurrentQuestionLevel = question.QuestionLevel;
+
+		m_IsQuestionAsked = true;
 
 		for (int i = 0; i < _optionButtons.Count; i++)
 		{
-			Debug.Log(i);
 			int randomOptionButtonIndex = Random.Range(0, question.OptionList.Count);
 
 			_optionButtons[i].Init(question.OptionList[randomOptionButtonIndex], ControlAnswer);
@@ -171,7 +143,7 @@ public class QuestionManager : MonoBehaviour
 
 	private void ControlAnswer(bool answer)
 	{
-		_isQuestionAsked = false;
+		m_IsQuestionAsked = false;
 
 		foreach (OptionButton optionButton in _optionButtonArray)
 		{
@@ -194,15 +166,15 @@ public class QuestionManager : MonoBehaviour
 
 	private IEnumerator AnsweredCorrectly()
 	{
-		_correctAnswerAmount++;
-		_score += 10;
-		_questionNumber++;
+		Datas.S_CorrectAnswerAmount++;
+		Datas.S_Score += 3 * Datas.S_CurrentQuestionLevel;
+		Datas.S_QuestionNumber++;
 
 		yield return new WaitForSeconds(1f);
 
-		ResponseTimer = _responseTimeLimit;
+		ResponseTimer = m_ResponseTimeLimit;
 
-		EventManager.Instance.UpdateGameUI(_score, _questionNumber, _responseTimeLimit);
+		EventManager.Instance.UpdateGameUI?.Invoke(m_ResponseTimeLimit);
 		StartCoroutine(EventManager.Instance.GetQuestion());
 		//if (_questionNumber > 0)
 		//{
@@ -223,16 +195,22 @@ public class QuestionManager : MonoBehaviour
 		}
 		else if (gameOverType == GameOverType.WrongAnswer)
 		{
-			_wrongAnswerAmount++;
+			Datas.S_WrongAnswerAmount++;
 			Debug.Log("Yanlış Cevap!");
 		}
 
-		EventManager.Instance.GainExperience(_correctAnswerAmount, _wrongAnswerAmount);
+		//EventManager.Instance.GainExperience(_correctAnswerAmount, _wrongAnswerAmount);
+		m_IsGameOver = true;
 
-		EventManager.Instance.UpdateUserData(UserPaths.PrimaryPaths.Progression, UserPaths.ProgressionPaths.CorrectAnswers, CurrentUserProfileKeeper.CorrectAnswers + _correctAnswerAmount);
-		EventManager.Instance.UpdateUserData(UserPaths.PrimaryPaths.Progression, UserPaths.ProgressionPaths.WrongAnswers, CurrentUserProfileKeeper.WrongAnswers + _wrongAnswerAmount);
+		EventManager.Instance.UpdateUserData(UserPaths.PrimaryPaths.Progression, UserPaths.ProgressionPaths.CorrectAnswers, CurrentUserProfileKeeper.CorrectAnswers + Datas.S_CorrectAnswerAmount);
+		EventManager.Instance.UpdateUserData(UserPaths.PrimaryPaths.Progression, UserPaths.ProgressionPaths.WrongAnswers, CurrentUserProfileKeeper.WrongAnswers + Datas.S_WrongAnswerAmount);
+
+		Datas.S_GainedExperience = Datas.S_Score;
 
 		yield return new WaitForSeconds(1f);
+
+		EventManager.Instance.GameOver?.Invoke();
+		Datas.ResetValues();
 	}
 
 	#region Animations
