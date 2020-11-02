@@ -23514,7 +23514,7 @@ GameObject:
   - component: {fileID: 1104979678}
   - component: {fileID: 1104979679}
   m_Layer: 5
-  m_Name: Play Button
+  m_Name: Save Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23538,7 +23538,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: 100}
-  m_SizeDelta: {x: 300, y: 150}
+  m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1104979678
 MonoBehaviour:
@@ -23594,7 +23594,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 1104979680}
+  m_TargetGraphic: {fileID: 0}
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
@@ -23607,7 +23607,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1104979676}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -23617,13 +23617,16 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: cfda6eaa2dc20214484e09aa29003c65, type: 3}
-  m_UVRect:
-    serializedVersion: 2
-    x: -0.03
-    y: 0.05
-    width: 1
-    height: 1
+  m_Sprite: {fileID: 21300000, guid: 165d7a971c06c0643853bb3d3d346791, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!222 &1104979681
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -30252,7 +30255,7 @@ MonoBehaviour:
   text_BookToggle: {fileID: 735135902}
   button_GeneralKnowledge: {fileID: 1484271450}
   button_GoToMainMenu: {fileID: 1936277122}
-  button_Play: {fileID: 1104979679}
+  m_SaveButton: {fileID: 1104979679}
 --- !u!114 &1461448820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33766,7 +33769,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1614855476
 RectTransform:
   m_ObjectHideFlags: 0
@@ -33805,7 +33808,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Oyna
+  m_text: Kaydet
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6f1aaefde2a10cd4eb31f9b0698b9993, type: 2}
   m_sharedMaterial: {fileID: 4175703229841650942, guid: 6f1aaefde2a10cd4eb31f9b0698b9993,
@@ -33834,7 +33837,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 72
+  m_fontSize: 48.35
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -33875,7 +33878,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 1614855477}
-    characterCount: 4
+    characterCount: 6
     spriteCount: 0
     spaceCount: 0
     wordCount: 1
@@ -40842,7 +40845,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1936277119
 RectTransform:
   m_ObjectHideFlags: 0

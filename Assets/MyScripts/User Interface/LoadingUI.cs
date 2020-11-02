@@ -52,7 +52,7 @@ public class LoadingUI : MonoBehaviour
 	{
 		if (isFirstTime)
 		{
-			if (isFirebaseInitialized && isDatabaseReferencesCreated && isUserProfileReady && isCorrectPanelSelected || isAuthControlled)
+			if (/*GeneralControls.IsConnectedInternet() &&*/ isFirebaseInitialized && isDatabaseReferencesCreated && isUserProfileReady && isCorrectPanelSelected || isAuthControlled)
 			{
 				delayTimer -= Time.deltaTime;
 

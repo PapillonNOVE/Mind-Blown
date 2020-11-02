@@ -1,4 +1,5 @@
 ﻿using Constants;
+using EasyMobile;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -40,6 +41,18 @@ public class GeneralControls : MonoBehaviour
 		isQuitting = true;
 	}
 
+	public static bool IsConnectedInternet()
+	{
+		if (Application.internetReachability == NetworkReachability.NotReachable)
+		{
+			NativeUI.ShowToast(ConnectionDebugs.INTERNET_CONNECTION_ERROR, true);
+			
+			return false;
+		}
+
+		return true;
+	}
+
 	private void EnteringControl() 
 	{
 		if (PlayerPrefs.HasKey(PlayerPrefsKeys.FIRST_ENTRY))
@@ -54,21 +67,20 @@ public class GeneralControls : MonoBehaviour
 
 	private IEnumerator LoadCategories() 
 	{
-		Category category = new Category
-		{
-			categories = new List<string>()
-		};
+		CategoryStateHolder stateHolder = new CategoryStateHolder();
 
 		string reading = File.ReadAllText(LocalPaths.CATEGORY_SAVE_PATH);
 
-		category = JsonUtility.FromJson<Category>(reading);
+		stateHolder = JsonUtility.FromJson<CategoryStateHolder>(reading);
+
+		Debug.Log(reading);
 
 		while (FirebaseManager.PublishedQuestionsDatabaseReference == null)
 		{
 			yield return null;
 		}
 
-		StartCoroutine(EventManager.Instance.GetQuestionIDs(category.categories));
+		//StartCoroutine(EventManager.Instance.GetQuestionIDs(category.categories));
 	}
 
 	public static void ControlQuit(in Action targetFunc)

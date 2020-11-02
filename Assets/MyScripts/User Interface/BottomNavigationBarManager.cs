@@ -1,16 +1,7 @@
 ﻿using DG.Tweening;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
-public enum Tabs
-{
-	User,
-	Main,
-	SendQuestion,
-	Settings
-}
 
 public class BottomNavigationBarManager : Singleton<BottomNavigationBarManager>
 {
@@ -148,28 +139,28 @@ public class BottomNavigationBarManager : Singleton<BottomNavigationBarManager>
 			UIManager.Instance.ShowSignInPanel();
 		}
 
-		StartCoroutine(PanelChanger(Tabs.User)); 
+		PanelChanger(Tabs.User); 
 	}
 
 	public void ShowMainNavigation()
 	{
 		UIManager.Instance.ShowMainMenuPanel();
-		StartCoroutine(PanelChanger(Tabs.Main));
+		PanelChanger(Tabs.Main);
 	}
 
 	public void ShowSendQuestionNavigation()
 	{
 		UIManager.Instance.ShowSendQuestionPanel();
-		StartCoroutine(PanelChanger(Tabs.SendQuestion));
+		PanelChanger(Tabs.SendQuestion);
 	}
 
 	public void ShowSettingsNavigation()
 	{
 		UIManager.Instance.ShowSettingsPanel();
-		StartCoroutine(PanelChanger(Tabs.Settings));
+		PanelChanger(Tabs.Settings);
 	}
 
-	private IEnumerator PanelChanger(Tabs tabs)
+	private void PanelChanger(Tabs tabs)
 	{
 		PanelActivator();
 
@@ -196,16 +187,15 @@ public class BottomNavigationBarManager : Singleton<BottomNavigationBarManager>
 
 		Sequence navigationSequence = DOTween.Sequence();
 
-		navigationSequence.Append(_rectTransform_NavigationParent.DOAnchorPosX(-tempRectTransform.anchoredPosition.x, 0.3f))
-					 .Append(_rectTransform_NavigationParent.DOAnchorPosY(-tempRectTransform.anchoredPosition.y, 0.3f));
-
-
-		yield return navigationSequence.WaitForCompletion();
-
-		_userNavigation.SetActive(tabs == Tabs.User);
-		_mainNavigation.SetActive(tabs == Tabs.Main);
-		_sendQuestionNavigation.SetActive(tabs == Tabs.SendQuestion);
-		_settingsNavigation.SetActive(tabs == Tabs.Settings);
+		navigationSequence.Append(_rectTransform_NavigationParent.DOAnchorPosX(-tempRectTransform.anchoredPosition.x, 0.3f));
+		navigationSequence.Append(_rectTransform_NavigationParent.DOAnchorPosY(-tempRectTransform.anchoredPosition.y, 0.3f));
+		navigationSequence.OnComplete(() =>
+			{
+				_userNavigation.SetActive(tabs == Tabs.User);
+				_mainNavigation.SetActive(tabs == Tabs.Main);
+				_sendQuestionNavigation.SetActive(tabs == Tabs.SendQuestion);
+				_settingsNavigation.SetActive(tabs == Tabs.Settings);
+			});
 	}
 
 	private void PanelActivator()

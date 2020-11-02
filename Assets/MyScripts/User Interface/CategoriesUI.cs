@@ -40,28 +40,55 @@ public class CategoriesUI : MonoBehaviour
 	[Header("Button")]
 	[SerializeField] private Button button_GeneralKnowledge;
 	[SerializeField] private Button button_GoToMainMenu;
-	[SerializeField] private Button button_Play;
+	[SerializeField] private Button m_SaveButton;
 
 	private void Start()
 	{
 		OnClickAddListener();
-		OnValueChangedAddListener();
+		//OnValueChangedAddListener();
+	}
+
+	private void OnEnable()
+	{
+		SetCategoryToggles();
 	}
 
 	private void OnClickAddListener()
 	{
 		button_GeneralKnowledge.onClick.AddListener(CancelChoosingGeneralKnowledge);
 		button_GoToMainMenu.onClick.AddListener(UIManager.Instance.ShowMainMenuPanel);
-		button_Play.onClick.AddListener(Play);
+		m_SaveButton.onClick.AddListener(Save);
 	}
 
-	private void OnValueChangedAddListener()
+	//private void OnValueChangedAddListener()
+	//{
+	//	foreach (Toggle toggle in specificalCategoryToggles)
+	//	{
+	//		toggle.onValueChanged.AddListener(ChoosingGeneralKnowledge);
+	//	}
+	//}
+
+	private void SetCategoryToggles()
 	{
-		foreach (Toggle toggle in specificalCategoryToggles)
+		CategoryStateHolder categoryStateHolder = new CategoryStateHolder();
+
+		string reading = File.ReadAllText(LocalPaths.CATEGORY_SAVE_PATH);
+
+		categoryStateHolder = JsonUtility.FromJson<CategoryStateHolder>(reading);
+
+		foreach (CategoryToggleState toggleState in categoryStateHolder.CategoryToggleStates)
 		{
-			toggle.onValueChanged.AddListener(ChoosingGeneralKnowledge);
+			foreach (Toggle toggle in specificalCategoryToggles)
+			{
+				if (toggle.GetComponent<CategoryInfo>().category == toggleState.categoryType)
+				{
+					toggle.isOn = toggleState.isActive;
+				}
+			}
 		}
 	}
+
+	#region General Knowledge
 
 	private void ChoosingGeneralKnowledge(bool _On)
 	{
@@ -72,6 +99,7 @@ public class CategoriesUI : MonoBehaviour
 				return;
 			}
 		}
+
 		button_GeneralKnowledge.gameObject.SetActive(true);
 		specificalCategoryToggleParent.SetActive(false);
 	}
@@ -82,32 +110,39 @@ public class CategoriesUI : MonoBehaviour
 		button_GeneralKnowledge.gameObject.SetActive(false);
 	}
 
-	private void Play()
+	#endregion
+
+	private void Save()
 	{
-		Category category = new Category();
-		category.categories = new List<string>();
+		CategoryStateHolder categoryStateHolder = new CategoryStateHolder
+		{
+			CategoryToggleStates = new List<CategoryToggleState>()
+		};
 
 		foreach (Toggle spesificalCategoryToggle in specificalCategoryToggles)
 		{
-			if (spesificalCategoryToggle.isOn)
+			CategoryToggleState categoryToggleState = new CategoryToggleState
 			{
-				string categoryName = spesificalCategoryToggle.transform.GetComponent<CategoryInfo>().category.ToString();
+				isActive = spesificalCategoryToggle.isOn,
+				categoryType = spesificalCategoryToggle.GetComponent<CategoryInfo>().category,
+				name = spesificalCategoryToggle.GetComponent<CategoryInfo>().category.ToString()
+			};
 
-				category.categories.Add(categoryName);
-			}
+			categoryStateHolder.CategoryToggleStates.Add(categoryToggleState);
 		}
 
-		string json = JsonUtility.ToJson(category);
+		string json = JsonUtility.ToJson(categoryStateHolder);
 
-		Debug.Log(Application.persistentDataPath);
+		Debug.Log(LocalPaths.CATEGORY_SAVE_PATH);
 
-		File.WriteAllText($"{Application.persistentDataPath}/CategorySaves",json);
+		File.WriteAllText(LocalPaths.CATEGORY_SAVE_PATH, json);
 
-		if (category.categories.Count > 0)
+		if (categoryStateHolder.CategoryToggleStates.Count > 0)
 		{
 			PlayerPrefs.SetString(PlayerPrefsKeys.CATEGORY_SELECTED, PlayerPrefsKeys.CATEGORY_SELECTED);
 		}
 
-		//TransitionManager.Instance.TransitionAnimTrigger(UIManager.Instance.ShowGamePanel);
+		//BottomNavigationBarManager.Instance.ShowMainNavigation();
+		TransitionManager.Instance.TransitionAnimation(UIManager.Instance.ShowMainMenuPanel);
 	}
 }

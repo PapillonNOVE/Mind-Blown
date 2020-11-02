@@ -65,6 +65,11 @@ namespace Constants
 		public static readonly string GetData = "Veri çekme işlemi";
 	}
 
+	public static class ConnectionDebugs
+	{
+		public static readonly string INTERNET_CONNECTION_ERROR = "Error, please check Internet Connection!";
+	}
+
 	public static class UserTaskDebugs
 	{
 		public static readonly string GetCurrentUserProfile = "Kullanıcı verileri çekme işlemi";
