@@ -1,37 +1,40 @@
 ﻿using DG.Tweening;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LoadingUI : MonoBehaviour
 {
 	[SerializeField] private GameObject mainCanvas;
 
+	[Header("RectTransforms")]
 	[SerializeField] private RectTransform _rectTransform_Point;
-	//[SerializeField] private RectTransform rectTransform_Point2;
-	//[SerializeField] private RectTransform rectTransform_Point3;
-	//[SerializeField] private RectTransform rectTransform_Point4;
 	[SerializeField] private RectTransform _rectTransform_PointParent;
+	
+	[Header("Parent Objects")]
 	[SerializeField] private GameObject _pointParent;
 	[SerializeField] private GameObject _rootParent;
 
+
+	[Header("Timers")]
 	[Range(0f,10f)]
 	[SerializeField] private float delayTimer;
-	//[SerializeField] private List<RectTransform> points;
-	//[SerializeField] private List<float> pointPosX;
+
+	[Space(10)]
+	[Range(0f,10f)]
+	[SerializeField] private float m_CheckProgressionTimer;
+	[Space(5)]
+	[Range(0f,10f)]
+	[SerializeField] private float m_CheckProgressionTimerLimit;
 	
 	private Vector2 _maxParentSize;
 	private Vector2 _minParentSize;
 
-	[SerializeField] private int _progressionTarget;
-	public static int progression;
-
-	public static bool isFirebaseInitialized;
-	public static bool isAuthControlled;
-	public static bool isDatabaseReferencesCreated;
-	public static bool isUserProfileReady;
-	public static bool isCorrectPanelSelected;
+	public static bool S_IsFirebaseInitialized;
+	public static bool S_IsAuthControlled;
+	public static bool S_IsDatabaseReferencesCreated;
+	public static bool S_IsUserProfileReady;
+	public static bool S_IsCorrectPanelSelected;
 
 
 	private bool isFirstTime = true;
@@ -46,21 +49,47 @@ public class LoadingUI : MonoBehaviour
 		_maxParentSize = _rectTransform_PointParent.sizeDelta;
 
 		StartCoroutine(PointMover());
+
+		m_CheckProgressionTimer = m_CheckProgressionTimerLimit;
 	}
 
 	private void Update()
 	{
-		if (isFirstTime)
+		if (Input.GetKeyDown(KeyCode.N))
 		{
-			if (/*GeneralControls.IsConnectedInternet() &&*/ isFirebaseInitialized && isDatabaseReferencesCreated && isUserProfileReady && isCorrectPanelSelected || isAuthControlled)
-			{
-				delayTimer -= Time.deltaTime;
+			Debug.Log(GeneralControls.IsConnectedInternet() + " Internet Bağlantısı");
+			Debug.Log(S_IsFirebaseInitialized + " Firebase Kurulumu");
+			Debug.Log(S_IsDatabaseReferencesCreated + " Veritabanı Referansı");
+			Debug.Log(S_IsUserProfileReady + " Kullanıcı Profili");
+			Debug.Log(S_IsCorrectPanelSelected + " Doğru Panel");
+			Debug.Log(S_IsAuthControlled + " Auth Kontrolü");
+		}
 
-				if (delayTimer <= 0)
+		m_CheckProgressionTimer -= Time.deltaTime;
+
+		if (m_CheckProgressionTimer <= 0)
+		{
+			if (isFirstTime)
+			{
+				if (GeneralControls.IsConnectedInternet() && S_IsFirebaseInitialized && S_IsDatabaseReferencesCreated && S_IsUserProfileReady)
 				{
-					TransitionManager.Instance.TransitionAnimation(SelfDestruction);
-					isFirstTime = false;
+					Debug.Log("E tamam daha ne 1");
+					if (S_IsCorrectPanelSelected || S_IsAuthControlled)
+					{
+						//delayTimer -= Time.deltaTime;
+
+						Debug.Log("E tamam daha ne 2");
+						//if (delayTimer <= 0)
+						{
+							TransitionManager.Instance.TransitionAnimation(SelfDestruction);
+							Debug.Log("E tamam daha ne 3");
+							isFirstTime = false;
+							return;
+						}
+					}
 				}
+
+				m_CheckProgressionTimer = m_CheckProgressionTimerLimit;
 			}
 		}
 	}

@@ -13646,7 +13646,8 @@ MonoBehaviour:
   _pointParent: {fileID: 1890838730}
   _rootParent: {fileID: 1203747753}
   delayTimer: 1
-  _progressionTarget: 0
+  m_CheckProgressionTimer: 0
+  m_CheckProgressionTimerLimit: 3
 --- !u!1 &611043856
 GameObject:
   m_ObjectHideFlags: 0
