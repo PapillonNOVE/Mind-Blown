@@ -13,7 +13,7 @@ public class GeneralControls : MonoBehaviour
 	private void Start()
 	{
 		EnteringControl();
-		StartCoroutine(LoadCategories());
+		//StartCoroutine(LoadCategories());
 
 
 		//	int totalExp = 0;

@@ -68,6 +68,9 @@ public class QuestionManager : MonoBehaviour
 		Subscribe();
 		ResetValues();
 
+		Debug.Log(FirebaseQuestionManager.questionIDs.Count);
+		Debug.Log(FirebaseQuestionManager.questionIDs.Count);
+
 		if (FirebaseQuestionManager.questionIDs.Count > 0)
 		{
 			StartCoroutine(EventManager.Instance.GetQuestion());

@@ -55,7 +55,7 @@ public class LoadingUI : MonoBehaviour
 
 	private void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.N))
+		if (Input.GetKeyDown(KeyCode.N) || Input.GetMouseButtonDown(0))
 		{
 			Debug.Log(GeneralControls.IsConnectedInternet() + " Internet Bağlantısı");
 			Debug.Log(S_IsFirebaseInitialized + " Firebase Kurulumu");
@@ -73,16 +73,12 @@ public class LoadingUI : MonoBehaviour
 			{
 				if (GeneralControls.IsConnectedInternet() && S_IsFirebaseInitialized && S_IsDatabaseReferencesCreated && S_IsUserProfileReady)
 				{
-					Debug.Log("E tamam daha ne 1");
 					if (S_IsCorrectPanelSelected || S_IsAuthControlled)
 					{
 						//delayTimer -= Time.deltaTime;
-
-						Debug.Log("E tamam daha ne 2");
 						//if (delayTimer <= 0)
 						{
 							TransitionManager.Instance.TransitionAnimation(SelfDestruction);
-							Debug.Log("E tamam daha ne 3");
 							isFirstTime = false;
 							return;
 						}

@@ -70,22 +70,26 @@ public class CategoriesUI : MonoBehaviour
 
 	private void SetCategoryToggles()
 	{
-		CategoryStateHolder categoryStateHolder = new CategoryStateHolder();
+		//List<string> categories = new List<string>();
 
-		string reading = File.ReadAllText(LocalPaths.CATEGORY_SAVE_PATH);
-
-		categoryStateHolder = JsonUtility.FromJson<CategoryStateHolder>(reading);
-
-		foreach (CategoryToggleState toggleState in categoryStateHolder.CategoryToggleStates)
+		foreach (CategoryToggleState toggleState in EventManager.Instance.LoadCategories().CategoryToggleStates)
 		{
 			foreach (Toggle toggle in specificalCategoryToggles)
 			{
 				if (toggle.GetComponent<CategoryInfo>().category == toggleState.categoryType)
 				{
 					toggle.isOn = toggleState.isActive;
+
+					//if (toggle.isOn)
+					//{
+					//	categories.Add(toggleState.name);
+					//}
 				}
 			}
 		}
+
+		StartCoroutine(EventManager.Instance.GetQuestionIDs?.Invoke());
+		//EventManager.Instance.GetQuestionIDs?.Invoke(categories);
 	}
 
 	#region General Knowledge
@@ -114,33 +118,11 @@ public class CategoriesUI : MonoBehaviour
 
 	private void Save()
 	{
-		CategoryStateHolder categoryStateHolder = new CategoryStateHolder
-		{
-			CategoryToggleStates = new List<CategoryToggleState>()
-		};
+		EventManager.Instance.SaveCategories?.Invoke(specificalCategoryToggles);
 
-		foreach (Toggle spesificalCategoryToggle in specificalCategoryToggles)
-		{
-			CategoryToggleState categoryToggleState = new CategoryToggleState
-			{
-				isActive = spesificalCategoryToggle.isOn,
-				categoryType = spesificalCategoryToggle.GetComponent<CategoryInfo>().category,
-				name = spesificalCategoryToggle.GetComponent<CategoryInfo>().category.ToString()
-			};
+		SetCategoryToggles();
 
-			categoryStateHolder.CategoryToggleStates.Add(categoryToggleState);
-		}
-
-		string json = JsonUtility.ToJson(categoryStateHolder);
-
-		Debug.Log(LocalPaths.CATEGORY_SAVE_PATH);
-
-		File.WriteAllText(LocalPaths.CATEGORY_SAVE_PATH, json);
-
-		if (categoryStateHolder.CategoryToggleStates.Count > 0)
-		{
-			PlayerPrefs.SetString(PlayerPrefsKeys.CATEGORY_SELECTED, PlayerPrefsKeys.CATEGORY_SELECTED);
-		}
+		
 
 		//BottomNavigationBarManager.Instance.ShowMainNavigation();
 		TransitionManager.Instance.TransitionAnimation(UIManager.Instance.ShowMainMenuPanel);

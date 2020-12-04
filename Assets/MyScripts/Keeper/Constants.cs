@@ -233,7 +233,7 @@ namespace Constants
 		public static class QuesitonPath
 		{
 
-			public static readonly string Question = "Question";
+			public static readonly string QuestionText = "QuestionText";
 			public static readonly string Options = "Options";
 			public static readonly string CorrectOption = "CorrectOption";
 			public static readonly string WrongOption1 = "WrongOption1";

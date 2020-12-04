@@ -75,6 +75,7 @@ public class BottomNavigationBarManager : Singleton<BottomNavigationBarManager>
 				Debug.Log("Kullanıcı yok!");
 				ShowUserNavigation();
 				LoadingUI.S_IsCorrectPanelSelected = true;
+				LoadingUI.S_IsUserProfileReady = true;
 			}
 		//}
 	}

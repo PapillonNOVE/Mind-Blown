@@ -47,6 +47,13 @@ public class EventManager : Singleton<EventManager>
     public delegate IEnumerator ControlIsUsernameExistDelegate(string _Username, Action _OnSuccesCallback, Action _OnFailCallback);
     public ControlIsUsernameExistDelegate ControlIsUsernameExist;
 
+    #endregion
+
+    #region Save/Load
+
+    public UnityAction<List<Toggle>> SaveCategories;
+    public Func<CategoryStateHolder> LoadCategories;
+
 	#endregion
 
 	// Game
@@ -67,7 +74,7 @@ public class EventManager : Singleton<EventManager>
     public UnityAction UsernameNotAvaliable;
 
 
-    public delegate IEnumerator GetQuestionIDsDelegate(List<string> categories);
+    public delegate IEnumerator GetQuestionIDsDelegate(/*List<string> categories*/);
     public GetQuestionIDsDelegate GetQuestionIDs;
 
     public delegate IEnumerator GetQuestionDelegate();
