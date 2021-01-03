@@ -120,23 +120,6 @@ public class FirebaseQuestionManager : MonoBehaviour
 
 				Question question = JsonUtility.FromJson<Question>(snapshot.GetRawJsonValue());
 
-				//Question question = new Question();
-				//question.OptionList = new List<Option>();
-
-				//foreach (DataSnapshot option in snapshot.Child(QuestionPaths.QuesitonPath.Options).Children)
-				//{
-				//	Option newOption = new Option();
-
-				//	newOption.OptionText = option.Child(QuestionPaths.QuesitonPath.OptionPath.OptionText).Value.ToString();
-
-				//	newOption.IsCorrectOption = (bool)option.Child(QuestionPaths.QuesitonPath.OptionPath.IsCorrectOption).Value;
-
-				//	question.OptionList.Add(newOption);
-				//}
-
-				//question.QuestionText = snapshot.Child(QuestionPaths.QuesitonPath.QuestionText).Value.ToString();
-				//question.QuestionLevel = int.Parse(snapshot.Child(QuestionPaths.QuesitonPath.QuestionLevel).Value.ToString());
-
 				question.OptionList.Add(question.Options.CorrectOption);
 				question.OptionList.Add(question.Options.WrongOption1);
 				question.OptionList.Add(question.Options.WrongOption2);

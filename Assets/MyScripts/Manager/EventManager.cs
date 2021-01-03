@@ -6,93 +6,90 @@ using UnityEngine.UI;
 
 public class EventManager : Singleton<EventManager>
 {
-    //Firebase Initialization
-    public delegate void StartFirebaseDelegate(Action _OnSuccessCallback);
-    public StartFirebaseDelegate StartFirebase;
+	//Firebase Initialization
+	public delegate void StartFirebaseDelegate(Action _OnSuccessCallback);
+	public StartFirebaseDelegate StartFirebase;
 
-    //Loading Screen
-    public UnityAction<float> LoadingPanelSelfDestruction;
+	//Loading Screen
+	public UnityAction<float> LoadingPanelSelfDestruction;
 
-    // Prepare Game
-    public UnityAction QuickGame;
+	// Prepare Game
+	public UnityAction QuickGame;
 
-    #region Authentication
+	#region Authentication
 
-    public delegate IEnumerator SignUpWithEmailPasswordDelegate(SignUpStruct _Email, Action onSuccessCallback, Action onFailCallback);
-    public SignUpWithEmailPasswordDelegate SignUpWithEmailPassword;
+	public delegate IEnumerator SignUpWithEmailPasswordDelegate(SignUpStruct email, Action onSuccessCallback, Action onFailCallback);
+	public SignUpWithEmailPasswordDelegate SignUpWithEmailPassword;
 
-    public delegate IEnumerator SignInWithEmailPasswordDelegate(string _Email, string _Password, Action onSuccessCallback, Action onFailCallback);
-    public SignInWithEmailPasswordDelegate SignInWithEmailPassword;
+	public delegate IEnumerator SignInWithEmailPasswordDelegate(string email, string password, Action onSuccessCallback, Action onFailCallback);
+	public SignInWithEmailPasswordDelegate SignInWithEmailPassword;
 
-    public delegate IEnumerator ResetPasswordWithEmailDelegate(string _Email, Action onSuccessCallback, Action onFailCallback);
-    public ResetPasswordWithEmailDelegate ResetPasswordWithEmail;
+	public delegate IEnumerator ResetPasswordWithEmailDelegate(string email, Action onSuccessCallback, Action onFailCallback);
+	public ResetPasswordWithEmailDelegate ResetPasswordWithEmail;
 
-    public UnityAction DeleteUser;
-    public delegate void SignOutDelegaate(Action onSuccessCallback, Action onFailCallback);
-    public SignOutDelegaate SignOut;
+	public Action DeleteUser;
+
+	public Action<Action,Action> SignOut;
 
 	#endregion
 
 	#region User
 
-	public UnityAction<string, string> CreatUserProfile;
+	public Action<string, string> CreatUserProfile;
 
-    public UnityAction<string, string, object> UpdateUserData;
+	public Action<string, string, object> UpdateUserData;
 
-    public delegate IEnumerator GetCurrentUserProfileDelegate();
-    public GetCurrentUserProfileDelegate GetCurrentUserProfile;
+	public delegate IEnumerator GetCurrentUserProfileDelegate();
+	public GetCurrentUserProfileDelegate GetCurrentUserProfile;
 
-    public UnityAction DeleteUserProfile;
+	public Action DeleteUserProfile;
 
-    public delegate IEnumerator ControlIsUsernameExistDelegate(string _Username, Action _OnSuccesCallback, Action _OnFailCallback);
-    public ControlIsUsernameExistDelegate ControlIsUsernameExist;
-
-    #endregion
-
-    #region Save/Load
-
-    public UnityAction<List<Toggle>> SaveCategories;
-    public Func<CategoryStateHolder> LoadCategories;
+	public delegate IEnumerator ControlIsUsernameExistDelegate(string username, Action onSuccesCallback, Action onFailCallback);
+	public ControlIsUsernameExistDelegate ControlIsUsernameExist;
 
 	#endregion
 
+	#region Save/Load
+
+	public UnityAction<List<Toggle>> SaveCategories;
+	public Func<CategoryStateHolder> LoadCategories;
+
+	#endregion
+
+	#region UI
+
 	// Game
-	public UnityAction<string> ShowWhoseTurn;
-    public UnityAction<string> ShowLastEstimation;
-    public UnityAction<int> SendEstimation;
-    public UnityAction<bool, OptionButton> ControlAnswer;
-    public UnityAction GameOver;
+	public Action<string> ShowWhoseTurn;
+	public Action<string> ShowLastEstimation;
+	public Action<int> SendEstimation;
+	public Action<bool, OptionButton> ControlAnswer;
+	public Action GameOver;
 
-    // Panels
-    public UnityAction ShowMenuPanel;
-    public UnityAction ShowSignUpPanel;
-    public UnityAction ShowSignInPanel;
-    public UnityAction ShowUserProfilePanel;
+	// Animations
+	public Action QuestionFadeInAnim;
+	public Action QuestionFadeOutAnim;
 
+	// Panels
+	public Action ShowMenuPanel;
+	public Action ShowSignUpPanel;
+	public Action ShowSignInPanel;
+	public Action ShowUserProfilePanel;
 
-    public UnityAction UsernameAvaliable;
-    public UnityAction UsernameNotAvaliable;
+	// Game UI
+	public Action<float> CountdownTimeIndicator;
+	public Action<float> UpdateGameUI;
 
+	#endregion
 
-    public delegate IEnumerator GetQuestionIDsDelegate(/*List<string> categories*/);
-    public GetQuestionIDsDelegate GetQuestionIDs;
+	public Action UsernameAvaliable;
+	public Action UsernameNotAvaliable;
 
-    public delegate IEnumerator GetQuestionDelegate();
-    public GetQuestionDelegate GetQuestion;
+	public Func<IEnumerator> GetQuestionIDs;
 
-
-    public UnityAction<Question> AskQuestion;
-    //public UnityAction<IEnumerator<>> GetQuestion;
-
-    public UnityAction<Question> SendQuestion;
-    //public UnityAction<Dictionary<string, object>> SendQuestion;
-
-    public delegate void UpdateButtonDelegate(string _OptionText, ButtonCode buttonCode, bool isCorrectAnswer = false);
-    public UpdateButtonDelegate UpdateOptionButton;
-    // public UnityAction<string,ButtonCode, bool> PrepareOptionButton;
+	public Func<IEnumerator> GetQuestion;
 
 
-    // Game UI
-    public UnityAction<float> CountdownTimeIndicator;
-    public UnityAction<float> UpdateGameUI;
+	public Action<Question> AskQuestion;
+
+	public Action<Question> SendQuestion;
 }

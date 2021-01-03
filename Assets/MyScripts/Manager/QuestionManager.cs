@@ -142,6 +142,8 @@ public class QuestionManager : MonoBehaviour
 		{
 			optionButton._optionButton.interactable = true;
 		}
+
+		EventManager.Instance.QuestionFadeInAnim?.Invoke();
 	}
 
 	private void ControlAnswer(bool answer)
@@ -178,15 +180,8 @@ public class QuestionManager : MonoBehaviour
 		ResponseTimer = m_ResponseTimeLimit;
 
 		EventManager.Instance.UpdateGameUI?.Invoke(m_ResponseTimeLimit);
-		StartCoroutine(EventManager.Instance.GetQuestion());
-		//if (_questionNumber > 0)
-		//{
-		//	NewQuestionAnimation();
-		//}
-		//else
-		//{
-		//	NewQuestionAnimation(true);
-		//}
+
+		EventManager.Instance.QuestionFadeOutAnim?.Invoke();
 	}
 
 	private IEnumerator GameOver(GameOverType gameOverType)
@@ -215,88 +210,4 @@ public class QuestionManager : MonoBehaviour
 		EventManager.Instance.GameOver?.Invoke();
 		Datas.ResetValues();
 	}
-
-	#region Animations
-
-	private void PreviousQuestionAnimation()
-	{
-		Sequence newQuestionAnimSeq = DOTween.Sequence();
-
-		newQuestionAnimSeq.Append(_questionText.rectTransform.DOAnchorPos(new Vector2(-1000, 0), 0f))
-						  .Join(_buttonParent.GetComponent<RectTransform>().DOAnchorPos(new Vector2(-2000, 0), 0f));
-
-	}
-
-	private IEnumerator NewQuestionAnimation(bool isFirstQuestion = false)
-	{
-		Vector3 questionTextStartPos = _questionText.rectTransform.anchoredPosition;
-		Vector3 buttonParentObjStartpos = _buttonParent.GetComponent<RectTransform>().anchoredPosition;
-
-		Sequence newQuestionOutAnimSeq = DOTween.Sequence();
-		Sequence newQuestionInAnimSeq = DOTween.Sequence();
-
-		if (isFirstQuestion)
-		{
-			newQuestionOutAnimSeq.Append(_questionText.rectTransform.DOAnchorPos(new Vector2(1000, 0), 0f));
-			newQuestionOutAnimSeq.Join(_buttonParent.GetComponent<RectTransform>().DOAnchorPos(new Vector2(2000, 0), 0f));
-			newQuestionOutAnimSeq.Append(_questionText.rectTransform.DOAnchorPos(questionTextStartPos, 1f).SetEase(Ease.InOutBack));
-			newQuestionOutAnimSeq.Join(_buttonParent.GetComponent<RectTransform>().DOAnchorPos(buttonParentObjStartpos, 1f).SetEase(Ease.InOutBack));
-		}
-
-		else
-		{
-			newQuestionOutAnimSeq.Append(_questionText.rectTransform.DOAnchorPos(new Vector2(-1000, 0), 0.7f).SetEase(Ease.InOutBack));
-			newQuestionOutAnimSeq.OnStepComplete(() => _questionText.gameObject.SetActive(false));
-			newQuestionOutAnimSeq.Join(_buttonParent.GetComponent<RectTransform>().DOAnchorPos(new Vector2(-1500, 0), 0.7f).SetEase(Ease.InOutBack));
-			newQuestionOutAnimSeq.OnStepComplete(() => _buttonParent.gameObject.SetActive(false));
-			newQuestionOutAnimSeq.Append(_questionText.rectTransform.DOAnchorPos(new Vector2(1000, 0), 0f));
-			newQuestionOutAnimSeq.OnStepComplete(() => _questionText.gameObject.SetActive(true));
-			newQuestionOutAnimSeq.Join(_buttonParent.GetComponent<RectTransform>().DOAnchorPos(new Vector2(1500, 0), 0f));
-			newQuestionOutAnimSeq.OnStepComplete(() => _buttonParent.gameObject.SetActive(true));
-			newQuestionOutAnimSeq.Append(_questionText.rectTransform.DOAnchorPos(questionTextStartPos, 0.7f).SetEase(Ease.InOutBack));
-			newQuestionOutAnimSeq.Join(_buttonParent.GetComponent<RectTransform>().DOAnchorPos(buttonParentObjStartpos, 0.7f).SetEase(Ease.InOutBack));
-
-			//newQuestionOutAnimSeq.Append(_questionText.rectTransform.DOAnchorPos(new Vector2(-1000, 0), 0.7f).SetEase(Ease.InOutBack))
-			//				  .OnStepComplete(() => _questionText.gameObject.SetActive(false))
-			//				  .Join(_buttonParent.GetComponent<RectTransform>().DOAnchorPos(new Vector2(-1500, 0), 0.7f).SetEase(Ease.InOutBack))
-			//				  .OnStepComplete(() => _buttonParent.gameObject.SetActive(false))
-			//				  .OnStepComplete(() => StartCoroutine(ActionManager.Instance.GetQuestion()))
-			//				  .Append(_questionText.rectTransform.DOAnchorPos(new Vector2(1000, 0), 0f))
-			//				  .OnStepComplete(() => _questionText.gameObject.SetActive(true))
-			//				  .Join(_buttonParent.GetComponent<RectTransform>().DOAnchorPos(new Vector2(1500, 0), 0f))
-			//				  .OnStepComplete(() => _buttonParent.gameObject.SetActive(true))
-			//				  .Append(_questionText.rectTransform.DOAnchorPos(questionTextStartPos, 0.7f).SetEase(Ease.InOutBack))
-			//				  .Join(_buttonParent.GetComponent<RectTransform>().DOAnchorPos(buttonParentObjStartpos, 0.7f).SetEase(Ease.InOutBack));
-		}
-
-		yield return newQuestionOutAnimSeq.WaitForCompletion();
-		Debug.LogWarning("geliyor");
-		StartCoroutine(EventManager.Instance.GetQuestion());
-	}
-
-	//private void WrongAnswerAnim(OptionButton _choosenOptionButton)
-	//{
-	//	//_ChoosenOptionButton.GetComponent<RawImage>().color = _redColor;
-
-	//	_choosenOptionButton._optionBackgroundImage.texture = _wrongOptionBackground;
-	//	_choosenOptionButton.
-
-	//	CorrectAnswerAnim(2);
-	//}
-
-	//private void CorrectAnswerAnim(int _AnimCount)
-	//{
-	//	Sequence colorSeq = DOTween.Sequence();
-
-	//	for (int i = 0; i < _AnimCount; i++)
-	//	{
-	//		colorSeq.Append(_correctOptionButton.GetComponent<RawImage>().DOColor(_greenColor, 0.1f))
-	//				.Append(_correctOptionButton.GetComponent<RawImage>().DOColor(Color.white, 0.1f))
-	//				.Append(_correctOptionButton.GetComponent<RawImage>().DOColor(_greenColor, 0.1f));
-	//	}
-
-	//	_correctOptionButton.GetComponent<RawImage>().color = Color.white;
-	//}
-
-	#endregion
 }
