@@ -7,14 +7,14 @@ using UnityEngine.UI;
 public class EventManager : Singleton<EventManager>
 {
 	//Firebase Initialization
-	public delegate void StartFirebaseDelegate(Action _OnSuccessCallback);
+	public delegate void StartFirebaseDelegate(Action onSuccessCallback);
 	public StartFirebaseDelegate StartFirebase;
 
 	//Loading Screen
-	public UnityAction<float> LoadingPanelSelfDestruction;
+	public Action<float> LoadingPanelSelfDestruction;
 
 	// Prepare Game
-	public UnityAction QuickGame;
+	public Action QuickGame;
 
 	#region Authentication
 
@@ -59,11 +59,9 @@ public class EventManager : Singleton<EventManager>
 	#region UI
 
 	// Game
-	public Action<string> ShowWhoseTurn;
-	public Action<string> ShowLastEstimation;
-	public Action<int> SendEstimation;
-	public Action<bool, OptionButton> ControlAnswer;
+	public Action<Question> AskQuestion;
 	public Action GameOver;
+	public Func<GameOverType, IEnumerator> GameOverTrigger;
 
 	// Animations
 	public Action QuestionFadeInAnim;
@@ -78,6 +76,7 @@ public class EventManager : Singleton<EventManager>
 	// Game UI
 	public Action<float> CountdownTimeIndicator;
 	public Action<float> UpdateGameUI;
+	public Action OpenSecondChancePanel;
 
 	#endregion
 
@@ -88,8 +87,9 @@ public class EventManager : Singleton<EventManager>
 
 	public Func<IEnumerator> GetQuestion;
 
-
-	public Action<Question> AskQuestion;
-
 	public Action<Question> SendQuestion;
+
+	public Action<string> ShowWhoseTurn;
+	public Action<string> ShowLastEstimation;
+	public Action<int> SendEstimation;
 }

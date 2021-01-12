@@ -26,7 +26,7 @@ public class QuestionManager : MonoBehaviour
 
 	[Header("Button List")]
 	[SerializeField] private List<OptionButton> _optionButtons;
-	
+
 	[Header("Button Array")]
 	[SerializeField] private OptionButton[] _optionButtonArray;
 
@@ -38,7 +38,7 @@ public class QuestionManager : MonoBehaviour
 	[SerializeField] private Texture2D _correctOptionIcon;
 
 	[Header("Timer")]
-	[Range(0f,30f)]
+	[Range(0f, 30f)]
 	[SerializeField] private float m_ResponseTimeLimit;
 
 	[SerializeField] private float m_ResponseTimer;
@@ -57,18 +57,19 @@ public class QuestionManager : MonoBehaviour
 		}
 	}
 
-	private OptionButton _correctOptionButton; 
+	[SerializeField] private SecondChanceUI m_SecondChanceUI;
 
 	private bool m_IsQuestionAsked;
-	
+
 	private bool m_IsGameOver;
+
+	public bool m_IsFirstTry;
 
 	private void OnEnable()
 	{
 		Subscribe();
 		ResetValues();
 
-		Debug.Log(FirebaseQuestionManager.questionIDs.Count);
 		Debug.Log(FirebaseQuestionManager.questionIDs.Count);
 
 		if (FirebaseQuestionManager.questionIDs.Count > 0)
@@ -87,12 +88,14 @@ public class QuestionManager : MonoBehaviour
 	private void Subscribe()
 	{
 		//EventManager.Instance.GameOver += ResetValues;
+		EventManager.Instance.GameOverTrigger += GameOver;
 		EventManager.Instance.AskQuestion += AskQuestion;
 	}
 
 	private void Unsubscribe()
 	{
 		//EventManager.Instance.GameOver -= ResetValues;
+		EventManager.Instance.GameOverTrigger -= GameOver;
 		EventManager.Instance.AskQuestion -= AskQuestion;
 	}
 
@@ -157,15 +160,12 @@ public class QuestionManager : MonoBehaviour
 
 		if (answer)
 		{
-			//CorrectAnswerAnim(4);
-			//PreviousQuestionAnimation();
 			StartCoroutine(AnsweredCorrectly());
 		}
 		else
 		{
-			//WrongAnswerAnim(choosenOptionButton);
 			OptionButton._showCorrectOption?.Invoke();
-			StartCoroutine(GameOver(GameOverType.WrongAnswer));
+			AskForSecondChance();
 		}
 	}
 
@@ -184,11 +184,15 @@ public class QuestionManager : MonoBehaviour
 		EventManager.Instance.QuestionFadeOutAnim?.Invoke();
 	}
 
+	private void AskForSecondChance()
+	{
+		m_SecondChanceUI.SetActiveSelf();
+	}
+
 	private IEnumerator GameOver(GameOverType gameOverType)
 	{
 		if (gameOverType == GameOverType.TimesUp)
 		{
-			//_timerText.SetText("Bitti!");
 			Debug.Log("Süre Bitti!");
 		}
 		else if (gameOverType == GameOverType.WrongAnswer)
