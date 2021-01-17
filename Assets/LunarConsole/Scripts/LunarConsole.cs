@@ -4,7 +4,7 @@
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
 //
-//  Copyright 2019 Alex Lementuev, SpaceMadness.
+//  Copyright 2015-2020 Alex Lementuev, SpaceMadness.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 //
+
 
 #define LUNAR_CONSOLE_ENABLED
 #define LUNAR_CONSOLE_FREE
@@ -133,7 +134,7 @@ namespace LunarConsolePlugin
         public int maxVisibleLines = 3;
 
         [SerializeField]
-        [Tooltip("The amount of time each line would be diplayed")]
+        [Tooltip("The amount of time each line would be displayed")]
         public float timeout = 1.0f;
 
         [SerializeField]
@@ -369,7 +370,7 @@ namespace LunarConsolePlugin
             if (Application.platform == RuntimePlatform.Android)
             {
                 LunarConsoleNativeMessageCallback callback = NativeMessageCallback;
-                return new PlatformAndroid(gameObject.name, callback.Method.Name, LunarConsolePluginInternal.Constants.Version, settings);
+                return new PlatformAndroid(gameObject.name, callback.Method.Name, Constants.Version, settings);
             }
             #endif
 
@@ -389,7 +390,7 @@ namespace LunarConsolePlugin
             }
         }
 
-        static string GetGestureName(Gesture gesture)
+        private static string GetGestureName(Gesture gesture)
         {
             return gesture.ToString();
         }
@@ -457,7 +458,7 @@ namespace LunarConsolePlugin
             try
             {
                 var fields = type.GetFields(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
-                if (fields != null && fields.Length > 0)
+                if (fields.Length > 0)
                 {
                     foreach (var field in fields)
                     {
@@ -501,7 +502,7 @@ namespace LunarConsolePlugin
             try
             {
                 var attributes = field.GetCustomAttributes(typeof(CVarRangeAttribute), true);
-                if (attributes != null && attributes.Length > 0)
+                if (attributes.Length > 0)
                 {
                     var rangeAttribute = attributes[0] as CVarRangeAttribute;
                     if (rangeAttribute != null)
@@ -772,7 +773,7 @@ namespace LunarConsolePlugin
                 m_pluginClassRaw = m_pluginClass.GetRawClass();
 
                 IntPtr methodInit = GetStaticMethod(m_pluginClassRaw, "init", "(Ljava.lang.String;Ljava.lang.String;Ljava.lang.String;Ljava.lang.String;)V");
-                var methodInitParams = new jvalue[] {
+                var methodInitParams = new[] {
                     jval(targetName),
                     jval(methodName),
                     jval(version),
@@ -1601,6 +1602,16 @@ namespace LunarConsolePlugin
         }
 
         #endif // LUNAR_CONSOLE_ENABLED
+
+        public static bool isConsoleEnabled {
+            get {
+                #if LUNAR_CONSOLE_ENABLED
+                return instance != null;
+                #else
+                return false;
+                #endif
+            }
+        }
 
         public static LunarConsole instance
         {

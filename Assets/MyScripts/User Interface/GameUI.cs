@@ -57,20 +57,20 @@ public class GameUI : MonoBehaviour
 	}
 
 	private void CountdownTimeDemonstrator(float responseTimer)
-    {
+	{
 		//_timerText.SetText(_timer.ToString("#"));
-        _timerBar.value = responseTimer;
+		_timerBar.value = responseTimer;
 
-        //_timerBar = Color.Lerp(_redColor, _greenColor, x);
-    }
+		//_timerBar = Color.Lerp(_redColor, _greenColor, x);
+	}
 
-	private void OpenResultsPanel() 
+	private void OpenResultsPanel()
 	{
 		m_GameResultsPanel.SetActive(true);
 	}
 
 	private void CloseResultsPanel()
-	{ 
+	{
 		m_GameResultsPanel.SetActive(false);
 	}
 }

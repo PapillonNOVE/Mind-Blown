@@ -8,13 +8,13 @@ public class GameResultsUI : MonoBehaviour
 
 	private void OnEnable()
 	{
-		//Subscribe();
+		Subscribe();
 		ShowResults();
 	}
 
 	private void OnDisable()
 	{
-		//GeneralControls.ControlQuit(Unsubscribe);
+		GeneralControls.ControlQuit(Unsubscribe);
 	}
 
 	#region Event Subscribe/Unsubscribe

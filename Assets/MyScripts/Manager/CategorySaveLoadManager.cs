@@ -7,7 +7,6 @@ using UnityEngine.UI;
 
 public class CategorySaveLoadManager : MonoBehaviour
 {
-
 	private void OnEnable()
 	{
 		Subscribe();

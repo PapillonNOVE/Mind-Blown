@@ -1,8 +1,12 @@
 ﻿using EasyMobile;
+using System.Collections;
 using UnityEngine;
 
 public class AdManager : Singleton<AdManager>
 {
+	private WaitUntil m_WaitForInterstitialAd;
+	private WaitUntil m_WaitForRewardedAd;
+
 	private void Awake()
 	{
 		if (!RuntimeManager.IsInitialized())
@@ -10,37 +14,56 @@ public class AdManager : Singleton<AdManager>
 			RuntimeManager.Init();
 		}
 
-		// ShowBannerAds();
-		//ShowInterstitalAds();
-		//ShowRewardedAds();
+		Init();
 
+		StartCoroutine(ShowInterstitalAds());
 	}
 
-	// Subscribe to rewarded ad events
 	private void OnEnable()
+	{
+		Subsribe();
+	}
+
+	private void OnDisable()
+	{
+		GeneralControls.ControlQuit(Unsubsribe);
+	}
+
+	private void Init()
+	{
+		m_WaitForInterstitialAd = new WaitUntil(() => Advertising.IsInterstitialAdReady());
+		m_WaitForRewardedAd = new WaitUntil(() => Advertising.IsRewardedAdReady());
+	}
+
+	#region Event Subsribe/Unsubscribe
+
+	private void Subsribe() 
 	{
 		Advertising.RewardedAdCompleted += RewardedAdCompletedHandler;
 		Advertising.RewardedAdSkipped += RewardedAdSkippedHandler;
 	}
 
-	// Unsubscribe events
-	private void OnDisable()
+	private void Unsubsribe()
 	{
 		Advertising.RewardedAdCompleted -= RewardedAdCompletedHandler;
 		Advertising.RewardedAdSkipped -= RewardedAdSkippedHandler;
 	}
 
-	//public void ShowBannerAds() 
-	//{
-	//    Advertising.ShowBannerAd(BannerAdPosition.Bottom);
-	//}
+	#endregion
 
-	public void ShowInterstitalAds()
+	public void ShowBannerAds()
 	{
-		if (Advertising.IsInterstitialAdReady())
-		{
-			Advertising.ShowInterstitialAd();
-		}
+		Advertising.ShowBannerAd(BannerAdPosition.Bottom);
+	}
+
+	public IEnumerator ShowInterstitalAds()
+	{
+		Debug.LogError("İlk debug");
+
+		yield return m_WaitForInterstitialAd;
+
+		Debug.LogError("Son debug");
+		Advertising.ShowInterstitialAd();
 	}
 
 	public void ShowRewardedAds()
@@ -64,6 +87,6 @@ public class AdManager : Singleton<AdManager>
 	{
 		Debug.Log("Rewarded ad was skipped. The user should NOT be rewarded.");
 
-		EventManager.Instance.GameOverTrigger?.Invoke(GameOverType.WrongAnswer);
+		StartCoroutine(EventManager.Instance.GameOverTrigger?.Invoke(GameOverType.WrongAnswer));
 	}
 }

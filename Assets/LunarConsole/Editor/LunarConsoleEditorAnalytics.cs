@@ -4,7 +4,7 @@
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
 //
-//  Copyright 2019 Alex Lementuev, SpaceMadness.
+//  Copyright 2015-2020 Alex Lementuev, SpaceMadness.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@
 //  limitations under the License.
 //
 
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -32,7 +33,7 @@ namespace LunarConsoleEditorInternal
 {
     static class LunarConsoleEditorAnalytics
     {
-        private static readonly string kPrefsLastKnownVersion = LunarConsolePluginInternal.Constants.EditorPrefsKeyBase + ".LastKnownVersion";
+        private static readonly string kPrefsLastKnownVersion = Constants.EditorPrefsKeyBase + ".LastKnownVersion";
 
         /// <summary>
         /// Notifies the server about plugin update.
@@ -43,10 +44,10 @@ namespace LunarConsoleEditorInternal
             if (LunarConsoleConfig.consoleEnabled && LunarConsoleConfig.consoleSupported)
             {
                 var lastKnownVersion = EditorPrefs.GetString(kPrefsLastKnownVersion);
-                if (lastKnownVersion != LunarConsolePluginInternal.Constants.Version)
+                if (lastKnownVersion != Constants.Version)
                 {
-					EditorPrefs.SetString(kPrefsLastKnownVersion, LunarConsolePluginInternal.Constants.Version);
-					TrackEvent("Version", "updated_version");
+                    EditorPrefs.SetString(kPrefsLastKnownVersion, Constants.Version);
+                    TrackEvent("Version", "updated_version");
                 }
             }
 #endif

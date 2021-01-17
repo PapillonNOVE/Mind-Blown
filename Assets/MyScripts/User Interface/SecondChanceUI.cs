@@ -10,6 +10,8 @@ public class SecondChanceUI : MonoBehaviour
 	[Range(0f, 5f)]
 	[SerializeField] private float m_AcceptableTimeLimit;
 	[SerializeField] private float m_AcceptableTimeCountdown;
+	[Space(10)]
+	[SerializeField] private bool m_IsCountDownStart;
 
 	[Header("Buttons")]
 	[SerializeField] private Button m_AcceptButton;
@@ -22,7 +24,7 @@ public class SecondChanceUI : MonoBehaviour
 		Subscribe();
 	}
 
-	private void OnDisable()
+	private void OnEnable()
 	{
 		Init();
 	}
@@ -40,6 +42,8 @@ public class SecondChanceUI : MonoBehaviour
 
 		m_AcceptButton.interactable = true;
 		m_AcceptButton.image.fillAmount = 1;
+
+		m_IsCountDownStart = true;
 	}
 
 	private void InitOnClickListener()
@@ -66,6 +70,11 @@ public class SecondChanceUI : MonoBehaviour
 
 	private void Update()
 	{
+		if (!m_IsCountDownStart)
+		{
+			return;
+		}
+		
 		CountDownForAccept();
 	}
 
@@ -74,7 +83,8 @@ public class SecondChanceUI : MonoBehaviour
 		if (m_AcceptableTimeCountdown <= 0)
 		{
 			m_AcceptButton.interactable = false;
-
+			m_IsCountDownStart = false;
+			
 			Deny();
 
 			return;
@@ -85,25 +95,27 @@ public class SecondChanceUI : MonoBehaviour
 		m_AcceptButton.image.fillAmount = m_AcceptableTimeCountdown / m_AcceptableTimeLimit;
 	}
 
-	public void SetActiveSelf() 
+	public void SetActiveSelf()
 	{
 		gameObject.SetActive(true);
 	}
 
-	public void SetPassiveSelf() 
+	public void SetPassiveSelf()
 	{
 		gameObject.SetActive(false);
 	}
 
 	private void Accept()
 	{
+		Debug.Log("Kabul edildi");
 		AdManager.Instance.ShowRewardedAds();
 		SetPassiveSelf();
 	}
 
 	private void Deny()
 	{
-		EventManager.Instance.GameOverTrigger?.Invoke(GameOverType.WrongAnswer);
+		Debug.Log("Reddedildi");
+		StartCoroutine(EventManager.Instance.GameOverTrigger?.Invoke(GameOverType.WrongAnswer));
 		SetPassiveSelf();
 	}
 }

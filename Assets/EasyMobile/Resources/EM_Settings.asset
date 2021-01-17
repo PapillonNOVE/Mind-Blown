@@ -63,10 +63,10 @@ MonoBehaviour:
         mAndroidId: 
       mDefaultBannerAdId:
         mIosId: 
-        mAndroidId: ca-app-pub-5453403925059053/9934939424
+        mAndroidId: ca-app-pub-3940256099942544/6300978111
       mDefaultInterstitialAdId:
         mIosId: 
-        mAndroidId: ca-app-pub-5453403925059053/3757200427
+        mAndroidId: ca-app-pub-3940256099942544/1033173712
       mDefaultRewardedAdId:
         mIosId: 
         mAndroidId: 
@@ -201,10 +201,10 @@ MonoBehaviour:
         keys: []
         values: []
     mUnityAds:
-      mEnable: 0
+      mEnable: 1
       mAppId:
         mIosId: 
-        mAndroidId: 
+        mAndroidId: 3537862
       mDefaultBannerAdId:
         mIosId: 
         mAndroidId: 
